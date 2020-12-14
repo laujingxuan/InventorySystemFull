@@ -1,6 +1,5 @@
 package team5.model;
 
-import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -35,6 +34,13 @@ public class Product {
 	
 	private long reorderLevel;
 	private long minReoderLevel;
+	
+	
+	
+	public Product() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public Product(long id, long barcode, String name, String description, String type, String color,
 			long originalPrice, String category, long priceFWholesale, long priceFRetail, long priceFPartner,
 			long subcategory, long unit, long partNumber, Supplier supplier, long reorderLevel, long minReoderLevel) {
@@ -57,6 +63,16 @@ public class Product {
 		this.reorderLevel = reorderLevel;
 		this.minReoderLevel = minReoderLevel;
 	}
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", barcode=" + barcode + ", name=" + name + ", description=" + description
+				+ ", type=" + type + ", color=" + color + ", originalPrice=" + originalPrice + ", category=" + category
+				+ ", priceFWholesale=" + priceFWholesale + ", priceFRetail=" + priceFRetail + ", PriceFPartner="
+				+ PriceFPartner + ", subcategory=" + subcategory + ", unit=" + unit + ", partNumber=" + partNumber
+				+ ", supplier=" + supplier + ", reorderLevel=" + reorderLevel + ", minReoderLevel=" + minReoderLevel
+				+ "]";
+	}
+	
 	public Product(long barcode, String name, String description, String type, String color, long originalPrice,
 			String category, long priceFWholesale, long priceFRetail, long priceFPartner, long subcategory, long unit,
 			long partNumber, long reorderLevel, long minReoderLevel) {
