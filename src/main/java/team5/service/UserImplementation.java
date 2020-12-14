@@ -22,16 +22,11 @@ public class UserImplementation implements UserInterface {
 	
 	@Override
 	public boolean authenticate(User user) {
-		User dbuser = userRepo.findUserByUserName(user.getUserName());
-		String tmp = dbuser.getUserName();
+		User dbuser = userRepo.findByUserName(user.getUserName());
 		if (dbuser.getUserName().equals(user.getUserName()) && dbuser.getPassword().equals(user.getPassword()))
 			return true;
 		else
 			return false;
-	}
-	
-	public User findByName(String name) {
-		return userRepo.findUserByUserName(name);
 	}
 
 	@Override

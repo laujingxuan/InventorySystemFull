@@ -18,6 +18,7 @@ public class UsageRecord {
 	private String customerId;
 	private String carPlate;
 	private Date date;
+
 	
 	@OneToMany(mappedBy = "usageRecord")
 	private List<UsageRecordDetail> usageRecordDetail;
