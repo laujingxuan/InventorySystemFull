@@ -28,6 +28,7 @@ public class Product {
 	private long unit;
 	private long partNumber;
 	
+	
     @OneToOne(cascade = {CascadeType.ALL})  
     @JoinColumn(name="SUPP_ID")
 	private Supplier supplier;
