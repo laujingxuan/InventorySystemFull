@@ -1,5 +1,6 @@
 package team5.service;
 
+
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -7,6 +8,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+import team5.model.RoleType;
 import team5.model.User;
 import team5.repo.UserRepository;
 
@@ -15,7 +18,17 @@ import team5.repo.UserRepository;
 public class UserImplementation implements UserInterface {
 
 	@Autowired
-	UserRepository urepo;
+	UserRepository userRepo;
+	
+	@Override
+	public boolean authentication(User user) {
+		User userCheck = userRepo.findByUserName(user.getUserName());
+		if (userCheck == null || user.getPassword().equals(userCheck.getPassword()) != true) {
+			return false;
+		}else {
+			return true;
+		}
+	}
 	
 	@Override
 	public boolean authenticate(User user) {
@@ -31,26 +44,55 @@ public class UserImplementation implements UserInterface {
 		return urepo.findUserByUserName(name);
 	}
 
-
-	/*
 	@Override
-	public void createUser(User user) {
-		urepo.save(user);
+	public boolean updateUser(User user) {
+		User userCheck = userRepo.findByUserName(user.getUserName());
+		if (userCheck == null) {
+			return false;
+		}else {
+			userCheck.setPassword(user.getPassword());
+			userCheck.setRole(user.getRole());
+			userRepo.save(userCheck);
+			return true;
+		}
 	}
 
 	@Override
-	public void updateUser(User user) {
-		urepo.save(user);
+	public boolean createUser(User user) {
+		if (userRepo.findByUserName(user.getUserName())== null) {
+			userRepo.save(user);
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	@Override
-	public List<User> listAllUser() {
-		return urepo.findAll();
+	public ArrayList<User> findByJobRole(RoleType roleType) {
+		ArrayList<User> userList = userRepo.findByRole(roleType);
+		return userList;
 	}
 
 	@Override
-	public void deleteUser(User user) {
-		urepo.delete(user);
+	public User findByUsername(String userName) {
+		return userRepo.findByUserName(userName);
 	}
-	*/
+
+	@Override
+	public List<User> findAll() {
+		List<User> users = userRepo.findAll();
+		return users;
+	}
+
+	@Override
+	public void deleteUsers(String[] users) {
+		for(String user: users) {
+			User temp = userRepo.findByUserName(user);
+			userRepo.delete(temp);
+		}
+		return;
+
+	}
+
 }
+

@@ -1,17 +1,21 @@
 package team5.service;
 
+import java.util.ArrayList;
+import java.util.List;
 
-// import java.util.List;
-
+import team5.model.RoleType;
 import team5.model.User;
 
+
 public interface UserInterface {
-	/*
-	public void createUser(User user);
-	public void updateUser(User user);
-	public List<User> listAllUser();
-	public void deleteUser(User user); */
+
+	public boolean authentication(User user);
+	public boolean updateUser(User user);
+	public boolean createUser(User user);
+	public ArrayList<User> findByJobRole(RoleType roleType);
+	public User findByUsername(String userName);
+	public List<User> findAll();
+	public void deleteUsers(String[] users);
 	public boolean authenticate(User user);
 	public User findByName(String name);
-
 }
