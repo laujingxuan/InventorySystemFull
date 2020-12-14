@@ -28,12 +28,12 @@ public class UsageRecord {
 		super();
 	}
 	
-	public UsageRecord(Customer customer, String carPlate, Date date, List<UsageRecordDetail> usageRecordDetail) {
+	public UsageRecord(Customer customer, String carPlate, Date date, User user) {
 		super();
 		this.customer = customer;
 		this.carPlate = carPlate;
 		this.date = date;
-		this.usageRecordDetail = usageRecordDetail;
+		this.user=user;
 	}
 
 	public long getId() {

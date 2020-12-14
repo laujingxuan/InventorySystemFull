@@ -36,24 +36,26 @@
     </tr>
   </table>
 
-<!-- 	<table th:if="${not #lists.isEmpty(usageDetails)}" > -->
-<!-- 		<tr> -->
-<!-- 			<th>Date</th> -->
-<!-- 			<th>Customer Name</th> -->
-<!-- 			<th>Car Plate</th> -->
-<!-- 			<th>Employee Name</th> -->
-<!-- 			<th>Quantity Used</th> -->
-<!-- 		</tr> -->
-<!-- 		<tr th:each="usage:${usagesDetails}" > -->
-<!-- 			<td th:text="${usage.usageRecord.Date}"> Date</td> -->
-<!-- 			<td th:text=${usage.usageRecord.customer.customerName}>Customer Name</td> -->
-<!-- 			<td th:text=${usage.usageRecord.carPlate}>Car Plate</td> -->
-<!-- 			<td th:text=${usage.usageRecord.user.userName}>Employee Name</td> -->
-<!-- 			<td th:text=${usage.quantityUsed}>Quantity Used</td> -->
-<!-- 		</tr> -->
-<!-- 	</table> -->
+	<table th:if="${not #lists.isEmpty(usageList)}" >
+		<tr>
+			<th>Date</th>
+			<th>Customer Name</th>
+			<th>Car Plate</th>
+			<th>Employee Name</th>
+			<th>Quantity Used</th>
+		</tr>
+		<tr th:each="usage:${usageList}" >
+			<td th:text="${usage.usageRecord.Date}"> Date</td>
+			<td th:text=${usage.usageRecord.customer.customerName}>Customer Name</td>
+			<td th:text=${usage.usageRecord.carPlate}>Car Plate</td>
+			<td th:text=${usage.usageRecord.user.userName}>Employee Name</td>
+			<td th:text=${usage.quantityUsed}>Quantity Used</td>
+		</tr>
+	</table>
   <br/>
-  <form action="/">
+  <h3 th:unless="${not #lists.isEmpty(usageList)}">No record found</h3>
+  <br/>
+  <form action="/usage/report">
     <input type="submit" value="Back" />
   </form>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

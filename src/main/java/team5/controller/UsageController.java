@@ -28,6 +28,10 @@ public class UsageController {
 	
 	@PostMapping("/report")
 	public ModelAndView usageReport(@RequestParam("startDate") String startD, @RequestParam("endDate") String endD, @RequestParam("productSelected") long id) throws ParseException {
+		System.out.println(startD);
+		System.out.println(endD);
+		System.out.println(id);
+		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date startDate = formatter.parse(startD);
 		Date endDate = formatter.parse(endD);
@@ -36,7 +40,7 @@ public class UsageController {
 		List<UsageRecordDetail> fullUsageList = product.getUsageDetailList();
 		List<UsageRecordDetail> usageList = new ArrayList<UsageRecordDetail>();
 		for(UsageRecordDetail x : fullUsageList) {
-			if(!x.getUsageRecord().getDate().after(endDate) && x.getUsageRecord().getDate().before(startDate)) {
+			if(!x.getUsageRecord().getDate().after(endDate) && !x.getUsageRecord().getDate().before(startDate)) {
 				usageList.add(x);
 			}
 		}

@@ -17,9 +17,8 @@ public class Customer {
 		super();
 	}
 	
-	public Customer(long id, String customerName, String gender) {
+	public Customer(String customerName, String gender) {
 		super();
-		this.id = id;
 		this.customerName = customerName;
 		this.gender = gender;
 	}
