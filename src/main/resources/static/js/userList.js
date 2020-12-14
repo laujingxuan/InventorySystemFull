@@ -25,7 +25,7 @@ function loadUsers(e){
 			  <input type="checkbox" id="`+users[i].userName+`" name="deleteUser" value="`+users[i].userName+`">
 			  <label for="`+users[i].userName+`"> `+users[i].userName+`</label>
 			</td>  
-			<td>`+users[i].roleType+`</td> 
+			<td>`+users[i].role+`</td> 
 		  </tr>`
       }
 	  output += `<input type="submit" value="Delete" id="delete">`;
