@@ -9,7 +9,6 @@ import team5.model.User;
 
 public interface UserInterface {
 
-	public boolean authentication(User user);
 	public boolean updateUser(User user);
 	public boolean createUser(User user);
 	public ArrayList<User> findByJobRole(RoleType roleType);
