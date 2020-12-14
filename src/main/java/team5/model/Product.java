@@ -1,12 +1,15 @@
 package team5.model;
 
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -28,6 +31,8 @@ public class Product {
 	private long unit;
 	private long partNumber;
 	
+	@OneToMany(mappedBy = "product")
+	private List<UsageRecordDetail> usageDetailList;
 	
     @OneToOne(cascade = {CascadeType.ALL})  
     @JoinColumn(name="SUPP_ID")
@@ -35,9 +40,7 @@ public class Product {
 	
 	private long reorderLevel;
 	private long minReoderLevel;
-	
-	
-	
+
 	public Product() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -195,6 +198,12 @@ public class Product {
 	}
 	public void setMinReoderLevel(long minReoderLevel) {
 		this.minReoderLevel = minReoderLevel;
+	}
+	public List<UsageRecordDetail> getUsageDetailList() {
+		return usageDetailList;
+	}
+	public void setUsageDetailList(List<UsageRecordDetail> usageDetailList) {
+		this.usageDetailList = usageDetailList;
 	}
 
 	

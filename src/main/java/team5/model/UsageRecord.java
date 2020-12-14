@@ -7,19 +7,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class UsageRecord {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	private String customerId;
-	private String carPlate;
 	private Date date;
-
-	
+	@OneToOne
+	private User user;
+	@OneToOne
+	private Customer customer;
+	private String carPlate;
 	@OneToMany(mappedBy = "usageRecord")
 	private List<UsageRecordDetail> usageRecordDetail;
 	
@@ -27,15 +28,13 @@ public class UsageRecord {
 		super();
 	}
 	
-	public UsageRecord(String customerId, String carPlate, Date date, List<UsageRecordDetail> usageRecordDetail) {
+	public UsageRecord(Customer customer, String carPlate, Date date, List<UsageRecordDetail> usageRecordDetail) {
 		super();
-		this.customerId = customerId;
+		this.customer = customer;
 		this.carPlate = carPlate;
 		this.date = date;
 		this.usageRecordDetail = usageRecordDetail;
 	}
-
-
 
 	public long getId() {
 		return id;
@@ -45,12 +44,20 @@ public class UsageRecord {
 		this.id = id;
 	}
 
-	public String getCustomerId() {
-		return customerId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setCustomerId(String customerId) {
-		this.customerId = customerId;
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	public String getCarPlate() {
@@ -79,8 +86,8 @@ public class UsageRecord {
 
 	@Override
 	public String toString() {
-		return "UsageRecord [id=" + id + ", customerId=" + customerId + ", carPlate=" + carPlate + ", date=" + date
-				+ ", usageRecordDetail=" + usageRecordDetail + "]";
+		return "UsageRecord [id=" + id + ", date=" + date + ", user=" + user + ", customer=" + customer + ", carPlate="
+				+ carPlate + ", usageRecordDetail=" + usageRecordDetail + "]";
 	}
 
 	
