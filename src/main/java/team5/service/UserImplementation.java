@@ -1,13 +1,13 @@
 package team5.service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 import team5.model.RoleType;
 import team5.model.User;
@@ -21,18 +21,8 @@ public class UserImplementation implements UserInterface {
 	UserRepository userRepo;
 	
 	@Override
-	public boolean authentication(User user) {
-		User userCheck = userRepo.findByUserName(user.getUserName());
-		if (userCheck == null || user.getPassword().equals(userCheck.getPassword()) != true) {
-			return false;
-		}else {
-			return true;
-		}
-	}
-	
-	@Override
 	public boolean authenticate(User user) {
-		User dbuser = urepo.findUserByUserName(user.getUserName());
+		User dbuser = userRepo.findUserByUserName(user.getUserName());
 		String tmp = dbuser.getUserName();
 		if (dbuser.getUserName().equals(user.getUserName()) && dbuser.getPassword().equals(user.getPassword()))
 			return true;
@@ -41,7 +31,7 @@ public class UserImplementation implements UserInterface {
 	}
 	
 	public User findByName(String name) {
-		return urepo.findUserByUserName(name);
+		return userRepo.findUserByUserName(name);
 	}
 
 	@Override
