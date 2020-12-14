@@ -27,6 +27,9 @@ public class User {
 	@NotNull
 	private RoleType role;
 	
+	public User() {
+		super();
+	}
 	public User(String userName, String password) {
 		super();
 		this.userName = userName;
