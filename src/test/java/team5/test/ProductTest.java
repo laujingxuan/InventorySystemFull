@@ -1,14 +1,24 @@
 package team5.test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import team5.model.Customer;
 import team5.model.Product;
+import team5.model.UsageRecord;
+import team5.model.UsageRecordDetail;
+import team5.model.User;
+import team5.repo.CustomerRepository;
 import team5.repo.ProductRepository;
+import team5.repo.UsageRecordDetailRepo;
+import team5.repo.UsageRecordRepository;
 import team5.repo.UserRepository;
 
 @SpringBootTest
@@ -18,6 +28,12 @@ public class ProductTest {
 	public ProductRepository productRepo;
 	@Autowired
 	public UserRepository urepo;
+	@Autowired
+	public UsageRecordRepository usageRepo;
+	@Autowired 
+	public CustomerRepository customerRepo;
+	@Autowired
+	public UsageRecordDetailRepo usageDetailRepo;
 	
 	@Test
 	public void saveProduct() {
@@ -38,5 +54,30 @@ public class ProductTest {
 		}
 	}
 	
+	@Test
+	public void saveUsageRecord() throws ParseException {
+		Product first = productRepo.findById((long)1).get();
+		Product second = productRepo.findById((long)2).get();
+		Product third = productRepo.findById((long)3).get();
+		Customer john = customerRepo.save(new Customer("john","M"));
+		Customer Mary = customerRepo.save(new Customer("Mary","F"));
+		Customer Peter = customerRepo.save(new Customer("Peter","M"));
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date fDate = formatter.parse("2020-12-01");
+		Date sDate = formatter.parse("2020-12-03");
+		Date tDate = formatter.parse("2020-12-05");
+		
+		User admin1 = urepo.findById((long)1).get();
+		
+		UsageRecord oneR = usageRepo.save(new UsageRecord(john,"SAA1235", fDate, admin1));
+		UsageRecord secondR = usageRepo.save(new UsageRecord(Mary,"SAB2345", sDate, admin1));
+		UsageRecord thirdR = usageRepo.save(new UsageRecord(Peter,"SAC3456", tDate, admin1));
+		UsageRecordDetail oneRd = usageDetailRepo.save(new UsageRecordDetail(first,oneR,3));
+		UsageRecordDetail secRd = usageDetailRepo.save(new UsageRecordDetail(second,oneR,3));
+		UsageRecordDetail thiRd = usageDetailRepo.save(new UsageRecordDetail(third,secondR,3));
+		UsageRecordDetail thuRd = usageDetailRepo.save(new UsageRecordDetail(first,secondR,3));
+		UsageRecordDetail friRd = usageDetailRepo.save(new UsageRecordDetail(third,oneR,3));
+	}
 
 }

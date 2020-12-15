@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <title>UsageReport</title>
+</head>
+<body>
+<form action="" th:action="@{/usage/report}" method="POST" class="form-horizontal">
+  <table border="" cellspacing="" cellpadding="">
+	<tr>
+		<td class="td_left"><label for="startDate">start date</label></td>
+		<td class="td_right"><input type="date" name="startDate" id="startDate" placeholder="Start Date"></td>
+		<td class="td_left"><label for="endDate">end date</label></td>
+		<td class="td_right"><input type="date" name="endDate" id="endDate" placeholder="End Date"></td>
+	</tr>
+<!-- 	<tr> -->
+<!-- 		<td class="td_left"><label for="birthday">Type</label></td> -->
+<!-- 		<td class="td_right"> -->
+<!-- 			<select> -->
+<!-- 				<option>Product1</option> -->
+<!-- 				<option>Product2</option> -->
+<!-- 				<option>product3</option> -->
+<!-- 				<option selected="selected">Drop down for Type</option> -->
+<!-- 			</select> -->
+<!-- 		</td> -->
+<!-- 	</tr> -->
+	
+<!-- 	<tr> -->
+<!-- 		<td class="td_left"><label for="birthday">Category</label></td> -->
+<!-- 		<td class="td_right"> -->
+<!-- 			<select> -->
+<!-- 				<option>Product1</option> -->
+<!-- 				<option>Product2</option> -->
+<!-- 				<option>product3</option> -->
+<!-- 				<option selected="selected">Drop down for Category</option> -->
+<!-- 			</select> -->
+<!-- 		</td> -->
+<!-- 	</tr> -->
+	
+<!-- 	<tr> -->
+<!-- 		<td class="td_left"><label for="birthday">Sub Category</label></td> -->
+<!-- 		<td class="td_right"> -->
+<!-- 			<select> -->
+<!-- 				<option>Product1</option> -->
+<!-- 				<option>Product2</option> -->
+<!-- 				<option>product3</option> -->
+<!-- 				<option selected="selected">Drop down for Sub Category</option> -->
+<!-- 			</select> -->
+<!-- 		</td> -->
+<!-- 	</tr> -->
+	
+	<tr>
+		<td class="td_left"><label for="productName">Product Name</label></td>
+		<td class="td_right">
+			<select name="productSelected" id="productName">
+				<option th:each="product : ${products}" th:value = "${product.id}" th:text="${product.name}"></option>
+			</select>
+		</td>
+	</tr>
+	
+	<tr>
+		<td><input type="submit" value="Generate" /></td>
+	</tr>
+  </table>
+</form>  
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+</body>
+</html>

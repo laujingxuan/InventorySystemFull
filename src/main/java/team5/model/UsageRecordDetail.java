@@ -22,7 +22,6 @@ public class UsageRecordDetail {
 	
 	private int quantityUsed;
 	
-	
 	public UsageRecordDetail() {
 		super();
 		// TODO Auto-generated constructor stub

@@ -1,8 +1,6 @@
 package team5.model;
 
 
-
-
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -32,20 +30,18 @@ public class Product {
 	private long subcategory;
 	private long unit;
 	private String partNumber;
-	
-	
+
+
 	@OneToMany(mappedBy = "product")
 	private List<UsageRecordDetail> usageDetailList;
-	
-    @OneToOne(cascade = {CascadeType.ALL})  
+
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="SUPP_ID")
 	private Supplier supplier;
-	
+
 	private long reorderLevel;
 	private long minReoderLevel;
-	
-	
-	
+
 	public Product() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -81,7 +77,7 @@ public class Product {
 				+ ", supplier=" + supplier + ", reorderLevel=" + reorderLevel + ", minReoderLevel=" + minReoderLevel
 				+ "]";
 	}
-	
+
 	public Product(long barcode, String name, String description, String type, String color, long originalPrice,
 			String category, long priceFWholesale, long priceFRetail, long priceFPartner, long subcategory, long unit,
 			String partNumber, long reorderLevel, long minReoderLevel) {
@@ -204,7 +200,13 @@ public class Product {
 	public void setMinReoderLevel(long minReoderLevel) {
 		this.minReoderLevel = minReoderLevel;
 	}
+	public List<UsageRecordDetail> getUsageDetailList() {
+		return usageDetailList;
+	}
+	public void setUsageDetailList(List<UsageRecordDetail> usageDetailList) {
+		this.usageDetailList = usageDetailList;
+	}
 
-	
+
 
 }

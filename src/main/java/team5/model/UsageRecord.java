@@ -21,33 +21,40 @@ public class UsageRecord {
 	private long id;
 	private String customerId;
 	private String carPlate;
-	
-	
+
+
 	@DateTimeFormat (pattern="dd-MM-yyyy")
 	private LocalDate date;
-	
+
 	private String comments;
-	
+
 
 	@OneToOne
 	private User user;
-	
+
+	// private Date date;
+	// @OneToOne
+	// private User user;
+	// @OneToOne
+	// private Customer customer;
+	// private String carPlate;
+
+
 	@OneToMany(mappedBy = "usageRecord")
 	private List<UsageRecordDetail> usageRecordDetail;
-	
+
 	public UsageRecord() {
 		super();
 	}
-	
+
 	public UsageRecord(String customerId, String carPlate, LocalDate date, List<UsageRecordDetail> usageRecordDetail) {
+			// public UsageRecord(Customer customer, String carPlate, Date date, User user) {
 		super();
-		this.customerId = customerId;
+		this.customer = customer;
 		this.carPlate = carPlate;
 		this.date = date;
-		this.usageRecordDetail = usageRecordDetail;
+		this.user=user;
 	}
-
-
 
 	public long getId() {
 		return id;
@@ -57,12 +64,20 @@ public class UsageRecord {
 		this.id = id;
 	}
 
-	public String getCustomerId() {
-		return customerId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setCustomerId(String customerId) {
-		this.customerId = customerId;
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	public String getCarPlate() {
@@ -88,7 +103,7 @@ public class UsageRecord {
 	public void setUsageRecordDetail(List<UsageRecordDetail> usageRecordDetail) {
 		this.usageRecordDetail = usageRecordDetail;
 	}
-	
+
 	public String getComments() {
 		return comments;
 	}
@@ -108,9 +123,9 @@ public class UsageRecord {
 
 	@Override
 	public String toString() {
-		return "UsageRecord [id=" + id + ", customerId=" + customerId + ", carPlate=" + carPlate + ", date=" + date
-				+ ", usageRecordDetail=" + usageRecordDetail + "]";
+		return "UsageRecord [id=" + id + ", date=" + date + ", user=" + user + ", customer=" + customer + ", carPlate="
+				+ carPlate + ", usageRecordDetail=" + usageRecordDetail + "]";
 	}
 
-	
+
 }
