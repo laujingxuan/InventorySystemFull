@@ -24,7 +24,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
     @Query("SELECT p FROM Product p WHERE p.partNumber LIKE %?1%"
             + " OR p.description LIKE %?1%"
             + " OR p.color LIKE %?1%")
-    public List<Product> search(String keyword);
+    public List<Product> searchpart(String keyword);
 
 	
 	@Query("Select p from Product as p where p.name LIKE %?1%" + " OR p.description LIKE %?1%" + " OR p.barcode LIKE %?1%"

@@ -17,28 +17,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 public class UsageRecord {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	private String customerId;
 	private String carPlate;
-
 
 	@DateTimeFormat (pattern="dd-MM-yyyy")
 	private LocalDate date;
 
 	private String comments;
-
-
+	private String userName;
 	@OneToOne
-	private User user;
-
-	// private Date date;
-	// @OneToOne
-	// private User user;
-	// @OneToOne
-	// private Customer customer;
-	// private String carPlate;
-
+	private Customer customer;
 
 	@OneToMany(mappedBy = "usageRecord")
 	private List<UsageRecordDetail> usageRecordDetail;
@@ -47,13 +36,12 @@ public class UsageRecord {
 		super();
 	}
 
-	public UsageRecord(String customerId, String carPlate, LocalDate date, List<UsageRecordDetail> usageRecordDetail) {
-			// public UsageRecord(Customer customer, String carPlate, Date date, User user) {
+	public UsageRecord(Customer customer, String carPlate, LocalDate date, User user) {
 		super();
 		this.customer = customer;
 		this.carPlate = carPlate;
 		this.date = date;
-		this.user=user;
+		this.userName=user.getUserName();
 	}
 
 	public long getId() {
@@ -62,14 +50,6 @@ public class UsageRecord {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public Customer getCustomer() {
@@ -112,20 +92,19 @@ public class UsageRecord {
 		this.comments = comments;
 	}
 
-	public User getUser() {
-		return user;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserName(User user) {
+		this.userName = user.getUserName();
 	}
-
 
 	@Override
 	public String toString() {
-		return "UsageRecord [id=" + id + ", date=" + date + ", user=" + user + ", customer=" + customer + ", carPlate="
-				+ carPlate + ", usageRecordDetail=" + usageRecordDetail + "]";
+		return "UsageRecord [id=" + id + ", carPlate=" + carPlate + ", date=" + date + ", comments=" + comments
+				+ ", userName=" + userName + ", customer=" + customer + ", usageRecordDetail=" + usageRecordDetail
+				+ "]";
 	}
-
 
 }

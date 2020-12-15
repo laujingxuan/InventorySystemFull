@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 public class UsageRecordDetail {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
 	@ManyToOne

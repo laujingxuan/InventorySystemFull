@@ -2,6 +2,7 @@ package team5.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,23 +33,23 @@ public class UsageController {
 		System.out.println(endD);
 		System.out.println(id);
 		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Date startDate = formatter.parse(startD);
-		Date endDate = formatter.parse(endD);
+//		DateTimeFormatter formatter = new DateTimeFormatter("yyyy-MM-dd");
+//		DateTime startDate = new DateTime(formatter.parse(startD).getTime());
+//		Date endDate = formatter.parse(endD);
 		ModelAndView mv = new ModelAndView();
-		Product product = productInterface.findByProductId(id);
-		List<UsageRecordDetail> fullUsageList = product.getUsageDetailList();
-		List<UsageRecordDetail> usageList = new ArrayList<UsageRecordDetail>();
-		for(UsageRecordDetail x : fullUsageList) {
-			if(!x.getUsageRecord().getDate().after(endDate) && !x.getUsageRecord().getDate().before(startDate)) {
-				usageList.add(x);
-			}
-		}
-		mv.setViewName("usageReportDetails");
-		mv.addObject("product",product);
-		mv.addObject("usageList", usageList);
-		mv.addObject("fromDate", startD);
-		mv.addObject("ToDate", endD);
+//		Product product = productInterface.findByProductId(id);
+//		List<UsageRecordDetail> fullUsageList = product.getUsageDetailList();
+//		List<UsageRecordDetail> usageList = new ArrayList<UsageRecordDetail>();
+//		for(UsageRecordDetail x : fullUsageList) {
+//			if(!x.getUsageRecord().getDate().after(endDate) && !x.getUsageRecord().getDate().before(startDate)) {
+//				usageList.add(x);
+//			}
+//		}
+//		mv.setViewName("usageReportDetails");
+//		mv.addObject("product",product);
+//		mv.addObject("usageList", usageList);
+//		mv.addObject("fromDate", startD);
+//		mv.addObject("ToDate", endD);
 		return mv;
 	}
 	

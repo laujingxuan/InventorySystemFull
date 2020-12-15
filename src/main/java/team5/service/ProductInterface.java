@@ -6,8 +6,6 @@ import team5.model.Product;
 
 public interface ProductInterface {
 	public List<Product> findAll();
-	public Product findByProductId(long id);
-
 	public void createProduct(Product product);
 	public void updateProduct(Product product);
 	public List<Product> listAllProducts(String keyword);

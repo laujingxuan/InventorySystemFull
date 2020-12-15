@@ -8,10 +8,12 @@ import javax.persistence.Id;
 @Entity
 public class Customer {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 	private String customerName;
 	private String gender;
+	
+	
 
 	public Customer() {
 		super();

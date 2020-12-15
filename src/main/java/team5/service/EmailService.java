@@ -2,10 +2,10 @@ package team5.service;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
 
-@Service
+
 public class EmailService {
+	
 
     private JavaMailSender javaMailSender;
 
@@ -15,7 +15,7 @@ public class EmailService {
 
     public void sendMail(String toEmail, String subject, String message) {
 
-        var mailMessage = new SimpleMailMessage();
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
 
         mailMessage.setTo(toEmail);
         mailMessage.setSubject(subject);

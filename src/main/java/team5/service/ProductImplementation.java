@@ -25,11 +25,6 @@ public class ProductImplementation implements ProductInterface {
 		List<Product> products = productRepo.findAll();
 		return products;
 	}
-	
-	@Override
-	public Product findByProductId(long id) {
-		return productRepo.findById(id).get();
-	}
 
 	@Override
 	public void createProduct(Product product) {
@@ -51,7 +46,7 @@ public class ProductImplementation implements ProductInterface {
 
 	@Override
 	public Product findProductById(long id) {
-		return productRepo.findById(id).get();
+		return productRepo.findById(id);
 	}
 
 	@Override
