@@ -35,4 +35,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	public List<Product> search(String keyword);
 	
 	//public ArrayList<Product> findProductByName();
+	
+	public Product findById(long a);
+	//public ArrayList<Product> findAll();
 }
