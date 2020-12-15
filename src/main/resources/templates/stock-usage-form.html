@@ -1,0 +1,47 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Stock Usage Form</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+
+	<h1>Facility Booking Form</h1>
+	<form action="#" th:object="${usage}" th:action="@{/usage/save}" method="post">
+		<fieldset>
+			<!--<input type="hidden" th:field="*{id}">  -->
+		</fieldset>
+		<fieldset>
+			customerId <input type ="text" th:field="*{customerId}"/>
+
+	
+		</fieldset>
+		<fieldset>
+			carPlate <input type ="text" th:field="*{carPlate}">
+
+	
+		</fieldset>
+		<fieldset>
+			date: <input type="text" th:field="*{date}"
+				placeholder="dd-MM-yyyy"
+				th:text="${#dates.format(usage.date, 'dd-MM-yyyy')}" />
+			<p th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></p>
+		</fieldset>
+
+		<fieldset>
+			Comments:
+			<textarea name="comments" th:text="*{comments}"></textarea>
+		</fieldset>
+		
+		
+		<fieldset>
+			<input type="submit" value="Save"/>
+			&nbsp; &nbsp; 	
+			<input type="reset" value="Reset"/>
+		</fieldset>
+		
+		
+		
+	</form>
+</body>
+</html>>

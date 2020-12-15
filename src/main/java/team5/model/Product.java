@@ -1,12 +1,17 @@
 package team5.model;
 
 
+
+
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -26,7 +31,11 @@ public class Product {
 	private long PriceFPartner;
 	private long subcategory;
 	private long unit;
-	private long partNumber;
+	private String partNumber;
+	
+	
+	@OneToMany(mappedBy = "product")
+	private List<UsageRecordDetail> usageDetailList;
 	
     @OneToOne(cascade = {CascadeType.ALL})  
     @JoinColumn(name="SUPP_ID")
@@ -43,7 +52,7 @@ public class Product {
 	}
 	public Product(long id, long barcode, String name, String description, String type, String color,
 			long originalPrice, String category, long priceFWholesale, long priceFRetail, long priceFPartner,
-			long subcategory, long unit, long partNumber, Supplier supplier, long reorderLevel, long minReoderLevel) {
+			long subcategory, long unit, String partNumber, Supplier supplier, long reorderLevel, long minReoderLevel) {
 		super();
 		this.id = id;
 		this.barcode = barcode;
@@ -75,7 +84,7 @@ public class Product {
 	
 	public Product(long barcode, String name, String description, String type, String color, long originalPrice,
 			String category, long priceFWholesale, long priceFRetail, long priceFPartner, long subcategory, long unit,
-			long partNumber, long reorderLevel, long minReoderLevel) {
+			String partNumber, long reorderLevel, long minReoderLevel) {
 		super();
 		this.barcode = barcode;
 		this.name = name;
@@ -171,10 +180,10 @@ public class Product {
 	public void setUnit(long unit) {
 		this.unit = unit;
 	}
-	public long getPartNumber() {
+	public String getPartNumber() {
 		return partNumber;
 	}
-	public void setPartNumber(long partNumber) {
+	public void setPartNumber(String partNumber) {
 		this.partNumber = partNumber;
 	}
 	public Supplier getSupplier() {
