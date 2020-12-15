@@ -45,10 +45,10 @@
 			<th>Quantity Used</th>
 		</tr>
 		<tr th:each="usage:${usageList}" >
-			<td th:text="${usage.usageRecord.Date}"> Date</td>
-			<td th:text=${usage.usageRecord.customer.customerName}>Customer Name</td>
+			<td th:text="${#dates.format(usage.usageRecord.Date,'dd-MM-yyyy')}"> Date</td>
+			<td th:text=${usage.usageRecord.customerName}>Customer Name</td>
 			<td th:text=${usage.usageRecord.carPlate}>Car Plate</td>
-			<td th:text=${usage.usageRecord.user.userName}>Employee Name</td>
+			<td th:text=${usage.usageRecord.userName}>Employee Name</td>
 			<td th:text=${usage.quantityUsed}>Quantity Used</td>
 		</tr>
 	</table>

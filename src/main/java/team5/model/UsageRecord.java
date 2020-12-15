@@ -1,6 +1,5 @@
 package team5.model;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.FutureOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -20,15 +18,11 @@ public class UsageRecord {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String carPlate;
-
 	@DateTimeFormat (pattern="dd-MM-yyyy")
-	private LocalDate date;
-
+	private Date date;
 	private String comments;
 	private String userName;
-	@OneToOne
-	private Customer customer;
-
+	private String customerName;
 	@OneToMany(mappedBy = "usageRecord")
 	private List<UsageRecordDetail> usageRecordDetail;
 
@@ -36,12 +30,12 @@ public class UsageRecord {
 		super();
 	}
 
-	public UsageRecord(Customer customer, String carPlate, LocalDate date, User user) {
+	public UsageRecord(String customerName, String carPlate, Date date, User user) {
 		super();
-		this.customer = customer;
 		this.carPlate = carPlate;
 		this.date = date;
-		this.userName=user.getUserName();
+		this.userName = user.getUserName();
+		this.customerName = customerName;
 	}
 
 	public long getId() {
@@ -52,14 +46,6 @@ public class UsageRecord {
 		this.id = id;
 	}
 
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
 	public String getCarPlate() {
 		return carPlate;
 	}
@@ -68,11 +54,11 @@ public class UsageRecord {
 		this.carPlate = carPlate;
 	}
 
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDate date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
@@ -100,11 +86,22 @@ public class UsageRecord {
 		this.userName = user.getUserName();
 	}
 
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "UsageRecord [id=" + id + ", carPlate=" + carPlate + ", date=" + date + ", comments=" + comments
-				+ ", userName=" + userName + ", customer=" + customer + ", usageRecordDetail=" + usageRecordDetail
-				+ "]";
+				+ ", userName=" + userName + ", customerName=" + customerName + ", usageRecordDetail="
+				+ usageRecordDetail + "]";
 	}
+
 
 }
