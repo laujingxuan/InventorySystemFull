@@ -11,6 +11,8 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import team5.nonEntityModel.UserForm;
+
 
 
 @Entity
@@ -41,8 +43,21 @@ public class User {
 		this.password = password;
 		this.role = role;
 	}
+	
+	public User(UserForm userForm) {
+		this.id=userForm.getId();
+		this.userName=userForm.getUserName();
+		this.password=userForm.getPassword();
+		this.role=userForm.getRole();
+	}
     
 	
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
 	public String getUserName() {
 		return userName;
 	}

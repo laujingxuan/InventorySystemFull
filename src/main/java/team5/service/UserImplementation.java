@@ -21,6 +21,11 @@ public class UserImplementation implements UserInterface {
 	UserRepository userRepo;
 	
 	@Override
+	public User findById(long id) {
+		return userRepo.findById(id).get();
+	}
+	
+	@Override
 	public boolean authenticate(User user) {
 		User dbuser = userRepo.findByUserName(user.getUserName());
 		if (dbuser==null) {
@@ -34,10 +39,11 @@ public class UserImplementation implements UserInterface {
 
 	@Override
 	public boolean updateUser(User user) {
-		User userCheck = userRepo.findByUserName(user.getUserName());
+		User userCheck = userRepo.findById(user.getId()).get();
 		if (userCheck == null) {
 			return false;
 		}else {
+			userCheck.setUserName(user.getUserName());
 			userCheck.setPassword(user.getPassword());
 			userCheck.setRole(user.getRole());
 			userRepo.save(userCheck);
