@@ -29,9 +29,6 @@ public class UsageController {
 	
 	@PostMapping("/report")
 	public ModelAndView usageReport(@RequestParam("startDate") String startD, @RequestParam("endDate") String endD, @RequestParam("productSelected") long id) throws ParseException {
-		System.out.println(startD);
-		System.out.println(endD);
-		System.out.println(id);
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date startDate = formatter.parse(startD);

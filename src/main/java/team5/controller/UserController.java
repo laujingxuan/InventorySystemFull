@@ -45,18 +45,35 @@ public class UserController {
 	}
 
 	@GetMapping("/users")
-	public ModelAndView viewUser() {
+	public ModelAndView viewUser(HttpSession session) {
+		User user = (User) session.getAttribute("user");
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("UserList");
+		if (user == null) {
+			mv.setViewName("redirect:/user/login");
+		}else if(user.getRole()==RoleType.ADMIN){
+			mv.setViewName("UserList");
+		}else {
+			mv.addObject("errorMessage","You have no access to this page");
+			mv.setViewName("error");
+		}
 		return mv;
 	}
 	
 	@GetMapping("/add")
-	public ModelAndView addUser() {
+	public ModelAndView addUser(HttpSession session) {
+		User user = (User) session.getAttribute("user");
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("AddUser");
-		mv.addObject("user", new User());
-		mv.addObject("roleType", RoleType.values());
+		if (user == null) {
+			mv.setViewName("redirect:/user/login");
+		}else if(user.getRole()==RoleType.ADMIN){
+			mv.setViewName("AddUser");
+			mv.addObject("user", new User());
+			mv.addObject("roleType", RoleType.values());
+			mv.setViewName("AddUser");
+		}else {
+			mv.addObject("errorMessage","You have no access to this page");
+			mv.setViewName("error");
+		}
 		return mv;
 	}
 	
@@ -66,7 +83,6 @@ public class UserController {
 		if (bindingResult.hasErrors()) {
 			return "AddUser";
 		}
-		
 		boolean success = userInterface.createUser(user);
 		if (success == false) {
 			return "redirect:/user/add";
@@ -74,7 +90,8 @@ public class UserController {
 			return "redirect:/";
 		}
 	}
-
+	
+	//everyone can update 
 	@GetMapping("/update")
 	public ModelAndView updateUser(HttpSession session) {
 		User user = (User) session.getAttribute("user");
@@ -111,15 +128,17 @@ public class UserController {
 	}
 
 	@PostMapping("/delete")
-	public ModelAndView deleteUser(@RequestParam(value = "deleteUser", required = false) String[] deleteUsers) {
+	public ModelAndView deleteUser(@RequestParam(value = "deleteUser", required = false) String[] deleteUsers, HttpSession session) {
+		User user = (User) session.getAttribute("user");
 		ModelAndView mv = new ModelAndView();
-		if (deleteUsers == null) {
-			mv.setViewName("redirect:/user/users");
-			return mv;
-		} else {
+		if (user == null) {
+			mv.setViewName("redirect:/user/login");
+		}else if(user.getRole()==RoleType.ADMIN && deleteUsers != null){
 			userInterface.deleteUsers(deleteUsers);
 			mv.setViewName("redirect:/user/users");
-			return mv;
+		}else {
+			mv.setViewName("redirect:/user/users");
 		}
+		return mv;
 	}
 }
