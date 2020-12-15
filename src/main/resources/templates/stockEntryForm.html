@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<link rel="stylesheet" type="text/css" media="all"
+	th:href="@{/css/style.css}" />
+<title>Spring MVC Form Handling</title>
+</head>
+<body>
+	<form action="" th:object="${product}" th:action="@{/product/save}">
+	<table>
+			<tr>
+				<td>Product:</td>
+				<td>
+					<select class="form-control" name="id">
+                    <option value="0">select product</option>
+                    <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name}"></option>
+                </select>
+				</td>				
+			</tr>
+			<tr>
+				<td>Unit:</td>
+				<td><input type="text" ></td>
+			</tr>
+			
+			<tr>
+				<td><button type="submit">update inventory</button></td>
+			</tr>
+	</table>                
+     
+	</form>
+	
+</body>
+</html>

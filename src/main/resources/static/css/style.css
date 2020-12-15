@@ -193,6 +193,13 @@ footer a:link, footer a:visited {
 	height: 110px;
 	}
 	
+.search{
+	font-size: 14px;
+	font-weight: normal;
+	color: #039;
+	padding: 10px 8px;
+}
+	
 table
 {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
