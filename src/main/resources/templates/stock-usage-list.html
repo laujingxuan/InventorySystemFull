@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>UsageRecords List</title>
+<link rel="stylesheet" type="text/css" media="all"
+    href="../../css/style.css" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+ 
+
+    <h1>UsageRecords List</h1>
+    <!-- Add Hyperlink -->
+    <a href="AddSupplier.html" th:href="@{/supplier/add}">New UsageRecord</a>
+
+ 
+
+    <h2 th:if="${not #lists.isEmpty(usage)}">UsageRecords List</h2>
+    <table th:if="${not #lists.isEmpty(usage)}" >
+        <tr >
+            <th>UsageRecord Id</th>
+            <th>UsageRecord CustomerId</th>
+            <th>UsageRecord CarPlate</th>
+            <th>UsageRecord Date</th>
+            <th>Add Part</th>
+            <th>Quantity</th>
+            <th>Edit UsageRecord</th>
+            <th>Delete UsageRecord</th>
+        </tr>
+        <tr th:each="usagerecord:${usage}" >
+            <td th:text=${usagerecord.id}>Id</td>
+            <td th:text="${usagerecord.customerId}">UsageRecord CustomerId</td>
+            <td th:text=${usagerecord.carPlate}>UsageRecord CarPlate</td>
+            <td th:text=${usagerecord.date}>UsageRecord Date</td>
+            <!--<td th:text=${usagerecord.UsageRecordDetail.product.partNumber}>Part list</td>  -->
+           <!--<td th:text=${usagerecord.usageRecordDetail.product.unit}>Quantity</td>  --> 
+            <td><a href="AddUsageRecord.html"
+                th:href="@{/usagerecord/add/}+${usagerecord.id}">Add product Part</a></td>
+                <td>quantity</td>
+            <td><a href="EditUsageRecord.html"
+                th:href="@{/usagerecord/edit/}+${usagerecord.id}">Edit</a></td>
+            <td><a href="DeleteUsageRecord.html"
+                th:href="@{/usagerecord/delete/}+${usagerecord.id}">Delete</a></td>
+        </tr>
+    </table>
+    
+</body>
+</html>

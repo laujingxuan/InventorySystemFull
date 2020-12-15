@@ -21,11 +21,11 @@ public class ProductTest {
 	
 	@Test
 	public void saveProduct() {
-		productRepo.save(new Product(2345,"Collision Cart","The original high quality, low friction dynamics carts made from durable machined aluminum.",
-									"Type A","Blue",200,"Category A", 2000 ,  3000, 1200, 2, 2, 12345 , 1, 1));
-		productRepo.save(new Product(3432,"Large Table Clamp","Can attach to tables, shelves, or other boards up to 10 cm thick.",
-				"Type B","Black",200,"Category B", 2500 ,  3000, 1260, 3, 2, 12345 , 1, 1));
-		productRepo.save(new Product(5432,"Tension Protractor","ME-6855","Type C","White",500,"Category C", 8000 ,  3500, 1240, 6, 4, 2314 , 1, 4));
+//		productRepo.save(new Product(2345,"Collision Cart","The original high quality, low friction dynamics carts made from durable machined aluminum.",
+//									"Type A","Blue",200,"Category A", 2000 ,  3000, 1200, 2, 2, 12345 , 1, 1));
+//		productRepo.save(new Product(3432,"Large Table Clamp","Can attach to tables, shelves, or other boards up to 10 cm thick.",
+//				"Type B","Black",200,"Category B", 2500 ,  3000, 1260, 3, 2, 12345 , 1, 1));
+//		productRepo.save(new Product(5432,"Tension Protractor","ME-6855","Type C","White",500,"Category C", 8000 ,  3500, 1240, 6, 4, 2314 , 1, 4));
 		
 		
 		ArrayList<Product> plist = new ArrayList<Product>();		
