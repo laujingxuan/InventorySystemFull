@@ -30,7 +30,7 @@ function loadUsers(e){
 			<td><a href="/user/edit/`+users[i].id+`">Edit</a></td>
 		  </tr>`
       }
-	  output += `<input type="submit" value="Delete" id="delete">`;
+	  output += `<button type="button" class="btn btn-warning">Warning</button>`;
       document.getElementById('result').innerHTML = output;
     }
   }

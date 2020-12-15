@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -84,10 +82,11 @@ public class UserController {
 		if (user == null) {
 			mv.setViewName("redirect:/user/login");
 		}else if(user.getRole()==RoleType.ADMIN){
-			mv.setViewName("AddUser");
-			mv.addObject("user", new User());
+			mv.setViewName("editUser");
 			mv.addObject("roleType", RoleType.values());
-			mv.setViewName("AddUser");
+			UserForm userForm = new UserForm();
+			mv.addObject("userForm", userForm);
+			mv.addObject("path","/user/validate");
 		}else {
 			mv.addObject("errorMessage","You have no access to this page");
 			mv.setViewName("error");
@@ -96,18 +95,25 @@ public class UserController {
 	}
 	
 	@PostMapping("/validate")
-	public String addUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
-		model.addAttribute("roleType", RoleType.values());
+	public ModelAndView addUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult) {
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("roleType", RoleType.values());
+		mv.addObject("path","/user/validate");
 		if (bindingResult.hasErrors()) {
-			return "AddUser";
+			mv.setViewName("editUser");
+			return mv;
 		}
+		User user = new User(userForm);
 		boolean success = userInterface.createUser(user);
 		if (success == false) {
-			return "redirect:/user/add";
+			mv.setViewName("error");
+			mv.addObject("errorMessage","Adding user fail");
 		} else {
-			return "redirect:/";
+			mv.setViewName("redirect:/");
 		}
+		return mv;
 	}
+		
 	
 	//only admin can edit
 	@RequestMapping(value = "/edit/{id}")
