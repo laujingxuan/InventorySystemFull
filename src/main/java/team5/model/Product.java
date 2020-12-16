@@ -46,7 +46,6 @@ public class Product {
 	private long unit;
 	private String partNumber;
 
-
 	@OneToMany(mappedBy = "product")
 	private List<UsageRecordDetail> usageDetailList;
 
@@ -62,6 +61,14 @@ public class Product {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+
+	public Product(@Digits(integer = 8, fraction = 2) long barcode, @Size(min = 2, max = 100) String name) {
+		super();
+		this.barcode = barcode;
+		this.name = name;
+	}
+	
 	public Product(long barcode, String name, String description, String type, String color,
 			long originalPrice, String category, long priceFWholesale, long priceFRetail, long priceFPartner,
 			long subcategory, long unit, String partNumber, Supplier supplier, long reorderLevel, long minReoderLevel) {
@@ -83,6 +90,7 @@ public class Product {
 		this.reorderLevel = reorderLevel;
 		this.minReoderLevel = minReoderLevel;
 	}
+	
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", barcode=" + barcode + ", name=" + name + ", description=" + description
@@ -93,6 +101,7 @@ public class Product {
 				+ "]";
 	}
 
+	
 	public Product(long barcode, String name, String description, String type, String color, long originalPrice,
 			String category, long priceFWholesale, long priceFRetail, long priceFPartner, long subcategory, long unit,
 			String partNumber, long reorderLevel, long minReoderLevel) {
