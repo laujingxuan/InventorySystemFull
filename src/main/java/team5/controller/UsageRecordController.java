@@ -1,7 +1,5 @@
 package team5.controller;
 
-import java.util.ArrayList;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import team5.model.UsageRecord;
-import team5.model.UsageRecordDetail;
+import team5.repo.CustomerRepository;
 import team5.repo.ProductRepository;
-import team5.service.ProductService;
-import team5.service.ProductServiceImpl;
 import team5.service.UsageRecordService;
 import team5.service.UsageRecordServiceImpl;
 
@@ -29,6 +26,8 @@ public class UsageRecordController {
 	@Autowired
 	private ProductRepository prepo;
 	
+	@Autowired
+	private CustomerRepository crepo;
 
 	@Autowired
 	public void setUsageRecordService(UsageRecordServiceImpl uimpl) {
@@ -51,7 +50,7 @@ public class UsageRecordController {
 	
 	@RequestMapping(value = "/save")
     public String saveSupplier(@ModelAttribute("usage") @Valid UsageRecord usagerecord,
-            BindingResult bindingResult, Model model) {
+            BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             return "stock-usage-form";
         }

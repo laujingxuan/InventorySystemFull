@@ -8,4 +8,5 @@ import team5.model.Product;
 public interface ProductService {
 	public ArrayList<String> FindAllPartNumber();
 	 public List<Product> listAll(String keyword);
+	  public List<Product> listAllpart(String keyword);
 }

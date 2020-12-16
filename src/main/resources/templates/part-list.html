@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+<link rel = "stylesheet" type="text/css" media="all" th:href="@{/css/style.css}"/>
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Product Listing</h1>
+	<form th:action="@{/detail/part-list}" class="search">
+		Filter: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required /> &nbsp;
+			<input type="submit" value="Search" /> &nbsp; 
+			<input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
+	</form>
+	<table>
+		<tr>
+
+			<th>Name</th>
+			<th>Description</th>
+			<th>Color</th>
+			<th>Unit</th>
+			<th>Part Number</th>
+			<th>Quantity</th>
+		</tr>
+		<tr th:each="product:${products}">
+		<form action="@{/save-quantity}" th:object="${quantity}" method="post">
+			<td th:text="${product.name}">ID</td>
+			<td th:text="${product.description}">ID</td>
+			<td th:text="${product.color}">ID</td>
+			<td th:text="${product.unit}">ID</td>
+			<td th:text="${product.partNumber}">ID</td>
+			<fieldset>
+				<td><input type="text" name = "Product.unit"></td>
+			</fieldset>
+
+			
+
+		</tr>
+		<tr>
+		
+		</tr>
+	</table>
+		
+		<fieldset>
+			<button type="submit">Save</button>
+		</fieldset>
+		</form>
+	<script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/detail/part-list}]]";
+    }
+</script>
+</body>
+</html>

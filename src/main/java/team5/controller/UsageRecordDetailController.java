@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import team5.model.Product;
 import team5.model.UsageRecordDetail;
 import team5.repo.ProductRepository;
+import team5.service.ProductInterface;
 import team5.service.ProductService;
 import team5.service.ProductServiceImpl;
 import team5.service.UsageRecordDetailService;
@@ -33,6 +34,9 @@ public class UsageRecordDetailController {
 	
 	@Autowired
 	ProductRepository prepo;
+	
+	@Autowired
+	private ProductInterface pService;
 	
 	@Autowired
 	public void setProductService(ProductServiceImpl pimpl) {
@@ -58,17 +62,16 @@ public class UsageRecordDetailController {
 	}
 	
 	
-    @RequestMapping("/")
-    public String viewHomePage(Model model, @Param("keyword") String keyword) {
-        List<Product> listProducts = pservice.listAll(keyword);
-        model.addAttribute("listProducts", listProducts);
-        model.addAttribute("keyword", keyword);
-         
-        return "index";
+
+    @RequestMapping("/part-list")
+	public String viewPartList(Model model,@Param("keyword") String keyword) {
+    	List<Product> listProducts = pService.listAllProducts(keyword);
+		model.addAttribute("products", listProducts);
+	    model.addAttribute("keyword", keyword);
+    	return "part-list";
+    	
     }
-	
-	
-	
+
 	
 	
 //	@GetMapping("/part")

@@ -38,5 +38,14 @@ public class ProductServiceImpl implements ProductService {
 	        return prepo.findAll();
 	    }
 	     
-
+	         
+	      public List<Product> listAllpart(String keyword) {
+	            if (keyword != null) {
+	                return prepo.searchpart(keyword);
+	            }
+	            return prepo.findAll();
+	        }
+	         
+	       
+	    
 }

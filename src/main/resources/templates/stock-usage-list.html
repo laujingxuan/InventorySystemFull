@@ -30,7 +30,7 @@
         </tr>
         <tr th:each="usagerecord:${usage}" >
             <td th:text=${usagerecord.id}>Id</td>
-            <td th:text="${usagerecord.customerId}">UsageRecord CustomerId</td>
+            <td th:text="${usagerecord.customerName}">UsageRecord CustomerName</td>
             <td th:text=${usagerecord.carPlate}>UsageRecord CarPlate</td>
             <td th:text=${usagerecord.date}>UsageRecord Date</td>
             <!--<td th:text=${usagerecord.UsageRecordDetail.product.partNumber}>Part list</td>  -->
