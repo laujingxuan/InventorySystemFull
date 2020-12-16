@@ -20,9 +20,10 @@ public class UsageRecord {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String carPlate;
+	private String customerName;
 
 	@DateTimeFormat (pattern="dd-MM-yyyy")
-	private LocalDate date;
+	private Date date;
 
 	private String comments;
 	private String userName;
@@ -36,7 +37,19 @@ public class UsageRecord {
 		super();
 	}
 
-	public UsageRecord(Customer customer, String carPlate, LocalDate date, User user) {
+	public UsageRecord(String carPlate, String customerName, Date date, String comments, String userName,
+			Customer customer, List<UsageRecordDetail> usageRecordDetail) {
+		super();
+		this.carPlate = carPlate;
+		this.customerName = customerName;
+		this.date = date;
+		this.comments = comments;
+		this.userName = userName;
+		this.customer = customer;
+		this.usageRecordDetail = usageRecordDetail;
+	}
+
+	public UsageRecord(Customer customer, String carPlate, Date date, User user) {
 		super();
 		this.customer = customer;
 		this.carPlate = carPlate;
@@ -68,11 +81,11 @@ public class UsageRecord {
 		this.carPlate = carPlate;
 	}
 
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDate date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
@@ -99,12 +112,27 @@ public class UsageRecord {
 	public void setUserName(User user) {
 		this.userName = user.getUserName();
 	}
+	
+	
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
 	@Override
 	public String toString() {
-		return "UsageRecord [id=" + id + ", carPlate=" + carPlate + ", date=" + date + ", comments=" + comments
-				+ ", userName=" + userName + ", customer=" + customer + ", usageRecordDetail=" + usageRecordDetail
-				+ "]";
+		return "UsageRecord [id=" + id + ", carPlate=" + carPlate + ", customerName=" + customerName + ", date=" + date
+				+ ", comments=" + comments + ", userName=" + userName + ", customer=" + customer
+				+ ", usageRecordDetail=" + usageRecordDetail + "]";
 	}
 
+	
 }

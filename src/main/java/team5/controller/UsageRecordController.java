@@ -1,7 +1,5 @@
 package team5.controller;
 
-import java.util.ArrayList;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import team5.model.UsageRecord;
-import team5.model.UsageRecordDetail;
 import team5.repo.ProductRepository;
-import team5.service.ProductService;
-import team5.service.ProductServiceImpl;
 import team5.service.UsageRecordService;
 import team5.service.UsageRecordServiceImpl;
 

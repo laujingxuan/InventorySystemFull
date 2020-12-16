@@ -1,7 +1,5 @@
 package team5.service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -10,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import team5.model.Product;
-import team5.model.User;
 import team5.repo.ProductRepository;
 
 @Service
@@ -56,6 +53,11 @@ public class ProductImplementation implements ProductInterface {
 				return productRepo.search(keyword);
 			}
 			return productRepo.findAll();		
+	}
+
+	@Override
+	public void updateStock(Long quantity, Long id) {		
+		productRepo.reduceStock(quantity, id);	
 	}
 
 //	@Override
