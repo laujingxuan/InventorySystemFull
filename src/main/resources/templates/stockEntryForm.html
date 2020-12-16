@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org/">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
+<meta charset="ISO-8859-1">
 <link rel="stylesheet" type="text/css" media="all"
 	th:href="@{/css/style.css}" />
-<title>Spring MVC Form Handling</title>
+<title>Product Form</title>
 </head>
 <body>
-	<form action="" th:object="${product}" th:action="@{/product/save}">
-	<table>
+	<h1>Stock Entry Form</h1>
+	 <form action="" th:object="${product}" th:action="@{/product/updateProduct}" method="get">
+		<!-- <fieldset>
+			Unit: <input type="text" th:field="*{unit}">
+		</fieldset> -->
+		<table>
 			<tr>
 				<td>Product:</td>
 				<td>
-					<select class="form-control" name="id">
+					<select class="form-control" name="id" id="id">
                     <option value="0">select product</option>
                     <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name}"></option>
                 </select>
@@ -19,7 +24,7 @@
 			</tr>
 			<tr>
 				<td>Unit:</td>
-				<td><input type="text" ></td>
+				<td><input type="text" th:field="*{unit}"></td>
 			</tr>
 			
 			<tr>
@@ -28,6 +33,5 @@
 	</table>                
      
 	</form>
-	
 </body>
 </html>

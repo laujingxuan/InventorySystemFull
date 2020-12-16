@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import team5.model.Product;
@@ -45,8 +47,10 @@ public class ProductController {
 	public String showStockEntryForm(Model model, @Param("keyword") String keyword) {
 		keyword = null;
 		List<Product> listProducts = pService.listAllProducts(keyword);
+		Product p = new Product();
 		model.addAttribute("products", listProducts);
 	    model.addAttribute("keyword", keyword);
+	    model.addAttribute("product", p);
 		return "stockEntryForm";
 	}
 	
@@ -55,6 +59,14 @@ public class ProductController {
 		Product product = new Product();
 		model.addAttribute("product", product);
 		return "productform";
+	}
+	
+	@GetMapping("/updateProduct")
+	public String updateStock(@ModelAttribute("product") @Valid @RequestBody Product product, BindingResult result, Model model) {
+		Product p = pService.findProductById(product.getId());
+		p.setUnit(product.getUnit() + p.getUnit());
+		pService.updateProduct(p);
+		return "forward:/product/listproducts";
 	}
 	
 	@GetMapping("/save")
