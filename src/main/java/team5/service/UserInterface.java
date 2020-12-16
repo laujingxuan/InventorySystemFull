@@ -15,5 +15,6 @@ public interface UserInterface {
 	public User findByUsername(String userName);
 	public List<User> findAll();
 	public void deleteUsers(String[] users);
+	public User findById(long id);
 	public boolean authenticate(User user);
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import team5.model.RoleType;
 import team5.model.User;
-import team5.model.UserListForm;
+import team5.nonEntityModel.UserListAJAX;
 import team5.service.UserInterface;
 
 
@@ -21,7 +21,7 @@ public class RestWebController {
 	private UserInterface userInterface;
 	
 	@PostMapping("/user/users")
-	public ResponseEntity<?> viewUser(@RequestBody UserListForm userListForm) {
+	public ResponseEntity<?> viewUser(@RequestBody UserListAJAX userListForm) {
 		List<User> users;
 		if (userListForm.getRoleType().equals("ALL")) {
 			users = userInterface.findAll();

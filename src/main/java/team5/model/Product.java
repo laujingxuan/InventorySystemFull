@@ -46,11 +46,10 @@ public class Product {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Product(long id, long barcode, String name, String description, String type, String color,
+	public Product(long barcode, String name, String description, String type, String color,
 			long originalPrice, String category, long priceFWholesale, long priceFRetail, long priceFPartner,
 			long subcategory, long unit, String partNumber, Supplier supplier, long reorderLevel, long minReoderLevel) {
 		super();
-		this.id = id;
 		this.barcode = barcode;
 		this.name = name;
 		this.description = description;

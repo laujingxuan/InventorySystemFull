@@ -1,6 +1,5 @@
 package team5.model;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.FutureOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -20,16 +18,14 @@ public class UsageRecord {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String carPlate;
-	private String customerName;
+
 
 	@DateTimeFormat (pattern="dd-MM-yyyy")
 	private Date date;
 
 	private String comments;
 	private String userName;
-	@OneToOne
-	private Customer customer;
-
+	private String customerName;
 	@OneToMany(mappedBy = "usageRecord")
 	private List<UsageRecordDetail> usageRecordDetail;
 
@@ -50,11 +46,14 @@ public class UsageRecord {
 	}
 
 	public UsageRecord(Customer customer, String carPlate, Date date, User user) {
+=======
+	public UsageRecord(String customerName, String carPlate, Date date, User user) {
+>>>>>>> branch 'JX_dev' of https://github.com/tanfeng95/sa51_4105_team5
 		super();
-		this.customer = customer;
 		this.carPlate = carPlate;
 		this.date = date;
-		this.userName=user.getUserName();
+		this.userName = user.getUserName();
+		this.customerName = customerName;
 	}
 
 	public long getId() {
@@ -63,14 +62,6 @@ public class UsageRecord {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
 	}
 
 	public String getCarPlate() {
@@ -127,12 +118,32 @@ public class UsageRecord {
 		this.userName = userName;
 	}
 
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+
+
 	@Override
 	public String toString() {
+<<<<<<< HEAD
 		return "UsageRecord [id=" + id + ", carPlate=" + carPlate + ", customerName=" + customerName + ", date=" + date
 				+ ", comments=" + comments + ", userName=" + userName + ", customer=" + customer
 				+ ", usageRecordDetail=" + usageRecordDetail + "]";
+=======
+		return "UsageRecord [id=" + id + ", carPlate=" + carPlate + ", date=" + date + ", comments=" + comments
+				+ ", userName=" + userName + ", customerName=" + customerName + ", usageRecordDetail="
+				+ usageRecordDetail + "]";
+>>>>>>> branch 'JX_dev' of https://github.com/tanfeng95/sa51_4105_team5
 	}
 
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> branch 'JX_dev' of https://github.com/tanfeng95/sa51_4105_team5
 }
