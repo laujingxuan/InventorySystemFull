@@ -1,6 +1,6 @@
-package team5.model;
+package team5.nonEntityModel;
 
-public class UserListForm {
+public class UserListAJAX {
 	private String roleType;
 
 	public String getRoleType() {

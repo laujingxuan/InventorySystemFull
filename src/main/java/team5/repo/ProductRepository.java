@@ -36,6 +36,9 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	
 	//public ArrayList<Product> findProductByName();
 	
+	@Query("Update Product p set p.unit=p.unit-:quan where p.id=:pid and p.unit > 0")
+	public void reduceStock(@Param("quan")Long quantity,@Param("pid")Long id);
+	
 	public Product findById(long a);
 	//public ArrayList<Product> findAll();
 }

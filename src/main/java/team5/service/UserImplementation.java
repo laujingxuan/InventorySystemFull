@@ -21,20 +21,29 @@ public class UserImplementation implements UserInterface {
 	UserRepository userRepo;
 	
 	@Override
+	public User findById(long id) {
+		return userRepo.findById(id).get();
+	}
+	
+	@Override
 	public boolean authenticate(User user) {
 		User dbuser = userRepo.findByUserName(user.getUserName());
-		if (dbuser.getUserName().equals(user.getUserName()) && dbuser.getPassword().equals(user.getPassword()))
-			return true;
-		else
+		if (dbuser==null) {
 			return false;
+		}else if(dbuser.getUserName().equals(user.getUserName()) && dbuser.getPassword().equals(user.getPassword())){
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	@Override
 	public boolean updateUser(User user) {
-		User userCheck = userRepo.findByUserName(user.getUserName());
+		User userCheck = userRepo.findById(user.getId()).get();
 		if (userCheck == null) {
 			return false;
 		}else {
+			userCheck.setUserName(user.getUserName());
 			userCheck.setPassword(user.getPassword());
 			userCheck.setRole(user.getRole());
 			userRepo.save(userCheck);

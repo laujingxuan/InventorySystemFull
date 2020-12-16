@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+<link rel = "stylesheet" type="text/css" media="all" th:href="@{/css/style.css}"/>
+<title>Insert title here</title>
+</head>
+<body>
+    <h1>Product Listing</h1>
+    <form th:action="@{/detail/part-list}" class="search">
+        Filter: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required /> &nbsp;
+            <input type="submit" value="Search" /> &nbsp; 
+            <input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
+    </form>
+    <form th:action="@{/detail/update-stock}" th:object="${productMapFormWrapper}" method="post">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Color</th>
+            <th>Unit</th>
+            <th>Part Number</th>
+            <th>Edit Link</th>
+            <th>Quantity</th>
+        </tr>
+        <tr th:each="product, stat:${productMapFormWrapper.ProductMapFormL}">
+            <td th:text="${product.getName()}">ID</td>
+            <td th:text="${product.getDescription()}">ID</td>
+            <td th:text="${product.getColor()}">ID</td>
+            <td th:text="${product.getUnit()}">ID</td>
+            <td th:text="${product.getPartNumber()}">ID</td>
+            <td><a href="EditProduct.html" th:href="@{/product/edit/}+${product.getId()}" th:utext="#{products.page.edit}">Edit</a></td>
+            <td><input type="text" th:field = "*{ProductMapFormL[__${stat.index}__].quantityUsed}"></td>
+            <td> <input type="hidden" th:field="*{ProductMapFormL[__${stat.index}__].id}" th:value ="${product.getId()}"></td>
+        </tr>
+    </table>
+    
+         <fieldset>
+            <button type="submit" value="Save">Save</button>
+        </fieldset>
+    </form>
+    
+    <script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/detail/part-list}]]";
+    }
+</script>
+</body>
+</html>

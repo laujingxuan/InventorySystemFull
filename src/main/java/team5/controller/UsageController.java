@@ -29,27 +29,24 @@ public class UsageController {
 	
 	@PostMapping("/report")
 	public ModelAndView usageReport(@RequestParam("startDate") String startD, @RequestParam("endDate") String endD, @RequestParam("productSelected") long id) throws ParseException {
-		System.out.println(startD);
-		System.out.println(endD);
-		System.out.println(id);
 		
-//		DateTimeFormatter formatter = new DateTimeFormatter("yyyy-MM-dd");
-//		DateTime startDate = new DateTime(formatter.parse(startD).getTime());
-//		Date endDate = formatter.parse(endD);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date startDate = formatter.parse(startD);
+		Date endDate = formatter.parse(endD);
 		ModelAndView mv = new ModelAndView();
-//		Product product = productInterface.findByProductId(id);
-//		List<UsageRecordDetail> fullUsageList = product.getUsageDetailList();
-//		List<UsageRecordDetail> usageList = new ArrayList<UsageRecordDetail>();
-//		for(UsageRecordDetail x : fullUsageList) {
-//			if(!x.getUsageRecord().getDate().after(endDate) && !x.getUsageRecord().getDate().before(startDate)) {
-//				usageList.add(x);
-//			}
-//		}
-//		mv.setViewName("usageReportDetails");
-//		mv.addObject("product",product);
-//		mv.addObject("usageList", usageList);
-//		mv.addObject("fromDate", startD);
-//		mv.addObject("ToDate", endD);
+		Product product = productInterface.findProductById(id);
+		List<UsageRecordDetail> fullUsageList = product.getUsageDetailList();
+		List<UsageRecordDetail> usageList = new ArrayList<UsageRecordDetail>();
+		for(UsageRecordDetail x : fullUsageList) {
+			if(!x.getUsageRecord().getDate().after(endDate) && !x.getUsageRecord().getDate().before(startDate)) {
+				usageList.add(x);
+			}
+		}
+		mv.setViewName("usageReportDetails");
+		mv.addObject("product",product);
+		mv.addObject("usageList", usageList);
+		mv.addObject("fromDate", startD);
+		mv.addObject("ToDate", endD);
 		return mv;
 	}
 	

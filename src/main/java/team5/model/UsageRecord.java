@@ -1,6 +1,5 @@
 package team5.model;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.FutureOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -21,14 +19,13 @@ public class UsageRecord {
 	private long id;
 	private String carPlate;
 
+
 	@DateTimeFormat (pattern="dd-MM-yyyy")
-	private LocalDate date;
+	private Date date;
 
 	private String comments;
 	private String userName;
-	@OneToOne
-	private Customer customer;
-
+	private String customerName;
 	@OneToMany(mappedBy = "usageRecord")
 	private List<UsageRecordDetail> usageRecordDetail;
 
@@ -36,12 +33,27 @@ public class UsageRecord {
 		super();
 	}
 
-	public UsageRecord(Customer customer, String carPlate, LocalDate date, User user) {
+	public UsageRecord(String carPlate, String customerName, Date date, String comments, String userName,
+			Customer customer, List<UsageRecordDetail> usageRecordDetail) {
 		super();
+		this.carPlate = carPlate;
+		this.customerName = customerName;
+		this.date = date;
+		this.comments = comments;
+		this.userName = userName;
 		this.customer = customer;
+		this.usageRecordDetail = usageRecordDetail;
+	}
+
+	public UsageRecord(Customer customer, String carPlate, Date date, User user) {
+=======
+	public UsageRecord(String customerName, String carPlate, Date date, User user) {
+>>>>>>> branch 'JX_dev' of https://github.com/tanfeng95/sa51_4105_team5
+		super();
 		this.carPlate = carPlate;
 		this.date = date;
-		this.userName=user.getUserName();
+		this.userName = user.getUserName();
+		this.customerName = customerName;
 	}
 
 	public long getId() {
@@ -52,14 +64,6 @@ public class UsageRecord {
 		this.id = id;
 	}
 
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
 	public String getCarPlate() {
 		return carPlate;
 	}
@@ -68,11 +72,11 @@ public class UsageRecord {
 		this.carPlate = carPlate;
 	}
 
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDate date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
@@ -99,12 +103,47 @@ public class UsageRecord {
 	public void setUserName(User user) {
 		this.userName = user.getUserName();
 	}
+	
+	
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+
 
 	@Override
 	public String toString() {
+<<<<<<< HEAD
+		return "UsageRecord [id=" + id + ", carPlate=" + carPlate + ", customerName=" + customerName + ", date=" + date
+				+ ", comments=" + comments + ", userName=" + userName + ", customer=" + customer
+				+ ", usageRecordDetail=" + usageRecordDetail + "]";
+=======
 		return "UsageRecord [id=" + id + ", carPlate=" + carPlate + ", date=" + date + ", comments=" + comments
-				+ ", userName=" + userName + ", customer=" + customer + ", usageRecordDetail=" + usageRecordDetail
-				+ "]";
+				+ ", userName=" + userName + ", customerName=" + customerName + ", usageRecordDetail="
+				+ usageRecordDetail + "]";
+>>>>>>> branch 'JX_dev' of https://github.com/tanfeng95/sa51_4105_team5
 	}
 
+<<<<<<< HEAD
+	
+=======
+
+>>>>>>> branch 'JX_dev' of https://github.com/tanfeng95/sa51_4105_team5
 }

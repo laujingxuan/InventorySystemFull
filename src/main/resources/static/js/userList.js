@@ -16,6 +16,7 @@ function loadUsers(e){
       	<tr>
       		<th>Username</th>
       		<th>Role</th>
+      		<th>Edit User</th>
       	</tr>`;
 
       for (let i in users){
@@ -25,10 +26,11 @@ function loadUsers(e){
 			  <input type="checkbox" id="`+users[i].userName+`" name="deleteUser" value="`+users[i].userName+`">
 			  <label for="`+users[i].userName+`"> `+users[i].userName+`</label>
 			</td>  
-			<td>`+users[i].role+`</td> 
+			<td>`+users[i].role+`</td>
+			<td><a href="/user/edit/`+users[i].id+`">Edit</a></td>
 		  </tr>`
       }
-	  output += `<input type="submit" value="Delete" id="delete">`;
+	  output += `<button type="button" class="btn btn-warning">Warning</button>`;
       document.getElementById('result').innerHTML = output;
     }
   }

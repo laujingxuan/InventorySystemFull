@@ -8,19 +8,15 @@
 </head>
 <body>
 
- 
-
     <h1>UsageRecords List</h1>
     <!-- Add Hyperlink -->
-    <a href="AddSupplier.html" th:href="@{/supplier/add}">New UsageRecord</a>
-
- 
+    <a href="AddUsageRecord.html" th:href="@{/usage/add}">New UsageRecord</a>
 
     <h2 th:if="${not #lists.isEmpty(usage)}">UsageRecords List</h2>
     <table th:if="${not #lists.isEmpty(usage)}" >
         <tr >
             <th>UsageRecord Id</th>
-            <th>UsageRecord CustomerId</th>
+            <th>UsageRecord CustomerName</th>
             <th>UsageRecord CarPlate</th>
             <th>UsageRecord Date</th>
             <th>Add Part</th>
@@ -30,14 +26,61 @@
         </tr>
         <tr th:each="usagerecord:${usage}" >
             <td th:text=${usagerecord.id}>Id</td>
-            <td th:text="${usagerecord.customerId}">UsageRecord CustomerId</td>
+            <td th:text="${usagerecord.customerName}">UsageRecord CustomerName</td>
             <td th:text=${usagerecord.carPlate}>UsageRecord CarPlate</td>
             <td th:text=${usagerecord.date}>UsageRecord Date</td>
+            
+            <!-- 
+            <td><ul>
+  				<li th:each="usagerecorddetail:${usagerecord.usageRecordDetail}">
+    				<ul>
+     					<li th:each="product:${usagerecorddetail.product}">
+     					<a th:text=${product.partNumber}>Add Part</a></li>
+    				</ul>
+  				</li>
+			</ul></td>
+			<td><ul>
+  				<li th:each="usagerecorddetail:${usagerecord.usageRecordDetail}">
+    				<ul>
+     					<li th:each="product:${usagerecorddetail.product}">
+     					<a th:text=${product.unit}>Add Part</a></li>
+    				</ul>
+  				</li>
+			</ul></td>
+			-->
+			
+			<!--  
+			<td>
+            <div th:each="usagerecorddetail:${usagerecord.usageRecordDetail}">
+            	<a th:text=${usagerecorddetail.product.partNumber}>Add Part</span>
+            	</a>
+            </div>
+            </td>
+            <td>
+            <div th:each="usagerecorddetail:${usagerecord.usageRecordDetail}">
+            	<a th:text=${usagerecorddetail.product.unit}>Quantity</a>
+            </div>
+            </td> 
+            -->
+            
+            <td>
+            <div th:each="usagerecorddetail:${usagerecord.usageRecordDetail}">
+            	<a th:each="product:${usagerecorddetail.product}">
+            		<span th:text=${product.partNumber}>Add Part</span>
+            	</a>
+            </div>
+            </td>
+            <td>
+            <div th:each="usagerecorddetail:${usagerecord.usageRecordDetail}">
+            	<a th:each="product:${usagerecorddetail.product}">
+            		<span th:text=${product.unit}>Quantity</span>
+            	</a>
+            </div>
+            </td> 
+            
             <!--<td th:text=${usagerecord.UsageRecordDetail.product.partNumber}>Part list</td>  -->
-           <!--<td th:text=${usagerecord.usageRecordDetail.product.unit}>Quantity</td>  --> 
-            <td><a href="AddUsageRecord.html"
-                th:href="@{/usagerecord/add/}+${usagerecord.id}">Add product Part</a></td>
-                <td>quantity</td>
+            <!--<td th:text=${usagerecord.usageRecordDetail.product.unit}>Quantity</td>  --> 
+           
             <td><a href="EditUsageRecord.html"
                 th:href="@{/usagerecord/edit/}+${usagerecord.id}">Edit</a></td>
             <td><a href="DeleteUsageRecord.html"

@@ -9,29 +9,45 @@
     <title>AddUser</title>
   </head>
 <body>
-<h1>UserList</h1>
-	<form>
-		<fieldset>
-			RoleType: <select class="roleType">
+<div class = "container">
+	<div class = "row">
+		<h1>UserList</h1>
+	</div>
+	<div class = "row">
+		<form>
+			<table>
+			  <tr>
+				<td>RoleType: </td>
+				<td>
+					<select class="roleType">
 						<option value = "ALL">All</option>
 		                <option value = "MECHANIC">Mechanic</option>
 		                <option value = "ADMIN">Admin</option>
-		              </select>
-		</fieldset>
-    	<fieldset>
-			<input type="submit" id='button' value="Retrieve" />
-		</fieldset>
-	</form>
-	<form action="" th:action="@{/user/delete}" method="post">
-		<table id="result">
-		</table>
-	</form>
-    <form action="" th:action= "@{/user/add}">
-    	<input type="submit" value="Add User" />
-	</form>
-	<form action="" th:action= "@{/user/update}">
-    	<input type="submit" value="Update User" />
-	</form>
+			        </select>
+			    </td>
+			  </tr>  
+			  <tr>  
+				<td><input type="submit" id='button' value="Retrieve" /></td>
+			  </tr>
+			</table>
+		</form>
+	</div>	
+	<div class = "row py-2">	
+		<form action="" th:action="@{/user/delete}" method="post">
+			<table id="result"></table>
+		</form>
+	</div>
+	<div class = "row py-2">
+	    <form action="" th:action= "@{/user/add}">
+	    	<input type="submit" value="Add User" />
+		</form>
+	</div>
+	<div class = "row py-2">	
+		<form action="" th:action= "@{/user/update}">
+	    	<input type="submit" value="Change Password" />
+		</form>
+	</div>	
+</div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <script type = "text/javascript" th:src="@{/JavaS/userList.js}"></script>
