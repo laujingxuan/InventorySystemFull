@@ -2,29 +2,44 @@ package team5.model;
 
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+import com.sun.istack.NotNull;
 
 @Entity
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	@NotNull
+	@Digits(integer = 8, fraction = 2)
 	private long barcode;
+	@NotNull
+	@Size(min = 2, max=100)
 	private String name;
 	private String description;
 	private String type;
 	private String color;
+	@Digits(integer = 8, fraction = 2)
 	private long originalPrice;
 	private String category;
+	@Digits(integer = 8, fraction = 2)
 	private long priceFWholesale;
+	@Digits(integer = 8, fraction = 2)
 	private long priceFRetail;
+	@Digits(integer = 8, fraction = 2)
 	private long PriceFPartner;
 	private long subcategory;
+	@Digits(integer = 8, fraction = 0)
 	private long unit;
 	private long partNumber;
 	
@@ -32,7 +47,9 @@ public class Product {
     @JoinColumn(name="SUPP_ID")
 	private Supplier supplier;
 	
+    @Digits(integer = 8, fraction = 0)
 	private long reorderLevel;
+    @Digits(integer = 8, fraction = 0)
 	private long minReoderLevel;
 	
 	

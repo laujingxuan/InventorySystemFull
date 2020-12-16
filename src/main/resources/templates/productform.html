@@ -16,6 +16,7 @@
 		</fieldset>
 		<fieldset>
 			Bar code: <input type="text" th:field="*{barcode}">
+			<p th:if="${#fields.hasErrors('barcode')}" th:errors="*{barcode}"></p>
 		</fieldset>
 		<fieldset>
 			Name: <input type="text" th:field="*{name}">
@@ -32,35 +33,42 @@
 		</fieldset>
 		<fieldset>
 			Original Price: <input type="text" th:field="*{originalPrice}">
+			<p th:if="${#fields.hasErrors('originalPrice')}" th:errors="*{originalPrice}"></p>
 		</fieldset>
 		<fieldset>
 			Category: <input type="text" th:field="*{category}">
 		</fieldset>
 		<fieldset>
 			Whole Sale Price: <input type="text" th:field="*{priceFWholesale}">
+			<p th:if="${#fields.hasErrors('priceFWholesale')}" th:errors="*{priceFWholesale}"></p>
 		</fieldset>
 		<fieldset>
 			Retail Price: <input type="text" th:field="*{priceFRetail}">
-
+			<p th:if="${#fields.hasErrors('priceFRetail')}" th:errors="*{priceFRetail}"></p>
 		</fieldset>
 		<fieldset>
 			Price For Partner: <input type="text" th:field="*{PriceFPartner}">
+			<p th:if="${#fields.hasErrors('PriceFPartner')}" th:errors="*{PriceFPartner}"></p>
 		</fieldset>
 		<fieldset>
 			Sub Category: <input type="text" th:field="*{subcategory}">
 		</fieldset>
 		<fieldset>
 			Unit: <input type="text" th:field="*{unit}">
+			<p th:if="${#fields.hasErrors('unit')}" th:errors="*{unit}"></p>
 		</fieldset>
 		<fieldset>
 			Part Number: <input type="text" th:field="*{partNumber}">
+			<p th:if="${#fields.hasErrors('partNumber')}" th:errors="*{partNumber}"></p>
 		</fieldset>
 		<fieldset>
 			Record Level: <input type="text" th:field="*{reorderLevel}">
+			<p th:if="${#fields.hasErrors('reorderLevel')}" th:errors="reorderLevel"></p>
 		</fieldset>
 		<fieldset>
 			Minimum Reorder Level: <input type="text"
 				th:field="*{minReoderLevel}">
+				<p th:if="${#fields.hasErrors('minReoderLevel')}" th:errors="*{minReoderLevel}"></p>
 		</fieldset>
 
 		<fieldset>
