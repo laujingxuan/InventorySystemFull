@@ -33,22 +33,8 @@ public class UsageRecord {
 		super();
 	}
 
-	public UsageRecord(String carPlate, String customerName, Date date, String comments, String userName,
-			Customer customer, List<UsageRecordDetail> usageRecordDetail) {
-		super();
-		this.carPlate = carPlate;
-		this.customerName = customerName;
-		this.date = date;
-		this.comments = comments;
-		this.userName = userName;
-		this.customer = customer;
-		this.usageRecordDetail = usageRecordDetail;
-	}
-
-	public UsageRecord(Customer customer, String carPlate, Date date, User user) {
-=======
 	public UsageRecord(String customerName, String carPlate, Date date, User user) {
->>>>>>> branch 'JX_dev' of https://github.com/tanfeng95/sa51_4105_team5
+
 		super();
 		this.carPlate = carPlate;
 		this.date = date;
@@ -103,16 +89,6 @@ public class UsageRecord {
 	public void setUserName(User user) {
 		this.userName = user.getUserName();
 	}
-	
-	
-
-	public String getCustomerName() {
-		return customerName;
-	}
-
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
-	}
 
 	public void setUserName(String userName) {
 		this.userName = userName;
@@ -126,24 +102,12 @@ public class UsageRecord {
 		this.customerName = customerName;
 	}
 
-
-
 	@Override
 	public String toString() {
-<<<<<<< HEAD
-		return "UsageRecord [id=" + id + ", carPlate=" + carPlate + ", customerName=" + customerName + ", date=" + date
-				+ ", comments=" + comments + ", userName=" + userName + ", customer=" + customer
-				+ ", usageRecordDetail=" + usageRecordDetail + "]";
-=======
 		return "UsageRecord [id=" + id + ", carPlate=" + carPlate + ", date=" + date + ", comments=" + comments
 				+ ", userName=" + userName + ", customerName=" + customerName + ", usageRecordDetail="
 				+ usageRecordDetail + "]";
->>>>>>> branch 'JX_dev' of https://github.com/tanfeng95/sa51_4105_team5
 	}
-
-<<<<<<< HEAD
-	
-=======
-
->>>>>>> branch 'JX_dev' of https://github.com/tanfeng95/sa51_4105_team5
 }
+
+	
