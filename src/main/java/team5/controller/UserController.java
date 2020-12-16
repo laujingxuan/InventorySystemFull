@@ -46,6 +46,13 @@ public class UserController {
 		return "login";
 	}
 	
+	@GetMapping("/logout")
+	public ModelAndView logout(HttpSession session) {
+		session.invalidate();
+		ModelAndView mv = new ModelAndView("redirect:/user/login");
+		return mv;
+	}
+	
 	@RequestMapping(path = "/authenticate")
 	public String authenticate(@ModelAttribute("user") User user, Model model, HttpSession session) {
 		if(userInterface.authenticate(user)) 
