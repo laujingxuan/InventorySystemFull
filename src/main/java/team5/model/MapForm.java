@@ -4,13 +4,13 @@ import java.util.Map;
 
 public class MapForm {
 
-	private Map<Long,Integer> properties;
+	private Map<Long,Long> properties;
 
-	public Map<Long, Integer> getProperties() {
+	public Map<Long, Long> getProperties() {
 		return properties;
 	}
 
-	public void setProperties(Map<Long, Integer> properties) {
+	public void setProperties(Map<Long, Long> properties) {
 		this.properties = properties;
 	}
 	

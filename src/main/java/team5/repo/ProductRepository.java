@@ -8,6 +8,7 @@ import java.util.List;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,8 +36,8 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	public List<Product> search(String keyword);
 	
 	//public ArrayList<Product> findProductByName();
-	
-	@Query("Update Product p set p.unit=p.unit-:quan where p.id=:pid and p.unit > 0")
+	@Modifying
+	@Query("Update Product p set p.unit=p.unit - :quan where p.id=:pid and p.unit > 0 and p.unit >= :quan")
 	public void reduceStock(@Param("quan")Long quantity,@Param("pid")Long id);
 	
 //	public Product findById(long a);

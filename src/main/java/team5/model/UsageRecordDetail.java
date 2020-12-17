@@ -20,14 +20,14 @@ public class UsageRecordDetail {
 	private  UsageRecord usageRecord;
 	
 	
-	private int quantityUsed;
+	private long quantityUsed;
 	
 	public UsageRecordDetail() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public UsageRecordDetail(Product product, UsageRecord usageRecord, int quantityUsed) {
+	public UsageRecordDetail(Product product, UsageRecord usageRecord, long quantityUsed) {
 		super();
 		this.product = product;
 		this.usageRecord = usageRecord;
@@ -42,10 +42,10 @@ public class UsageRecordDetail {
 		this.id = id;
 	}
 
-	public int getQuantityUsed() {
+	public long getQuantityUsed() {
 		return quantityUsed;
 	}
-	public void setQuantityUsed(int quantityUsed) {
+	public void setQuantityUsed(long quantityUsed) {
 		this.quantityUsed = quantityUsed;
 	}
 	public Product getProduct() {

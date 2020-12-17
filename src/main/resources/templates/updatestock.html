@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>UsageRecords List</title>
+<link rel="stylesheet" type="text/css" media="all"
+    href="../../css/style.css" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+    <h1>Chosen parts</h1>
+    <!-- Add Hyperlink -->
+    <a href="AddUsageRecord.html" th:href="@{/usage/add}">parts</a>
+
+    <h2 th:if="${not #lists.isEmpty(usage)}">Chosen parts</h2>
+    <table th:if="${not #lists.isEmpty(usage)}" >
+        <tr >
+
+            <th>Product Name</th>
+            <th>Quantity Used</th>
+
+>
+
+        </tr>
+        <tr th:each="usagerecord:${usage}" >
+
+            <td th:text="${usagerecord.Product.name}">product name</td>
+            <td th:text=${usagerecord.quantityUsed}>UsageRecord Date</td>
+        </tr>
+    </table>
+    <br>
+    <input type="button" value="return to usage list"
+					onclick="window.location.href='/usage/list'; return false"
+					class="button" />
+    
+</body>
+</html>
