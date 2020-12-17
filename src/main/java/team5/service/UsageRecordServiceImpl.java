@@ -7,31 +7,36 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import team5.model.UsageRecord;
-import team5.repo.UsageRepo;
+import team5.repo.UsageRecordRepo;
 
 @Service
 public class UsageRecordServiceImpl implements UsageRecordService {
 	
 	@Autowired
-	UsageRepo urepo;
+	UsageRecordRepo urrepo;
 	
-	@Transactional
-	public void addUsage(UsageRecord ur) {
-		urepo.save(ur);
+	
+	public void save(UsageRecord ur) {
+		urrepo.save(ur);
 	}
-	@Transactional
-	public UsageRecord findUsageById(long id) {
-		return urepo.findById(id).get();
-	}
+	
 	//@Transactional
 	//public List<UsageRecord> checkTransectionHistory(long id ) {
 	//	return urepo.findUsageRecord(id);
 	//}
+	
 	@Transactional
-	public List<UsageRecord> listUsageRecord(){
-		return urepo.findAll();
+	public UsageRecord findById(Long id) {
+		return urrepo.findById(id).get();
 	}
 	
-
+	@Transactional
+	public List<UsageRecord> findAll(){
+		return urrepo.findAll();
+	}
 	
+	public void delete(UsageRecord ur) {
+		urrepo.delete(ur);
+	}
+
 }

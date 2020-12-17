@@ -14,5 +14,4 @@ public class MapForm {
 		this.properties = properties;
 	}
 	
-	
 }

@@ -9,13 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import team5.model.RoleType;
 import team5.model.User;
-import team5.repo.UserRepository;
+import team5.repo.UserRepo;
 
 @SpringBootTest
 public class test1 {
 	
 	@Autowired
-	UserRepository urepo;
+	UserRepo urepo;
 	
 	@Test
 	public void adduser() {
@@ -26,7 +26,7 @@ public class test1 {
 		
 		ArrayList<User> user =new ArrayList<User>();
 		user =(ArrayList<User>) urepo.findAll();
-		for (Iterator iterator = user.iterator(); iterator.hasNext();) {
+		for (Iterator<User> iterator = user.iterator(); iterator.hasNext();) {
 			User user2 = (User) iterator.next();
 			System.out.println(user2.toString());
 		}

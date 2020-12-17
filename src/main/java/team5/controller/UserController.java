@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
-import team5.model.RoleType;
 import team5.model.User;
 import team5.nonEntityModel.UserForm;
+import team5.service.SessionService;
+import team5.service.SessionServiceImpl;
 import team5.service.UserService;
+import team5.service.UserServiceImpl;
 import team5.validator.UserFormValidator;
 
 @Controller
@@ -28,7 +28,16 @@ import team5.validator.UserFormValidator;
 public class UserController {
 
 	@Autowired
-	private UserService usvc;
+	private UserService user_svc;
+	
+	@Autowired
+	private SessionService session_svc;
+	
+	@Autowired 
+	public void setImplimentation(UserServiceImpl user_svcimpl, SessionServiceImpl session_svcimpl) {
+		this.user_svc = user_svcimpl;
+		this.session_svc = session_svcimpl;
+	}
 	
 	@Autowired
 	private UserFormValidator userFormValidator;
@@ -38,160 +47,99 @@ public class UserController {
 		binder.addValidators(userFormValidator);
 	}
 	
-	//only admin can retrieve the list
-	@GetMapping("/users")
-	public ModelAndView viewUser(HttpSession session) {
-		User user = (User) session.getAttribute("user");
-		ModelAndView mv = new ModelAndView();
-		if (user == null) {
-			mv.setViewName("redirect:/user/login");
-		}else if(user.getRole()==RoleType.ADMIN){
-			mv.setViewName("UserList");
-		}else {
-			mv.addObject("errorMessage","You have no access to this page");
-			mv.setViewName("error");
-		}
-		return mv;
-	}
-	
 	//only admin can add
 	@GetMapping("/add")
-	public ModelAndView addUser(HttpSession session) {
-		User user = (User) session.getAttribute("user");
-		ModelAndView mv = new ModelAndView();
-		if (user == null) {
-			mv.setViewName("redirect:/user/login");
-		}else if(user.getRole()==RoleType.ADMIN){
-			mv.setViewName("editUser");
-			mv.addObject("roleType", RoleType.values());
-			UserForm userForm = new UserForm();
-			mv.addObject("userForm", userForm);
-			mv.addObject("path","/user/validate");
-		}else {
-			mv.addObject("errorMessage","You have no access to this page");
-			mv.setViewName("error");
-		}
-		return mv;
+	public String addUser(Model model, HttpSession session) {
+		session_svc.redirectIfNotLoggedIn(session);
+		session_svc.ensureUserHasPermission(session);
+		
+		model.addAttribute("userForm", new UserForm());
+		return "editUser";
 	}
 	
 	@PostMapping("/validate")
-	public ModelAndView addUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult) {
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("roleType", RoleType.values());
-		mv.addObject("path","/user/validate");
+	public String addUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult, HttpSession session) {
+		
 		if (bindingResult.hasErrors()) {
-			mv.setViewName("editUser");
-			return mv;
+			return "editUser"; // "forward:/user/validate";
 		}
+		
 		User user = new User(userForm);
 		//if (userRepo.findByUserName(user.getUserName())== null) {}
-		boolean success = usvc.save(user);
-		if (success == false) {
-			mv.setViewName("error");
-			mv.addObject("errorMessage","Adding user fail");
-		} else {
-			mv.setViewName("redirect:/");
-		}
-		return mv;
+		user_svc.save(user);
+		return "redirect:/";
+	}
+	
+	//only admin can retrieve the list
+	@GetMapping("/users")
+	public String viewUser(Model model, HttpSession session) {
+		session_svc.redirectIfNotLoggedIn(session);
+		session_svc.ensureUserHasPermission(session);
+		
+		model.addAttribute("users", user_svc.findAll());
+		return "UserList";
 	}
 		
 	
 	//only admin can edit
 	@RequestMapping(value = "/edit/{id}")
-	public ModelAndView editUser(@PathVariable("id") Integer id, HttpSession session) {
-		User user = (User) session.getAttribute("user");
-		ModelAndView mv = new ModelAndView();
-		if (user == null) {
-			mv.setViewName("redirect:/user/login");
-		}else if(user.getRole()==RoleType.ADMIN){
-			User toChange = usvc.findById(id);
-			mv.addObject("roleType", RoleType.values());
-			UserForm userForm = new UserForm(toChange);
-			mv.addObject("userForm", userForm);
-			mv.addObject("path","/user/save");
-			mv.setViewName("editUser");
-		}else {
-			mv.addObject("errorMessage","You have no access to this page");
-			mv.setViewName("error");
-		}
-		return mv;
+	public String editUser(@PathVariable("id") long id, Model model, HttpSession session) {
+		session_svc.redirectIfNotLoggedIn(session);
+		session_svc.ensureUserHasPermission(session);
+		
+		User toChange = user_svc.findById(id);
+		// mv.addObject("roleType", RoleType.values());
+		UserForm userForm = new UserForm(toChange);
+		model.addAttribute("userForm", userForm);
+		return "editUser";
 	}
 	
 	@PostMapping("/save")
-	public ModelAndView editUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult) {
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("roleType", RoleType.values());
-		mv.addObject("path","/user/save");
+	public String editUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult, HttpSession session) {
+		session_svc.redirectIfNotLoggedIn(session);
+		session_svc.ensureUserHasPermission(session);
+		
 		if (bindingResult.hasErrors()) {
-			mv.setViewName("editUser");
-			return mv;
+			return "editUser";
 		}
+		
 		User user = new User(userForm);
-		long id = user.getId();
-		boolean success = usvc.updateUser(user);
-		if (success == true) {
-			mv.setViewName("redirect:/user/users");
-			return mv;
-		} else {
-			mv.setViewName("error");
-			return mv;
-		}
+		user_svc.save(user);
+		return "redirect:/user/users";
 	}
 	
 	//everyone can change password
 	@GetMapping("/update")
-	public ModelAndView updateUser(HttpSession session) {
-		User user = (User) session.getAttribute("user");
-		ModelAndView mv = new ModelAndView();
-		if (user == null) {
-			mv.setViewName("redirect:/user/login");
-			return mv;
-		} else {
-			mv.setViewName("editUser");
-			mv.addObject("roleType", RoleType.values());
-			UserForm userForm = new UserForm(user);
-			mv.addObject("userForm", userForm);
-			mv.addObject("path","/user/update");
-			return mv;
-		}
+	public String updateUser(Model model, HttpSession session) {
+		session_svc.redirectIfNotLoggedIn(session);
+		session_svc.ensureUserHasPermission(session);
+		
+		model.addAttribute("userForm", new UserForm());
+		return "editUser";
 	}
 
 	@PostMapping("/update")
-	public ModelAndView updateUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult, HttpSession session) {
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("roleType", RoleType.values());
-		mv.addObject("path","/user/update");
+	public String updateUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult, HttpSession session) {
+		session_svc.redirectIfNotLoggedIn(session);
+		session_svc.ensureUserHasPermission(session);
+		
 		if (bindingResult.hasErrors()) {
-			mv.setViewName("editUser");
-			return mv;
+			return "editUser";
 		}
+		
 		User user = new User(userForm);
-		boolean success = usvc.updateUser(user);
-		if (success == true) {
-			session.setAttribute("user", user);
-			mv.setViewName("redirect:/");
-			return mv;
-		} else {
-			mv.setViewName("error");
-			mv.addObject("errorMessage","Update password fail");
-			return mv;
-		}
+		user_svc.save(user);
+		session.setAttribute("user", user);
+		return "redirect:/";
 	}
 	
 	//only admin can delete
-	/*
-	@PostMapping("/delete")
-	public ModelAndView deleteUser(@RequestParam(value = "deleteUser", required = false) String[] deleteUsers, HttpSession session) {
-		User user = (User) session.getAttribute("user");
-		ModelAndView mv = new ModelAndView();
-		if (user == null) {
-			mv.setViewName("redirect:/user/login");
-		}else if(user.getRole()==RoleType.ADMIN && deleteUsers != null){
-			userInterface.deleteUsers(deleteUsers);
-			mv.setViewName("redirect:/user/users");
-		}else {
-			mv.setViewName("redirect:/user/users");
-		}
-		return mv;
-	}*/
+	@RequestMapping(value = "/delete/{id}")
+	public String deleteUser(@PathVariable("id") Long id,HttpSession session) {
+		session_svc.redirectIfNotLoggedIn(session);
+		session_svc.ensureUserHasPermission(session);
+		
+		user_svc.delete(user_svc.findById(id));
+		return "forward:/supplier/list";
+	}
 }

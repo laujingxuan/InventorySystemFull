@@ -11,7 +11,7 @@ public interface IService<T> {
 	// Read 
 	public T findById(Long id);
 	public List<T> findAll();
-	public T findByName(String name);
+	//public T findByName(String name);
 	
 	// Delete 
 	public void delete(T x);

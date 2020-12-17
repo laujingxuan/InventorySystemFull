@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import team5.model.RoleType;
-import team5.model.Supplier;
 import team5.model.User;
 import team5.repo.UserRepo;
 
@@ -59,6 +58,18 @@ public class UserServiceImpl implements UserService {
 	public List<User> findAll() {
 		List<User> users = userRepo.findAll();
 		return users;
+	}
+
+	@Override
+	public User findById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete(User x) {
+		// TODO Auto-generated method stub
+		
 	}
 
 /*

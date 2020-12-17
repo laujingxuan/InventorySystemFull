@@ -21,6 +21,7 @@ public class SessionController {
 	@Autowired
 	private UserService usvc;
 	
+	@Autowired
 	private SessionService ssvc;
 	
 	//everyone can login

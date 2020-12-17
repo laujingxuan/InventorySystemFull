@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,9 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 import team5.model.Product;
 import team5.model.RoleType;
 import team5.model.User;
-import team5.nonEntityModel.UserForm;
-import team5.service.IService;
 import team5.service.ProductService;
+import team5.service.SessionService;
 
 @Controller
 @RequestMapping("/product")
@@ -39,6 +37,9 @@ public class ProductController {
 	private ProductService pService;
 	
 	@Autowired
+	private SessionService session_svcimpl;
+	
+	@Autowired
 	public void setpService(ProductService pService) {
 		this.pService = pService;
 	}
@@ -50,6 +51,8 @@ public class ProductController {
 	
 	@GetMapping("/stock")
 	public ModelAndView showStockEntryForm(Model model, @Param("keyword") String keyword, HttpSession session) {
+		session_svcimpl.redirectIfNotLoggedIn(session);
+		session_svcimpl.ensureUserHasPermission(session);
 		
 		User user = (User) session.getAttribute("user");
 		ModelAndView mv = new ModelAndView();
@@ -112,6 +115,8 @@ public class ProductController {
 	
 	@GetMapping("/listproducts")
 	public String listProductForm(Model model, @Param("keyword") String keyword, HttpSession session) {
+		session_svcimpl.redirectIfNotLoggedIn(session);
+		session_svcimpl.ensureUserHasPermission(session);
 		
 		User user = (User) session.getAttribute("user");
 		ModelAndView mv = new ModelAndView();

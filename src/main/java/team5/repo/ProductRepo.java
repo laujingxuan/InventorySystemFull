@@ -14,7 +14,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import team5.model.Product;
-import team5.model.Supplier;
 
 public interface ProductRepo extends JpaRepository<Product, Long>{
 	public ArrayList<Product> findAll();

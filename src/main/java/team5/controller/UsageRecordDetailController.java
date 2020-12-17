@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 
-import javax.validation.Valid;
 import javax.servlet.http.HttpSession;
 
 
@@ -15,8 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,10 +22,8 @@ import team5.model.Product;
 import team5.model.ProductMapForm;
 import team5.model.ProductMapFormWrapper;
 import team5.model.UsageRecordDetail;
-import team5.model.User;
 import team5.repo.ProductRepo;
 import team5.service.EmailService;
-import team5.service.IService;
 import team5.service.ProductService;
 import team5.service.ProductServiceImpl;
 import team5.service.SessionService;
@@ -38,20 +33,16 @@ import team5.service.UsageRecordService;
 import team5.service.UsageRecordServiceImpl;
 
 
- 
-
 @Controller
 @RequestMapping("/detail")
 public class UsageRecordDetailController {
 
-	@Autowired
-	ProductService pservice;
 	
 	@Autowired
 	ProductRepo prepo;
 	
 	@Autowired
-    private IService<Product> pService;
+    private ProductService pService;
 
     @Autowired
     UsageRecordDetailService urdservice;
@@ -72,7 +63,7 @@ public class UsageRecordDetailController {
 	
 	@Autowired
 	public void setProductService(ProductServiceImpl pimpl) {
-		this.pservice = pimpl;
+		this.pService = pimpl;
 	}
 	
     @Autowired
@@ -86,7 +77,7 @@ public class UsageRecordDetailController {
 		ssvc.redirectIfNotLoggedIn(session);
 		
 		model.addAttribute("part",new UsageRecordDetail());
-		ArrayList<String> partnum = pservice.FindAllPartNumber();
+		ArrayList<String> partnum = pService.FindAllPartNumber();
 		model.addAttribute("partnum", partnum);
 		return "stock-usage-detail-form";
 	}
@@ -141,9 +132,9 @@ public class UsageRecordDetailController {
 			if ((productMapFormW.getProductMapFormL().get(x).getQuantityUsed()) != 0) {
 				urd = new UsageRecordDetail(
 						pService.findById(productMapFormW.getProductMapFormL().get(x).getId()),
-						urservice.findUsageById(id), productMapFormW.getProductMapFormL().get(x).getQuantityUsed());
+						urservice.findById(id), productMapFormW.getProductMapFormL().get(x).getQuantityUsed());
 				urdList.add(urd);
-				urdservice.addUsage(urd);
+				urdservice.save(urd);
 			}
 
 		}

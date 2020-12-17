@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import team5.model.RoleType;
 import team5.model.User;
 import team5.repo.UserRepo;
 
@@ -33,6 +34,15 @@ public class SessionServiceImpl implements SessionService {
 			return "redirect:/user/login";
 		}
 		return null;
+	}
+	
+	public String ensureUserHasPermission(HttpSession session) {
+
+		User user = (User) session.getAttribute("user");
+		if (user.getRole()==RoleType.ADMIN) {
+			return null;
+		}
+		return "nopermission";
 	}
 }
 

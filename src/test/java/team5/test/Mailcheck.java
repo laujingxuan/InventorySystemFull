@@ -1,10 +1,5 @@
 package team5.test;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Optional;
-
-import org.apache.logging.log4j.message.SimpleMessage;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -12,18 +7,18 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import team5.model.Product;
-import team5.repo.ProductRepository;
-import team5.repo.UserRepository;
+import team5.repo.ProductRepo;
+import team5.repo.UserRepo;
+
 @Component
 @Service
 public class Mailcheck {
 
 	private JavaMailSender javaMailSender;
 	@Autowired
-	public ProductRepository productRepo;
+	public ProductRepo productRepo;
 	@Autowired
-	public UserRepository urepo;
+	public UserRepo urepo;
 	
 	@Test
 	public void checkProdQuantity()

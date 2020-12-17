@@ -9,4 +9,5 @@ public interface SessionService {
 
 	public boolean authenticate(User user);
 	public String redirectIfNotLoggedIn(HttpSession session);
+	public String ensureUserHasPermission(HttpSession session);
 }

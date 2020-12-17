@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import team5.model.RoleType;
 import team5.model.Supplier;
-import team5.model.User;
+import team5.service.SessionService;
+import team5.service.SessionServiceImpl;
 import team5.service.SupplierService;
 import team5.service.SupplierServiceImpl;
 
@@ -22,78 +22,66 @@ import team5.service.SupplierServiceImpl;
 public class SupplierController {
 
 	@Autowired
-	private SupplierService supservice;
+	private SupplierService supplier_svc;
 	
 	@Autowired
-	public void setSupplierService(SupplierServiceImpl supServiceImpl) {
-		this.supservice = supServiceImpl;
+	private SessionService session_svc;
+	
+	@Autowired 
+	public void setImplimentation(SupplierServiceImpl supplier_svcimpl, SessionServiceImpl session_svcimpl) {
+		this.supplier_svc = supplier_svcimpl;
+		this.session_svc = session_svcimpl;
 	}
 	
 	@RequestMapping(value = "/list")
-	public String list(Model model,HttpSession session) {
+	public String list(Model model, HttpSession session) {
+		session_svc.redirectIfNotLoggedIn(session);
+		session_svc.ensureUserHasPermission(session);
 		
-		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/user/login";
-		}
-		else if(user.getRole()==RoleType.ADMIN)
-			model.addAttribute("suppliers", supservice.findAll());
-			return "suppliers";
+		model.addAttribute("suppliers", supplier_svc.findAll());
+		return "suppliers";
 			
 	}
 	
 	@RequestMapping(value = "/add")
 	public String addForm(Model model,HttpSession session) {
+		session_svc.redirectIfNotLoggedIn(session);
+		session_svc.ensureUserHasPermission(session);
 		
-		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/user/login";
-		}
-		else if(user.getRole()==RoleType.ADMIN)
-			model.addAttribute("suppliers", new Supplier());
-			return "supplierform";
-		
+		model.addAttribute("suppliers", new Supplier());
+		return "supplierform";
 	}
 	
 	@RequestMapping(value = "/edit/{id}")
 	public String editForm(@PathVariable("id") Long id, Model model,HttpSession session) {
+		session_svc.redirectIfNotLoggedIn(session);
+		session_svc.ensureUserHasPermission(session);
 		
-		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/user/login";
-		}
-		else if(user.getRole()==RoleType.ADMIN)
-			model.addAttribute("suppliers", supservice.findById(id));
-			return "supplierform";
-
+		model.addAttribute("suppliers", supplier_svc.findById(id));
+		return "supplierform";
 	}
 	
 	@RequestMapping(value = "/save")
 	public String saveSupplier(@ModelAttribute("supplier") @Valid Supplier supplier,
 			BindingResult bindingResult, Model model,HttpSession session) {
 		
-		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/user/login";
-		}
+		session_svc.redirectIfNotLoggedIn(session);
+		session_svc.ensureUserHasPermission(session);
 		
 		if(bindingResult.hasErrors()) {
 			return "supplierform";
 		}
 		
-		if(user.getRole()==RoleType.ADMIN)
-			supservice.save(supplier);
-			return "forward:/supplier/list";
-
+		supplier_svc.save(supplier);
+		return "forward:/supplier/list";
 	}
 	
 	@RequestMapping(value = "/delete/{id}")
 	public String deleteSupplier(@PathVariable("id") Long id,HttpSession session) {
-		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/user/login";
-		}else if(user.getRole()==RoleType.ADMIN)
-			supservice.delete(supservice.findById(id));
-			return "forward:/supplier/list";
+		session_svc.redirectIfNotLoggedIn(session);
+		session_svc.ensureUserHasPermission(session);
+		
+		supplier_svc.delete(supplier_svc.findById(id));
+		return "forward:/supplier/list";
 	}
 }

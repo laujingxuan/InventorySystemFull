@@ -14,20 +14,20 @@ import team5.model.Product;
 import team5.model.UsageRecord;
 import team5.model.UsageRecordDetail;
 import team5.model.User;
-import team5.repo.ProductRepository;
+import team5.repo.ProductRepo;
 import team5.repo.UsageRecordDetailRepo;
-import team5.repo.UsageRecordRepository;
-import team5.repo.UserRepository;
+import team5.repo.UsageRecordRepo;
+import team5.repo.UserRepo;
 
 @SpringBootTest
 public class ProductTest {
 	
 	@Autowired
-	public ProductRepository productRepo;
+	public ProductRepo productRepo;
 	@Autowired
-	public UserRepository urepo;
+	public UserRepo urepo;
 	@Autowired
-	public UsageRecordRepository usageRepo;
+	public UsageRecordRepo usageRepo;
 	@Autowired
 	public UsageRecordDetailRepo usageDetailRepo;
 	
@@ -72,13 +72,12 @@ public class ProductTest {
 		User admin1 = urepo.findById((long)1).get();
 		UsageRecord oneR = usageRepo.save(new UsageRecord("john","SAA1235", fDate, admin1));
 		UsageRecord secondR = usageRepo.save(new UsageRecord("Mary","SAB2345", sDate, admin1));
-		UsageRecord thirdR = usageRepo.save(new UsageRecord("Peter","SAC3456", tDate, admin1));
-		UsageRecordDetail oneRd = usageDetailRepo.save(new UsageRecordDetail(first,oneR,3));
-		UsageRecordDetail secRd = usageDetailRepo.save(new UsageRecordDetail(second,oneR,3));
-		UsageRecordDetail thiRd = usageDetailRepo.save(new UsageRecordDetail(third,secondR,3));
-		UsageRecordDetail thuRd = usageDetailRepo.save(new UsageRecordDetail(first,secondR,3));
-		UsageRecordDetail friRd = usageDetailRepo.save(new UsageRecordDetail(third,oneR,3));
-	}
-	
+		usageRepo.save(new UsageRecord("Peter","SAC3456", tDate, admin1));
+		usageDetailRepo.save(new UsageRecordDetail(first,oneR,3));
+		usageDetailRepo.save(new UsageRecordDetail(second,oneR,3));
+		usageDetailRepo.save(new UsageRecordDetail(third,secondR,3));
+		usageDetailRepo.save(new UsageRecordDetail(first,secondR,3));
+		usageDetailRepo.save(new UsageRecordDetail(third,oneR,3));
+	}	
 
 }
