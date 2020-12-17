@@ -24,8 +24,8 @@ import team5.model.Product;
 import team5.model.RoleType;
 import team5.model.User;
 import team5.nonEntityModel.UserForm;
-import team5.repo.ProductRepository;
-import team5.service.ProductInterface;
+import team5.service.IService;
+import team5.service.ProductService;
 
 @Controller
 @RequestMapping("/product")
@@ -36,10 +36,10 @@ public class ProductController {
 //	
 	
 	@Autowired
-	private ProductInterface pService;
+	private ProductService pService;
 	
 	@Autowired
-	public void setpService(ProductInterface pService) {
+	public void setpService(ProductService pService) {
 		this.pService = pService;
 	}
 
@@ -57,7 +57,7 @@ public class ProductController {
 			mv.setViewName("redirect:/user/login");
 		}else if(user.getRole()==RoleType.ADMIN){
 			keyword = null;
-			List<Product> listProducts = pService.listAllProducts(keyword);
+			List<Product> listProducts = pService.findAll();
 			Product p = new Product();
 			mv.setViewName("stockEntryForm");
 			mv.addObject("products", listProducts);
@@ -79,12 +79,12 @@ public class ProductController {
 	
 	@GetMapping("/updateProduct")
 	public String updateStock(@ModelAttribute("product") @Valid @RequestBody Product product, BindingResult result, Model model) {
-		Product p = pService.findProductById(product.getId());
+		Product p = pService.findById(product.getId());
 		p.setUnit(product.getUnit() + p.getUnit());
 		if(result.hasErrors()) {
 			return "stockEntryForm";
 		}
-		pService.updateProduct(p);
+		pService.save(p);
 		return "forward:/product/listproducts";
 	}
 	
@@ -93,20 +93,20 @@ public class ProductController {
 		if(bindingResult.hasErrors()) {
 			return "productform";
 		}
-		pService.createProduct(product);
+		pService.save(product);
 		return "forward:/product/listproducts";
 	}
 	
 	@GetMapping("/edit/{id}")
 	public String showEditForm(Model model, @PathVariable("id") Long id) {
-		model.addAttribute("product", pService.findProductById(id));
+		model.addAttribute("product", pService.findById(id));
 		return "productform";
 	}
 	
 	@GetMapping("/delete/{id}")
 	public String deleteMethod(Model model, @PathVariable("id") Long id) {
-		Product product = pService.findProductById(id);
-		pService.deleteProduct(product);
+		Product product = pService.findById(id);
+		pService.delete(product);
 		return "forward:/product/listproducts";
 	}
 	
@@ -124,7 +124,7 @@ public class ProductController {
 		}
 		System.out.println(RoleType.ADMIN);
 		System.out.println(user.getRole());
-		List<Product> listProducts = pService.listAllProducts(keyword);
+		List<Product> listProducts = pService.findAll();
 		model.addAttribute("products", listProducts);
 	    model.addAttribute("keyword", keyword);
 		return "products";

@@ -10,33 +10,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import team5.model.RoleType;
+import team5.model.Supplier;
 import team5.model.User;
-import team5.repo.UserRepository;
+import team5.repo.UserRepo;
 
 @Service
 @Transactional
-public class UserImplementation implements UserInterface {
+public class UserServiceImpl implements UserService {
 
 	@Autowired
-	UserRepository userRepo;
+	UserRepo userRepo;
 	
-	@Override
+	public void save(User user) {
+		userRepo.save(user);
+	}
+	
 	public User findById(long id) {
 		return userRepo.findById(id).get();
 	}
 	
-	@Override
-	public boolean authenticate(User user) {
-		User dbuser = userRepo.findByUserName(user.getUserName());
-		if (dbuser==null) {
-			return false;
-		}else if(dbuser.getUserName().equals(user.getUserName()) && dbuser.getPassword().equals(user.getPassword())){
-			return true;
-		}else {
-			return false;
-		}
-	}
-
+	/*
 	@Override
 	public boolean updateUser(User user) {
 		User userCheck = userRepo.findById(user.getId()).get();
@@ -49,17 +42,7 @@ public class UserImplementation implements UserInterface {
 			userRepo.save(userCheck);
 			return true;
 		}
-	}
-
-	@Override
-	public boolean createUser(User user) {
-		if (userRepo.findByUserName(user.getUserName())== null) {
-			userRepo.save(user);
-			return true;
-		}else {
-			return false;
-		}
-	}
+	}*/
 
 	@Override
 	public ArrayList<User> findByJobRole(RoleType roleType) {
@@ -78,15 +61,12 @@ public class UserImplementation implements UserInterface {
 		return users;
 	}
 
-	@Override
-	public void deleteUsers(String[] users) {
-		for(String user: users) {
-			User temp = userRepo.findByUserName(user);
-			userRepo.delete(temp);
-		}
+/*
+	public void delete(User user) {
+		User temp = userRepo.findByUserName(user);
+		userRepo.delete(temp);
 		return;
-
-	}
+	}*/
 
 }
 

@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import team5.model.UsageRecord;
-import team5.repo.UsageRecordRepository;
+import team5.repo.UsageRepo;
 
 @Service
 public class UsageRecordServiceImpl implements UsageRecordService {
 	
 	@Autowired
-	UsageRecordRepository urepo;
+	UsageRepo urepo;
 	
 	@Transactional
 	public void addUsage(UsageRecord ur) {

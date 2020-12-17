@@ -10,7 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import team5.model.RoleType;
 import team5.model.Supplier;
@@ -38,7 +37,7 @@ public class SupplierController {
 			return "redirect:/user/login";
 		}
 		else if(user.getRole()==RoleType.ADMIN)
-			model.addAttribute("suppliers", supservice.findAllSuppliers());
+			model.addAttribute("suppliers", supservice.findAll());
 			return "suppliers";
 			
 	}
@@ -64,7 +63,7 @@ public class SupplierController {
 			return "redirect:/user/login";
 		}
 		else if(user.getRole()==RoleType.ADMIN)
-			model.addAttribute("suppliers", supservice.findSupplierById(id));
+			model.addAttribute("suppliers", supservice.findById(id));
 			return "supplierform";
 
 	}
@@ -83,7 +82,7 @@ public class SupplierController {
 		}
 		
 		if(user.getRole()==RoleType.ADMIN)
-			supservice.saveSupplier(supplier);
+			supservice.save(supplier);
 			return "forward:/supplier/list";
 
 	}
@@ -94,14 +93,7 @@ public class SupplierController {
 		if (user == null) {
 			return "redirect:/user/login";
 		}else if(user.getRole()==RoleType.ADMIN)
-			supservice.deleteSupplier(supservice.findSupplierById(id));
+			supservice.delete(supservice.findById(id));
 			return "forward:/supplier/list";
-	
 	}
-	
-	
-	
-	
-	
-	
 }

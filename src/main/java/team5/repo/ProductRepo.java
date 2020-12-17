@@ -14,9 +14,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import team5.model.Product;
+import team5.model.Supplier;
 
-public interface ProductRepository extends JpaRepository<Product, Long>{
+public interface ProductRepo extends JpaRepository<Product, Long>{
 	public ArrayList<Product> findAll();
+	
+	@Query("Select s from Product s where s.name = :nm")
+	List<Product> findByName(@Param("nm")String name);
 
     @Query("SELECT DISTINCT p FROM Product p  WHERE p.partNumber LIKE :Partnum%")
     @Transactional(readOnly = true)

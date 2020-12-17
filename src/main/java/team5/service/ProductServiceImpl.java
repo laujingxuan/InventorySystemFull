@@ -4,19 +4,51 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import team5.model.Product;
-import team5.repo.ProductRepository;
-
+import team5.repo.ProductRepo;
 
 @Service
+@Transactional
 public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
-	ProductRepository prepo;
+	ProductRepo prepo;
+	
+	@Transactional
+	public void save(Product product) {
+		prepo.save(product);
+	}
+	
+	@Transactional
+	public Product findById(Long id) {
+		return prepo.findById(id).get();
+	}
+	
+	@Transactional
+	public Product findByName(String name) {
+		return prepo.findByName(name).get(0);
+	}
+	
+	@Transactional
+	public ArrayList<Product> findAll(){
+		return prepo.findAll(); 
+	}
+	
+
+	
+	
+	public List<Product> listAllProducts(String keyword) {		
+		System.out.println(keyword);
+			if(keyword != null) {
+				return prepo.search(keyword);
+			}
+			return prepo.findAll();		
+	}
 	
 	@Transactional
 	public ArrayList<String> FindAllPartNumber(){
@@ -38,5 +70,17 @@ public class ProductServiceImpl implements ProductService {
 	        return prepo.findAll();
 	    }
 	     
+	
+	/*
+	@Override
+	public void updateStock(Long quantity, Long id) {		
+		productRepo.reduceStock(quantity, id);	
+	}*/
+	
+	@Override
+	public void delete(Product product) {
+		prepo.delete(product);
+		
+	}
 
 }

@@ -6,13 +6,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import team5.model.UsageRecord;
 import team5.model.UsageRecordDetail;
-import team5.repo.UsageRecordDetailRepository;
+import team5.repo.UsageDetailRepo;
 
 @Service
 public class UsageRecordDetailServiceImpl implements UsageRecordDetailService {
 	
 	@Autowired
-	UsageRecordDetailRepository urdrepo;
+	UsageDetailRepo urdrepo;
 	
 	@Transactional
 	public void addUsage(UsageRecordDetail ur) {

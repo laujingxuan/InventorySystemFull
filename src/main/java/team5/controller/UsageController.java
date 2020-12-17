@@ -18,14 +18,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import team5.model.Product;
 import team5.model.UsageRecordDetail;
-import team5.service.ProductInterface;
+import team5.service.IService;
 
 @Controller
 @RequestMapping("/usage")
 public class UsageController {
 	
 	@Autowired
-	private ProductInterface productInterface;
+	private IService<Product> productInterface;
 	
 	@PostMapping("/report")
 	public ModelAndView usageReport(@RequestParam("startDate") String startD, @RequestParam("endDate") String endD, @RequestParam("productSelected") long id) throws ParseException {
@@ -37,7 +37,7 @@ public class UsageController {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date startDate = formatter.parse(startD);
 		Date endDate = formatter.parse(endD);
-		Product product = productInterface.findProductById(id);
+		Product product = productInterface.findById(id);
 		List<UsageRecordDetail> fullUsageList = product.getUsageDetailList();
 		List<UsageRecordDetail> usageList = new ArrayList<UsageRecordDetail>();
 		for(UsageRecordDetail x : fullUsageList) {

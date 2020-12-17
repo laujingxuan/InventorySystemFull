@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import team5.model.UsageRecord;
 
-public interface UsageRecordRepository extends JpaRepository<UsageRecord, Long> {
+public interface UsageRepo extends JpaRepository<UsageRecord, Long> {
 	
 	//@Query("Select u from UsageRecord u where u.usageRecordDetail.product.id =:pid")
 	//public List<UsageRecord> findUsageRecord(@Param("pid")long pid);

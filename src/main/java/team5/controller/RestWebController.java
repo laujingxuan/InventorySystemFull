@@ -1,4 +1,4 @@
-package team5.controller;
+/*package team5.controller;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -24,6 +24,7 @@ import team5.model.RoleType;
 import team5.model.User;
 import team5.nonEntityModel.ProductNotFoundException;
 import team5.nonEntityModel.UserListAJAX;
+import team5.service.IService;
 import team5.service.ProductInterface;
 import team5.service.UserInterface;
 
@@ -35,7 +36,7 @@ public class RestWebController {
 	private UserInterface userInterface;
 	
 	@Autowired
-	private ProductInterface pInterface;
+	private IService<Product> pInterface;
 	
 	//for the javascript AJAX call, listing of users
 	@PostMapping("/user/users")
@@ -95,3 +96,4 @@ public class RestWebController {
 	}
 }
 
+*/

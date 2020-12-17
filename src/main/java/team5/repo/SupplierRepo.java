@@ -9,8 +9,8 @@ import org.springframework.data.repository.query.Param;
 
 import team5.model.Supplier;
 
-public interface SupplierRepository extends JpaRepository<Supplier, Long> {
+public interface SupplierRepo extends JpaRepository<Supplier, Long> {
 	
 	@Query("Select s from Supplier s where s.supplierName = :snm")
-	List<Supplier> findSupplierByName(@Param("snm")String name);
+	List<Supplier> findByName(@Param("snm")String name);
 }

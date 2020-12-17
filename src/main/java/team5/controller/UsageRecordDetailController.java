@@ -26,11 +26,12 @@ import team5.model.ProductMapForm;
 import team5.model.ProductMapFormWrapper;
 import team5.model.UsageRecordDetail;
 import team5.model.User;
-import team5.repo.ProductRepository;
+import team5.repo.ProductRepo;
 import team5.service.EmailService;
-import team5.service.ProductInterface;
+import team5.service.IService;
 import team5.service.ProductService;
 import team5.service.ProductServiceImpl;
+import team5.service.SessionService;
 import team5.service.UsageRecordDetailService;
 import team5.service.UsageRecordDetailServiceImpl;
 import team5.service.UsageRecordService;
@@ -47,16 +48,19 @@ public class UsageRecordDetailController {
 	ProductService pservice;
 	
 	@Autowired
-	ProductRepository prepo;
+	ProductRepo prepo;
 	
 	@Autowired
-    private ProductInterface pService;
+    private IService<Product> pService;
 
     @Autowired
     UsageRecordDetailService urdservice;
     
     @Autowired
     UsageRecordService urservice;
+    
+    @Autowired
+	private SessionService ssvc;
     
     @Autowired 
     public void setUsageRecordService(UsageRecordServiceImpl urimpl){
@@ -79,10 +83,7 @@ public class UsageRecordDetailController {
 
 	@RequestMapping(value = "/add-part")
 	public String addpart(Model model,HttpSession session) {
-		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/user/login";
-		}
+		ssvc.redirectIfNotLoggedIn(session);
 		
 		model.addAttribute("part",new UsageRecordDetail());
 		ArrayList<String> partnum = pservice.FindAllPartNumber();
@@ -92,12 +93,9 @@ public class UsageRecordDetailController {
 	
     @RequestMapping(value = "/part-list/{id}")
     public String viewPartList(Model model, @Param("keyword") String keyword , @PathVariable("id") Long id,HttpSession session) {
-		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/user/login";
-		}
+    	ssvc.redirectIfNotLoggedIn(session);
 		
-        List<Product> listProducts = pService.listAllProducts(keyword);
+        List<Product> listProducts = pService.findAll();
         ArrayList<ProductMapForm> productMapFormL = new ArrayList<ProductMapForm>();
         for (Product x: listProducts) {
         	ProductMapForm temp = new ProductMapForm(x);
@@ -119,18 +117,15 @@ public class UsageRecordDetailController {
     public String updateStock(@ModelAttribute ProductMapFormWrapper productMapFormW, Model model
                              ,@RequestParam("usageRecordId")Long id,HttpSession session) {
             
-		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/user/login";
-		}
+    	ssvc.redirectIfNotLoggedIn(session);
 
 		System.out.println("Used Quantity");
 		for (int i = 0; i < productMapFormW.getProductMapFormL().size(); i++) {
 
-			Product p = pService.findProductById(productMapFormW.getProductMapFormL().get(i).getId());
+			Product p = pService.findById(productMapFormW.getProductMapFormL().get(i).getId());
 			if (p.getUnit() > productMapFormW.getProductMapFormL().get(i).getQuantityUsed()) {
 				p.setUnit(p.getUnit() - productMapFormW.getProductMapFormL().get(i).getQuantityUsed());
-				pService.updateProduct(p);
+				pService.save(p);
 				if (p.getUnit() < p.getMinReoderLevel()) {
 					emailService.sendMail("eaintchitthae94@gmail.com", "Remainder for product",
 							"Product (" + p.getName() + ") is lower than the minimun stock level");
@@ -140,12 +135,12 @@ public class UsageRecordDetailController {
 		ArrayList<UsageRecordDetail> urdList = new ArrayList<UsageRecordDetail>();
 		UsageRecordDetail urd;
 		for (int x = 0; x < productMapFormW.getProductMapFormL().size(); x++) {
-			pService.updateStock(productMapFormW.getProductMapFormL().get(x).getQuantityUsed(),
-					productMapFormW.getProductMapFormL().get(x).getId());
+			//pService.updateStock(productMapFormW.getProductMapFormL().get(x).getQuantityUsed(),
+					//productMapFormW.getProductMapFormL().get(x).getId());
 
 			if ((productMapFormW.getProductMapFormL().get(x).getQuantityUsed()) != 0) {
 				urd = new UsageRecordDetail(
-						pService.findProductById(productMapFormW.getProductMapFormL().get(x).getId()),
+						pService.findById(productMapFormW.getProductMapFormL().get(x).getId()),
 						urservice.findUsageById(id), productMapFormW.getProductMapFormL().get(x).getQuantityUsed());
 				urdList.add(urd);
 				urdservice.addUsage(urd);

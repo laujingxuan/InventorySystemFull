@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import team5.model.RoleType;
 import team5.model.User;
 import team5.nonEntityModel.UserForm;
-import team5.service.UserInterface;
+import team5.service.UserService;
 import team5.validator.UserFormValidator;
 
 @Controller
@@ -28,7 +28,7 @@ import team5.validator.UserFormValidator;
 public class UserController {
 
 	@Autowired
-	private UserInterface userInterface;
+	private UserService usvc;
 	
 	@Autowired
 	private UserFormValidator userFormValidator;
@@ -36,33 +36,6 @@ public class UserController {
 	@InitBinder("userForm")
 	protected void initBinder(WebDataBinder binder) {
 		binder.addValidators(userFormValidator);
-	}
-	
-	//everyone can login
-	@RequestMapping(path = "/login")
-	public String login(Model model) {
-		User u = new User();
-		model.addAttribute("user", u);
-		return "login";
-	}
-	
-	@GetMapping("/logout")
-	public ModelAndView logout(HttpSession session) {
-		session.invalidate();
-		ModelAndView mv = new ModelAndView("redirect:/user/login");
-		return mv;
-	}
-	
-	@RequestMapping(path = "/authenticate")
-	public String authenticate(@ModelAttribute("user") User user, Model model, HttpSession session) {
-		if(userInterface.authenticate(user)) 
-		{
-			User u = userInterface.findByUsername(user.getUserName());
-			session.setAttribute("user", u);
-			return "index";
-		}
-		else
-			return "login";
 	}
 	
 	//only admin can retrieve the list
@@ -111,7 +84,8 @@ public class UserController {
 			return mv;
 		}
 		User user = new User(userForm);
-		boolean success = userInterface.createUser(user);
+		//if (userRepo.findByUserName(user.getUserName())== null) {}
+		boolean success = usvc.save(user);
 		if (success == false) {
 			mv.setViewName("error");
 			mv.addObject("errorMessage","Adding user fail");
@@ -130,7 +104,7 @@ public class UserController {
 		if (user == null) {
 			mv.setViewName("redirect:/user/login");
 		}else if(user.getRole()==RoleType.ADMIN){
-			User toChange = userInterface.findById(id);
+			User toChange = usvc.findById(id);
 			mv.addObject("roleType", RoleType.values());
 			UserForm userForm = new UserForm(toChange);
 			mv.addObject("userForm", userForm);
@@ -154,7 +128,7 @@ public class UserController {
 		}
 		User user = new User(userForm);
 		long id = user.getId();
-		boolean success = userInterface.updateUser(user);
+		boolean success = usvc.updateUser(user);
 		if (success == true) {
 			mv.setViewName("redirect:/user/users");
 			return mv;
@@ -192,7 +166,7 @@ public class UserController {
 			return mv;
 		}
 		User user = new User(userForm);
-		boolean success = userInterface.updateUser(user);
+		boolean success = usvc.updateUser(user);
 		if (success == true) {
 			session.setAttribute("user", user);
 			mv.setViewName("redirect:/");
@@ -205,6 +179,7 @@ public class UserController {
 	}
 	
 	//only admin can delete
+	/*
 	@PostMapping("/delete")
 	public ModelAndView deleteUser(@RequestParam(value = "deleteUser", required = false) String[] deleteUsers, HttpSession session) {
 		User user = (User) session.getAttribute("user");
@@ -218,5 +193,5 @@ public class UserController {
 			mv.setViewName("redirect:/user/users");
 		}
 		return mv;
-	}
+	}*/
 }

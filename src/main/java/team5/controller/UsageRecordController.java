@@ -14,7 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import team5.model.RoleType;
 import team5.model.UsageRecord;
 import team5.model.User;
-import team5.repo.ProductRepository;
+import team5.repo.ProductRepo;
+import team5.service.SessionService;
 import team5.service.UsageRecordService;
 import team5.service.UsageRecordServiceImpl;
 
@@ -26,7 +27,10 @@ public class UsageRecordController {
 	UsageRecordService uservice;
 	
 	@Autowired
-	private ProductRepository prepo;
+	private ProductRepo prepo;
+	
+	@Autowired
+	private SessionService ssvc;
 	
 
 	@Autowired
@@ -36,26 +40,15 @@ public class UsageRecordController {
 	
 	@RequestMapping(value = "/add")
 	public String addform(Model model,HttpSession session) {
-		
-		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/user/login";
-		}
+		ssvc.redirectIfNotLoggedIn(session);
 		
 		model.addAttribute("usage",new UsageRecord());
-
 		return "stock-usage-form";
 	}
 	
 	@RequestMapping(value = "/list")
 	public String list(Model model,HttpSession session) {
-		
-		
-		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/user/login";
-		}
-		
+		ssvc.redirectIfNotLoggedIn(session);
 		
 		model.addAttribute("usage", uservice.listUsageRecord());
 		model.addAttribute("product",prepo.findAll());
@@ -65,10 +58,7 @@ public class UsageRecordController {
 	@RequestMapping(value = "/save")
     public String saveSupplier(@ModelAttribute("usage") @Valid UsageRecord usagerecord,
             BindingResult bindingResult, Model model,HttpSession session) {
-		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/user/login";
-		}
+		ssvc.redirectIfNotLoggedIn(session);
 		
 		if(bindingResult.hasErrors()) {
             return "stock-usage-form";

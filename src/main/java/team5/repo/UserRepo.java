@@ -11,7 +11,7 @@ import team5.model.RoleType;
 import team5.model.User;
 
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepo extends JpaRepository<User, Long> {
 	public User findByUserName(String userName);
 	public ArrayList<User> findByRole(RoleType roleType);
 }
