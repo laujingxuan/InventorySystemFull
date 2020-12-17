@@ -36,7 +36,7 @@ public class SupplierController {
 	@RequestMapping(value = "/list")
 	public String list(Model model, HttpSession session) {
 		session_svc.redirectIfNotLoggedIn(session);
-		session_svc.ensureUserHasPermission(session);
+		session_svc.redirectIfNoPermission(session);
 		
 		model.addAttribute("suppliers", supplier_svc.findAll());
 		return "suppliers";
@@ -46,7 +46,7 @@ public class SupplierController {
 	@RequestMapping(value = "/add")
 	public String addForm(Model model,HttpSession session) {
 		session_svc.redirectIfNotLoggedIn(session);
-		session_svc.ensureUserHasPermission(session);
+		session_svc.redirectIfNoPermission(session);
 		
 		model.addAttribute("suppliers", new Supplier());
 		return "supplierform";
@@ -55,7 +55,7 @@ public class SupplierController {
 	@RequestMapping(value = "/edit/{id}")
 	public String editForm(@PathVariable("id") Long id, Model model,HttpSession session) {
 		session_svc.redirectIfNotLoggedIn(session);
-		session_svc.ensureUserHasPermission(session);
+		session_svc.redirectIfNoPermission(session);
 		
 		model.addAttribute("suppliers", supplier_svc.findById(id));
 		return "supplierform";
@@ -66,7 +66,7 @@ public class SupplierController {
 			BindingResult bindingResult, Model model,HttpSession session) {
 		
 		session_svc.redirectIfNotLoggedIn(session);
-		session_svc.ensureUserHasPermission(session);
+		session_svc.redirectIfNoPermission(session);
 		
 		if(bindingResult.hasErrors()) {
 			return "supplierform";
@@ -79,7 +79,7 @@ public class SupplierController {
 	@RequestMapping(value = "/delete/{id}")
 	public String deleteSupplier(@PathVariable("id") Long id,HttpSession session) {
 		session_svc.redirectIfNotLoggedIn(session);
-		session_svc.ensureUserHasPermission(session);
+		session_svc.redirectIfNoPermission(session);
 		
 		supplier_svc.delete(supplier_svc.findById(id));
 		return "forward:/supplier/list";

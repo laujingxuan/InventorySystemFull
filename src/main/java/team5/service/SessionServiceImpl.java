@@ -36,7 +36,7 @@ public class SessionServiceImpl implements SessionService {
 		return null;
 	}
 	
-	public String ensureUserHasPermission(HttpSession session) {
+	public String redirectIfNoPermission(HttpSession session) {
 
 		User user = (User) session.getAttribute("user");
 		if (user.getRole()==RoleType.ADMIN) {

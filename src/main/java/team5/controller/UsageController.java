@@ -8,34 +8,34 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import team5.model.Product;
 import team5.model.UsageRecordDetail;
-import team5.service.IService;
+import team5.service.ProductService;
 
 @Controller
 @RequestMapping("/usage")
 public class UsageController {
 	
 	@Autowired
-	private IService<Product> productInterface;
+	private ProductService product_svc;
 	
 	@PostMapping("/report")
-	public ModelAndView usageReport(@RequestParam("startDate") String startD, @RequestParam("endDate") String endD, @RequestParam("productSelected") long id) throws ParseException {
-		ModelAndView mv = new ModelAndView();
+	public String usageReport(Model model, @RequestParam("startDate") String startD, @RequestParam("endDate") String endD, @RequestParam("productSelected") long id) throws ParseException {
+		
 		if (endD == "" || startD == "") {
-			mv.setViewName("redirect:/usage/report");
-			return mv;
+			return "redirect:/usage/report";
 		}
+		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date startDate = formatter.parse(startD);
 		Date endDate = formatter.parse(endD);
-		Product product = productInterface.findById(id);
+		Product product = product_svc.findById(id);
 		List<UsageRecordDetail> fullUsageList = product.getUsageDetailList();
 		List<UsageRecordDetail> usageList = new ArrayList<UsageRecordDetail>();
 		for(UsageRecordDetail x : fullUsageList) {
@@ -43,21 +43,19 @@ public class UsageController {
 				usageList.add(x);
 			}
 		}
-		mv.setViewName("usageReportDetails");
-		mv.addObject("product",product);
-		mv.addObject("usageList", usageList);
-		mv.addObject("fromDate", startD);
-		mv.addObject("ToDate", endD);
-		return mv;
+
+		model.addAttribute("product",product);
+		model.addAttribute("usageList", usageList);
+		model.addAttribute("fromDate", startD);
+		model.addAttribute("ToDate", endD);
+		return "usageReportDetails";
 	}
 	
 	@GetMapping("/report")
-	public ModelAndView usageReport() {
-		ModelAndView mv = new ModelAndView();
-		List<Product> products = productInterface.findAll();
-		mv.setViewName("usageReport");
-		mv.addObject("products", products);
-		return mv;
+	public String usageReport(Model model) {
+
+		model.addAttribute("products", product_svc.findAll());
+		return "usageReport";
 	}
 	
 	

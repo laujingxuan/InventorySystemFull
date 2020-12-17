@@ -51,7 +51,7 @@ public class UserController {
 	@GetMapping("/add")
 	public String addUser(Model model, HttpSession session) {
 		session_svc.redirectIfNotLoggedIn(session);
-		session_svc.ensureUserHasPermission(session);
+		session_svc.redirectIfNoPermission(session);
 		
 		model.addAttribute("userForm", new UserForm());
 		return "editUser";
@@ -74,7 +74,7 @@ public class UserController {
 	@GetMapping("/users")
 	public String viewUser(Model model, HttpSession session) {
 		session_svc.redirectIfNotLoggedIn(session);
-		session_svc.ensureUserHasPermission(session);
+		session_svc.redirectIfNoPermission(session);
 		
 		model.addAttribute("users", user_svc.findAll());
 		return "UserList";
@@ -85,7 +85,7 @@ public class UserController {
 	@RequestMapping(value = "/edit/{id}")
 	public String editUser(@PathVariable("id") long id, Model model, HttpSession session) {
 		session_svc.redirectIfNotLoggedIn(session);
-		session_svc.ensureUserHasPermission(session);
+		session_svc.redirectIfNoPermission(session);
 		
 		User toChange = user_svc.findById(id);
 		// mv.addObject("roleType", RoleType.values());
@@ -97,7 +97,7 @@ public class UserController {
 	@PostMapping("/save")
 	public String editUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult, HttpSession session) {
 		session_svc.redirectIfNotLoggedIn(session);
-		session_svc.ensureUserHasPermission(session);
+		session_svc.redirectIfNoPermission(session);
 		
 		if (bindingResult.hasErrors()) {
 			return "editUser";
@@ -112,7 +112,7 @@ public class UserController {
 	@GetMapping("/update")
 	public String updateUser(Model model, HttpSession session) {
 		session_svc.redirectIfNotLoggedIn(session);
-		session_svc.ensureUserHasPermission(session);
+		session_svc.redirectIfNoPermission(session);
 		
 		model.addAttribute("userForm", new UserForm());
 		return "editUser";
@@ -121,7 +121,7 @@ public class UserController {
 	@PostMapping("/update")
 	public String updateUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult, HttpSession session) {
 		session_svc.redirectIfNotLoggedIn(session);
-		session_svc.ensureUserHasPermission(session);
+		session_svc.redirectIfNoPermission(session);
 		
 		if (bindingResult.hasErrors()) {
 			return "editUser";
@@ -137,7 +137,7 @@ public class UserController {
 	@RequestMapping(value = "/delete/{id}")
 	public String deleteUser(@PathVariable("id") Long id,HttpSession session) {
 		session_svc.redirectIfNotLoggedIn(session);
-		session_svc.ensureUserHasPermission(session);
+		session_svc.redirectIfNoPermission(session);
 		
 		user_svc.delete(user_svc.findById(id));
 		return "forward:/supplier/list";
