@@ -62,9 +62,9 @@ public class ProductTest {
 	
 	@Test
 	public void saveUsageRecord() throws ParseException {
-		Product first = productRepo.findById((long)1);
-		Product second = productRepo.findById((long)2);
-		Product third = productRepo.findById((long)3);
+		Product first = productRepo.findById((long)1).get();
+		Product second = productRepo.findById((long)2).get();
+		Product third = productRepo.findById((long)3).get();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 		Date fDate = formatter.parse("01-12-2020");
 		Date sDate = formatter.parse("03-12-2020");
