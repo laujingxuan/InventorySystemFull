@@ -59,7 +59,7 @@ public class UserController {
 		{
 			User u = userInterface.findByUsername(user.getUserName());
 			session.setAttribute("user", u);
-			return "welcome";
+			return "index";
 		}
 		else
 			return "login";
