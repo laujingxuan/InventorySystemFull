@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +18,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.sun.tools.javac.code.Flags.Flag;
 
 import team5.model.Product;
 import team5.repo.ProductRepository;
 import team5.service.ProductInterface;
+import team5.service.ProductService;
 
 @Controller
 @RequestMapping("/product")
@@ -29,7 +34,14 @@ public class ProductController {
 //	@Autowired
 //	ProductRepository productRepo;
 //	
-	
+    @Autowired
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
+    }
+
+    @Autowired
+    ProductService productService;
+
 	@Autowired
 	private ProductInterface pService;
 	
@@ -92,11 +104,24 @@ public class ProductController {
 	}
 	
 	@GetMapping("/listproducts")
-	public String listProductForm(Model model, @Param("keyword") String keyword) {
-		
+	public String listProductForm(Model model, @RequestParam(value = "page", defaultValue = "0") Integer page,@Param("keyword") String keyword,
+								@RequestParam(value ="size", defaultValue = "3") Integer size) {
+		Page<Product> list = productService.findBookNoCriteria(page, size);
 		List<Product> listProducts = pService.listAllProducts(keyword);
-		model.addAttribute("products", listProducts);
+		model.addAttribute("products", list);
+        model.addAttribute("pageCount",list.getTotalPages()-1);
 	    model.addAttribute("keyword", keyword);
 		return "products";
 	}
+	
+    @RequestMapping("/findBookNoQuery")
+    public String findBookNoQuery(Model model,@RequestParam(value = "page", defaultValue = "0") Integer page,@Param("keyword") String keyword,
+                                  @RequestParam(value ="size", defaultValue = "3") Integer size){
+        Page<Product> list = productService.findBookNoCriteria(page, size);
+        model.addAttribute("products", list);
+        model.addAttribute("pageCount",list.getTotalPages()-1);
+	    model.addAttribute("keyword", keyword);
+
+        return "products";
+    }
 }
