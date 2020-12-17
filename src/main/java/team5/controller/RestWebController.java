@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,6 +37,7 @@ public class RestWebController {
 	@Autowired
 	private ProductInterface pInterface;
 	
+	//for the javascript AJAX call, listing of users
 	@PostMapping("/user/users")
 	public ResponseEntity<?> viewUser(@RequestBody UserListAJAX userListForm) {
 		List<User> users;
@@ -75,10 +77,14 @@ public class RestWebController {
 	//update the quantity based on the product id and return the new quantity
 	@PutMapping("api/products/{id}/{quantity}")
 	public ResponseEntity<?> updateProductQuantity(@PathVariable(value = "id") Long id, @PathVariable(value="quantity") Integer quantity) {
-		return ResponseEntity.ok(pInterface.findById(id).map(product -> {
+		Product product = pInterface.findById(id).get();
+		if (product.getUnit()<quantity) {
+			return ResponseEntity.badRequest()
+		            .body("Not enough stock");
+		}else {
 			product.setUnit(product.getUnit()- quantity);
-			return pInterface.updateProduct(product);
-			}).get().getUnit());
+			return ResponseEntity.ok(pInterface.updateProduct(product));
+		}
 	}
 	
 	//delete the product
