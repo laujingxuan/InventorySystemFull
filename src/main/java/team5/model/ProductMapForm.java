@@ -28,7 +28,7 @@ public class ProductMapForm {
 	private Supplier supplier;
 	private long reorderLevel;
 	private long minReoderLevel;
-	private int quantityUsed;
+	private long quantityUsed;
 	
 	public ProductMapForm() {
 		super();
@@ -190,11 +190,11 @@ public class ProductMapForm {
 
 
 
-	public int getQuantityUsed() {
+	public long getQuantityUsed() {
 		return quantityUsed;
 	}
 
-	public void setQuantityUsed(int quantityUsed) {
+	public void setQuantityUsed(long quantityUsed) {
 		this.quantityUsed = quantityUsed;
 	}
 
