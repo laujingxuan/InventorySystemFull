@@ -1,27 +1,40 @@
 package team5.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+
+import javax.validation.Valid;
+import javax.servlet.http.HttpSession;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import team5.model.Product;
 import team5.model.ProductMapForm;
 import team5.model.ProductMapFormWrapper;
 import team5.model.UsageRecordDetail;
+import team5.model.User;
 import team5.repo.ProductRepository;
+import team5.service.EmailService;
 import team5.service.ProductInterface;
 import team5.service.ProductService;
 import team5.service.ProductServiceImpl;
 import team5.service.UsageRecordDetailService;
 import team5.service.UsageRecordDetailServiceImpl;
+import team5.service.UsageRecordService;
+import team5.service.UsageRecordServiceImpl;
 
 
  
@@ -38,16 +51,26 @@ public class UsageRecordDetailController {
 	
 	@Autowired
     private ProductInterface pService;
+
+    @Autowired
+    UsageRecordDetailService urdservice;
+    
+    @Autowired
+    UsageRecordService urservice;
+    
+    @Autowired 
+    public void setUsageRecordService(UsageRecordServiceImpl urimpl){
+    	this.urservice=urimpl;
+    }
+    
+	@Autowired
+	private EmailService emailService;
 	
 	@Autowired
 	public void setProductService(ProductServiceImpl pimpl) {
 		this.pservice = pimpl;
 	}
 	
-
-    @Autowired
-    UsageRecordDetailService urdservice;
-    
     @Autowired
     public void setUsageRecordDetailService(UsageRecordDetailServiceImpl urdserviceImpl) {
         this.urdservice = urdserviceImpl;
@@ -55,40 +78,104 @@ public class UsageRecordDetailController {
     
 
 	@RequestMapping(value = "/add-part")
-	public String addpart(Model model) {
+	public String addpart(Model model,HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		if (user == null) {
+			return "redirect:/user/login";
+		}
+		
 		model.addAttribute("part",new UsageRecordDetail());
 		ArrayList<String> partnum = pservice.FindAllPartNumber();
 		model.addAttribute("partnum", partnum);
 		return "stock-usage-detail-form";
 	}
 	
-    @RequestMapping("/part-list")
-    public String viewPartList(Model model, @Param("keyword") String keyword) {
+    @RequestMapping(value = "/part-list/{id}")
+    public String viewPartList(Model model, @Param("keyword") String keyword , @PathVariable("id") Long id,HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		if (user == null) {
+			return "redirect:/user/login";
+		}
+		
         List<Product> listProducts = pService.listAllProducts(keyword);
         ArrayList<ProductMapForm> productMapFormL = new ArrayList<ProductMapForm>();
         for (Product x: listProducts) {
         	ProductMapForm temp = new ProductMapForm(x);
         	productMapFormL.add(temp);
         }
-        ProductMapFormWrapper wrapper = new ProductMapFormWrapper();
-        System.out.println(productMapFormL.get(0).getId());
+        ProductMapFormWrapper wrapper = new ProductMapFormWrapper();        
         wrapper.setProductMapFormL(productMapFormL);
         model.addAttribute("productMapFormWrapper", wrapper);
         model.addAttribute("products", listProducts);
         model.addAttribute("keyword", keyword);
+        model.addAttribute("usagerecordid",id);
         
         return "part-list";
        
     }
     
     @RequestMapping(value = "/update-stock", method = RequestMethod.POST)
-    public String updateStock(@ModelAttribute ProductMapFormWrapper productMapFormW, Model model) {
-    	System.out.println("1"+productMapFormW.getProductMapFormL().get(0).getDescription());
-    	System.out.println("2"+productMapFormW.getProductMapFormL().get(0).getId());
-    	System.out.println("2"+productMapFormW.getProductMapFormL().get(0).getQuantityUsed());
-    	//    	pService.updateStock(quantity, id);
-    	return "stock-usage-list";
-    }
+
+    public String updateStock(@ModelAttribute ProductMapFormWrapper productMapFormW, Model model
+                             ,@RequestParam("usageRecordId")Long id,HttpSession session) {
+            
+		User user = (User) session.getAttribute("user");
+		if (user == null) {
+			return "redirect:/user/login";
+		}
+
+		System.out.println("Used Quantity");
+		for (int i = 0; i < productMapFormW.getProductMapFormL().size(); i++) {
+
+			Product p = pService.findProductById(productMapFormW.getProductMapFormL().get(i).getId());
+			if (p.getUnit() > productMapFormW.getProductMapFormL().get(i).getQuantityUsed()) {
+				p.setUnit(p.getUnit() - productMapFormW.getProductMapFormL().get(i).getQuantityUsed());
+				pService.updateProduct(p);
+				if (p.getUnit() < p.getMinReoderLevel()) {
+					emailService.sendMail("eaintchitthae94@gmail.com", "Remainder for product",
+							"Product (" + p.getName() + ") is lower than the minimun stock level");
+				}
+			}
+		}
+		ArrayList<UsageRecordDetail> urdList = new ArrayList<UsageRecordDetail>();
+		UsageRecordDetail urd;
+		for (int x = 0; x < productMapFormW.getProductMapFormL().size(); x++) {
+			pService.updateStock(productMapFormW.getProductMapFormL().get(x).getQuantityUsed(),
+					productMapFormW.getProductMapFormL().get(x).getId());
+
+			if ((productMapFormW.getProductMapFormL().get(x).getQuantityUsed()) != 0) {
+				urd = new UsageRecordDetail(
+						pService.findProductById(productMapFormW.getProductMapFormL().get(x).getId()),
+						urservice.findUsageById(id), productMapFormW.getProductMapFormL().get(x).getQuantityUsed());
+				urdList.add(urd);
+				urdservice.addUsage(urd);
+			}
+
+		}
+
+		model.addAttribute("usage", urdList);
+		model.addAttribute("usagerecordid", id);
+
+		return "updatestock";
+		
+
+		
+
+	}
+}
+    //public String updateStock(@ModelAttribute ProductMapFormWrapper productMapFormW @Valid @RequestBody Product product, Model model) {
+    
+	/*
+	 * @RequestMapping(value = "/update-stock", method = RequestMethod.POST) public
+	 * String updateStock(@ModelAttribute ProductMapFormWrapper productMapFormW,
+	 * Model model) {
+	 * System.out.println("1"+productMapFormW.getProductMapFormL().get(0).
+	 * getDescription());
+	 * System.out.println("2"+productMapFormW.getProductMapFormL().get(0).getId());
+	 * System.out.println("2"+productMapFormW.getProductMapFormL().get(0).
+	 * getQuantityUsed()); // pService.updateStock(quantity, id); return
+	 * "stock-usage-list"; }
+	 */
     
 //    @RequestMapping("/part-list")
 //    public String viewPartList(Model model, @Param("keyword") String keyword) {
@@ -146,4 +233,3 @@ public class UsageRecordDetailController {
 //        return "owners/findOwners";
 //    }
 
-}
