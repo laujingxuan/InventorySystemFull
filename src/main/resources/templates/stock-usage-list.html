@@ -20,16 +20,15 @@
             <th>UsageRecord CarPlate</th>
             <th>UsageRecord Date</th>
             <th>Add Part</th>
-            <th>Quantity</th>
-            <th>Edit UsageRecord</th>
-            <th>Delete UsageRecord</th>
+
         </tr>
         <tr th:each="usagerecord:${usage}" >
             <td th:text=${usagerecord.id}>Id</td>
             <td th:text="${usagerecord.customerName}">UsageRecord CustomerName</td>
             <td th:text=${usagerecord.carPlate}>UsageRecord CarPlate</td>
             <td th:text=${usagerecord.date}>UsageRecord Date</td>
-            
+            <td><a href="part-list.html"
+                th:href="@{/detail/part-list/}+${usagerecord.id}">add</a></td>
             <!-- 
             <td><ul>
   				<li th:each="usagerecorddetail:${usagerecord.usageRecordDetail}">
@@ -62,7 +61,7 @@
             </div>
             </td> 
             -->
-            
+            <!-- 
             <td>
             <div th:each="usagerecorddetail:${usagerecord.usageRecordDetail}">
             	<a th:each="product:${usagerecorddetail.product}">
@@ -77,14 +76,11 @@
             	</a>
             </div>
             </td> 
-            
+             -->
             <!--<td th:text=${usagerecord.UsageRecordDetail.product.partNumber}>Part list</td>  -->
             <!--<td th:text=${usagerecord.usageRecordDetail.product.unit}>Quantity</td>  --> 
            
-            <td><a href="EditUsageRecord.html"
-                th:href="@{/usagerecord/edit/}+${usagerecord.id}">Edit</a></td>
-            <td><a href="DeleteUsageRecord.html"
-                th:href="@{/usagerecord/delete/}+${usagerecord.id}">Delete</a></td>
+
         </tr>
     </table>
     

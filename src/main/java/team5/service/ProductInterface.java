@@ -12,5 +12,5 @@ public interface ProductInterface {
 	public Product findProductById(long id);
 	public void deleteProduct(Product product);
 	//public List<Product> productsByName();
-	public void updateStock(Long quantity, Long id);
+	public void updateStock(Long i, Long id);
 }
