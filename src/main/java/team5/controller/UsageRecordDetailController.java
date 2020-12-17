@@ -119,50 +119,50 @@ public class UsageRecordDetailController {
     public String updateStock(@ModelAttribute ProductMapFormWrapper productMapFormW, Model model
                              ,@RequestParam("usageRecordId")Long id,HttpSession session) {
             
-         User user = (User) session.getAttribute("user");
-		      if (user == null) {
-			    return "redirect:/user/login";
-		          }
-  
-    	System.out.println("Used Quantity");
-    	for (int i = 0; i < productMapFormW.getProductMapFormL().size(); i++) {
-    		
-    		Product p = pService.findProductById(productMapFormW.getProductMapFormL().get(i).getId());
-    		if(p.getUnit()> productMapFormW.getProductMapFormL().get(i).getQuantityUsed()) {
-    			p.setUnit(p.getUnit() -productMapFormW.getProductMapFormL().get(i).getQuantityUsed());
-    			pService.updateProduct(p);
-    			if(p.getUnit()<p.getMinReoderLevel()) {
-    				emailService.sendMail("eaintchitthae94@gmail.com", "Remainder for product", "Product (" + p.getName() + ") is lower than the minimun stock level");
-    			}
-          
-    	
-    	ArrayList<UsageRecordDetail> urdList = new ArrayList <UsageRecordDetail>();
-    	UsageRecordDetail urd;
-    	for(int x = 0; x <productMapFormW.getProductMapFormL().size(); x++ )
-    	{
-        	pService.updateStock(productMapFormW.getProductMapFormL().get(x).getQuantityUsed(), productMapFormW.getProductMapFormL().get(x).getId());
-        	
-        	if((productMapFormW.getProductMapFormL().get(x).getQuantityUsed())!= 0){
-            	urd = new UsageRecordDetail(pService.findProductById(productMapFormW.getProductMapFormL().get(x).getId()),
-            			urservice.findUsageById(id), productMapFormW.getProductMapFormL().get(x).getQuantityUsed());
-            	urdList.add(urd);
-            	urdservice.addUsage(urd);
-        	}
+		User user = (User) session.getAttribute("user");
+		if (user == null) {
+			return "redirect:/user/login";
+		}
 
-    	}
-    	
-    	
-    	model.addAttribute("usage",urdList);
-    	model.addAttribute("usagerecordid",id);
-    	
-    	
-    	return "updatestock";
-    		}
+		System.out.println("Used Quantity");
+		for (int i = 0; i < productMapFormW.getProductMapFormL().size(); i++) {
 
-    	
-    	
-    }
-    
+			Product p = pService.findProductById(productMapFormW.getProductMapFormL().get(i).getId());
+			if (p.getUnit() > productMapFormW.getProductMapFormL().get(i).getQuantityUsed()) {
+				p.setUnit(p.getUnit() - productMapFormW.getProductMapFormL().get(i).getQuantityUsed());
+				pService.updateProduct(p);
+				if (p.getUnit() < p.getMinReoderLevel()) {
+					emailService.sendMail("eaintchitthae94@gmail.com", "Remainder for product",
+							"Product (" + p.getName() + ") is lower than the minimun stock level");
+				}
+			}
+		}
+		ArrayList<UsageRecordDetail> urdList = new ArrayList<UsageRecordDetail>();
+		UsageRecordDetail urd;
+		for (int x = 0; x < productMapFormW.getProductMapFormL().size(); x++) {
+			pService.updateStock(productMapFormW.getProductMapFormL().get(x).getQuantityUsed(),
+					productMapFormW.getProductMapFormL().get(x).getId());
+
+			if ((productMapFormW.getProductMapFormL().get(x).getQuantityUsed()) != 0) {
+				urd = new UsageRecordDetail(
+						pService.findProductById(productMapFormW.getProductMapFormL().get(x).getId()),
+						urservice.findUsageById(id), productMapFormW.getProductMapFormL().get(x).getQuantityUsed());
+				urdList.add(urd);
+				urdservice.addUsage(urd);
+			}
+
+		}
+
+		model.addAttribute("usage", urdList);
+		model.addAttribute("usagerecordid", id);
+
+		return "updatestock";
+		
+
+		
+
+	}
+}
     //public String updateStock(@ModelAttribute ProductMapFormWrapper productMapFormW @Valid @RequestBody Product product, Model model) {
     
 	/*
@@ -233,4 +233,3 @@ public class UsageRecordDetailController {
 //        return "owners/findOwners";
 //    }
 
-}
