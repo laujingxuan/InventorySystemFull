@@ -6,7 +6,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-    <h1>Product Listing</h1>
+    <h1>Part Listing</h1>
     <form th:action="@{/detail/part-list}" class="search">
         Filter: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required /> &nbsp;
             <input type="submit" value="Search" /> &nbsp; 
@@ -30,15 +30,21 @@
             <td th:text="${product.getUnit()}">ID</td>
             <td th:text="${product.getPartNumber()}">ID</td>
             <td><a href="EditProduct.html" th:href="@{/product/edit/}+${product.getId()}" th:utext="#{products.page.edit}">Edit</a></td>
+            
             <td><input type="text" th:field = "*{ProductMapFormL[__${stat.index}__].quantityUsed}"></td>
             <td> <input type="hidden" th:field="*{ProductMapFormL[__${stat.index}__].id}" th:value ="${product.getId()}"></td>
         </tr>
     </table>
-    
+ 		<input type="hidden" name="usageRecordId" th:value="${usagerecordid}">
          <fieldset>
             <button type="submit" value="Save">Save</button>
         </fieldset>
     </form>
+    
+     <br>
+    <input type="button" value="return to usage list"
+					onclick="window.location.href='/usage/list'; return false"
+					class="button" />
     
     <script type="text/javascript">
     function clearSearch() {

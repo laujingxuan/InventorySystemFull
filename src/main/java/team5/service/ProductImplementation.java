@@ -1,10 +1,12 @@
 package team5.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import team5.model.Product;
@@ -24,14 +26,14 @@ public class ProductImplementation implements ProductInterface {
 	}
 
 	@Override
-	public void createProduct(Product product) {
-		productRepo.save(product);
+	public Product createProduct(Product product) {
+		return productRepo.save(product);
 		
 	}
 
 	@Override
-	public void updateProduct(Product product) {
-		productRepo.save(product);
+	public Product updateProduct(Product product) {
+		return productRepo.save(product);
 		
 	}	
 
@@ -40,10 +42,15 @@ public class ProductImplementation implements ProductInterface {
 		productRepo.delete(product);
 		
 	}
+	
+	@Override
+	public void deleteById(Long id) {
+		productRepo.deleteById(id);
+	}
 
 	@Override
 	public Product findProductById(long id) {
-		return productRepo.findById(id);
+		return productRepo.findById(id).get();
 	}
 
 	@Override
@@ -58,6 +65,11 @@ public class ProductImplementation implements ProductInterface {
 	@Override
 	public void updateStock(Long quantity, Long id) {		
 		productRepo.reduceStock(quantity, id);	
+	}
+
+	@Override
+	public Optional<Product> findById(long id) {
+		return productRepo.findById(id);
 	}
 
 //	@Override

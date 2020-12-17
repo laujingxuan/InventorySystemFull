@@ -29,11 +29,14 @@ public class UsageController {
 	
 	@PostMapping("/report")
 	public ModelAndView usageReport(@RequestParam("startDate") String startD, @RequestParam("endDate") String endD, @RequestParam("productSelected") long id) throws ParseException {
-		
+		ModelAndView mv = new ModelAndView();
+		if (endD == "" || startD == "") {
+			mv.setViewName("redirect:/usage/report");
+			return mv;
+		}
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date startDate = formatter.parse(startD);
 		Date endDate = formatter.parse(endD);
-		ModelAndView mv = new ModelAndView();
 		Product product = productInterface.findProductById(id);
 		List<UsageRecordDetail> fullUsageList = product.getUsageDetailList();
 		List<UsageRecordDetail> usageList = new ArrayList<UsageRecordDetail>();
