@@ -2,6 +2,7 @@ package team5.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import team5.model.Product;
+import team5.model.RoleType;
+import team5.model.User;
+import team5.nonEntityModel.UserForm;
 import team5.repo.ProductRepository;
 import team5.service.ProductInterface;
 
@@ -44,14 +49,25 @@ public class ProductController {
 	}
 	
 	@GetMapping("/stock")
-	public String showStockEntryForm(Model model, @Param("keyword") String keyword) {
-		keyword = null;
-		List<Product> listProducts = pService.listAllProducts(keyword);
-		Product p = new Product();
-		model.addAttribute("products", listProducts);
-	    model.addAttribute("keyword", keyword);
-	    model.addAttribute("product", p);
-		return "stockEntryForm";
+	public ModelAndView showStockEntryForm(Model model, @Param("keyword") String keyword, HttpSession session) {
+		
+		User user = (User) session.getAttribute("user");
+		ModelAndView mv = new ModelAndView();
+		if (user == null) {
+			mv.setViewName("redirect:/user/login");
+		}else if(user.getRole()==RoleType.ADMIN){
+			keyword = null;
+			List<Product> listProducts = pService.listAllProducts(keyword);
+			Product p = new Product();
+			mv.setViewName("stockEntryForm");
+			mv.addObject("products", listProducts);
+			mv.addObject("keyword", keyword);
+			mv.addObject("product", p);			
+		}else {
+			mv.addObject("errorMessage","You have no access to this page");
+			mv.setViewName("error");
+		}
+		return mv;
 	}
 	
 	@GetMapping("/add")
@@ -65,6 +81,9 @@ public class ProductController {
 	public String updateStock(@ModelAttribute("product") @Valid @RequestBody Product product, BindingResult result, Model model) {
 		Product p = pService.findProductById(product.getId());
 		p.setUnit(product.getUnit() + p.getUnit());
+		if(result.hasErrors()) {
+			return "stockEntryForm";
+		}
 		pService.updateProduct(p);
 		return "forward:/product/listproducts";
 	}
@@ -92,8 +111,19 @@ public class ProductController {
 	}
 	
 	@GetMapping("/listproducts")
-	public String listProductForm(Model model, @Param("keyword") String keyword) {
+	public String listProductForm(Model model, @Param("keyword") String keyword, HttpSession session) {
 		
+		User user = (User) session.getAttribute("user");
+		ModelAndView mv = new ModelAndView();
+		if (user == null) {
+			mv.setViewName("redirect:/user/login");
+		}else if(user.getRole()==RoleType.ADMIN){
+			model.addAttribute("role", true);
+		}else {
+			model.addAttribute("role", false);
+		}
+		System.out.println(RoleType.ADMIN);
+		System.out.println(user.getRole());
 		List<Product> listProducts = pService.listAllProducts(keyword);
 		model.addAttribute("products", listProducts);
 	    model.addAttribute("keyword", keyword);

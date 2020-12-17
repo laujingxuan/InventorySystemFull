@@ -8,23 +8,24 @@
 </head>
 <body>
 	<h1>Stock Entry Form</h1>
-	 <form action="" th:object="${product}" th:action="@{/product/updateProduct}" method="get">
-		<!-- <fieldset>
-			Unit: <input type="text" th:field="*{unit}">
-		</fieldset> -->
+	 <form action="" th:object="${product}" th:action="@{/product/updateProduct}" method="get">		
 		<table>
 			<tr>
 				<td>Product:</td>
 				<td>
 					<select class="form-control" name="id" id="id">
-                    <option value="0">select product</option>
+                    <!-- <option value="0">select product</option> -->
                     <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name}"></option>
                 </select>
+                
 				</td>				
 			</tr>
 			<tr>
 				<td>Unit:</td>
-				<td><input type="text" th:field="*{unit}"></td>
+				<td>
+					<input type="text" th:field="*{unit}">
+					<p th:if="${#fields.hasErrors('unit')}" th:errors="*{unit}"></p>
+				</td>
 			</tr>
 			
 			<tr>
