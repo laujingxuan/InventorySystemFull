@@ -42,7 +42,7 @@ public class Product {
 	@Digits(integer = 8, fraction = 2)
 	private long PriceFPartner;
 	private long subcategory;
-	@Digits(integer = 8, fraction = 0)
+	@Digits(integer = 8, fraction = 0, message = "Enter integer value")
 	private long unit;
 	private String partNumber;
 

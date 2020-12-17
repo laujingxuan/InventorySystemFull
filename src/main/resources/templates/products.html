@@ -30,8 +30,8 @@
 			<th>Part Number</th>
 			<th>Reorder Level</th>
 			<th>Min Reorder Level</th>
-			<th>Edit Link</th>
-			<th>Delete Link</th>			
+			<th th:if="${role}">Edit Link</th>
+			<th th:if="${role}">Delete Link</th>			
 		</tr>
 		<tr th:each="product:${products}">
 			<td th:text="${product.id}">ID</td>
@@ -50,8 +50,8 @@
 			<td th:text="${product.partNumber}">ID</td>
 			<td th:text="${product.reorderLevel}">ID</td>
 			<td th:text="${product.minReoderLevel}">ID</td>
-			<td><a href="EditProduct.html" th:href="@{/product/edit/}+${product.id}" th:utext="#{products.page.edit}">Edit</a></td>
-			<td><a href="DeleteProduct.html" th:href="@{/product/delete/}+${product.id}" th:utext="#{products.page.delete}">Delete</a></td>
+			<td  th:if="${role}"><a href="EditProduct.html" th:href="@{/product/edit/}+${product.id}" th:utext="#{products.page.edit}">Edit</a></td>
+			<td  th:if="${role}"><a href="DeleteProduct.html" th:href="@{/product/delete/}+${product.id}" th:utext="#{products.page.delete}">Delete</a></td>
 		</tr>
 	</table>
 	<script type="text/javascript">

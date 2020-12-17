@@ -1,7 +1,10 @@
 package team5.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -17,6 +21,7 @@ import team5.model.ProductMapForm;
 import team5.model.ProductMapFormWrapper;
 import team5.model.UsageRecordDetail;
 import team5.repo.ProductRepository;
+import team5.service.EmailService;
 import team5.service.ProductInterface;
 import team5.service.ProductService;
 import team5.service.ProductServiceImpl;
@@ -38,6 +43,9 @@ public class UsageRecordDetailController {
 	
 	@Autowired
     private ProductInterface pService;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	@Autowired
 	public void setProductService(ProductServiceImpl pimpl) {
@@ -70,8 +78,7 @@ public class UsageRecordDetailController {
         	ProductMapForm temp = new ProductMapForm(x);
         	productMapFormL.add(temp);
         }
-        ProductMapFormWrapper wrapper = new ProductMapFormWrapper();
-        System.out.println(productMapFormL.get(0).getId());
+        ProductMapFormWrapper wrapper = new ProductMapFormWrapper();        
         wrapper.setProductMapFormL(productMapFormL);
         model.addAttribute("productMapFormWrapper", wrapper);
         model.addAttribute("products", listProducts);
@@ -83,12 +90,45 @@ public class UsageRecordDetailController {
     
     @RequestMapping(value = "/update-stock", method = RequestMethod.POST)
     public String updateStock(@ModelAttribute ProductMapFormWrapper productMapFormW, Model model) {
-    	System.out.println("1"+productMapFormW.getProductMapFormL().get(0).getDescription());
-    	System.out.println("2"+productMapFormW.getProductMapFormL().get(0).getId());
-    	System.out.println("2"+productMapFormW.getProductMapFormL().get(0).getQuantityUsed());
-    	//    	pService.updateStock(quantity, id);
+    	System.out.println("Used Quantity");
+    	for (int i = 0; i < productMapFormW.getProductMapFormL().size(); i++) {
+    		
+    		Product p = pService.findProductById(productMapFormW.getProductMapFormL().get(i).getId());
+    		if(p.getUnit()> productMapFormW.getProductMapFormL().get(i).getQuantityUsed()) {
+    			p.setUnit(p.getUnit() -productMapFormW.getProductMapFormL().get(i).getQuantityUsed());
+    			pService.updateProduct(p);
+    			if(p.getUnit()<p.getMinReoderLevel()) {
+    				emailService.sendMail("eaintchitthae94@gmail.com", "Remainder for product", "Product (" + p.getName() + ") is lower than the minimun stock level");
+    			}
+    		}
+    		
+			/*
+			 * if(productMapFormW.getProductMapFormL().get(i).getUnit() >
+			 * productMapFormW.getProductMapFormL().get(i).getQuantityUsed()) {
+			 * System.out.println("Loop"); Product p =
+			 * pService.findProductById(productMapFormW.getProductMapFormL().get(i).getId())
+			 * ; p.setUnit(p.getUnit() -
+			 * productMapFormW.getProductMapFormL().get(i).getQuantityUsed());
+			 * System.out.println(p.toString()); pService.updateProduct(p); }
+			 */
+			//System.out.println(productMapFormW.getProductMapFormL().get(i).getId() + "  "+productMapFormW.getProductMapFormL().get(i).getQuantityUsed());
+		}    	
     	return "stock-usage-list";
     }
+    
+    //public String updateStock(@ModelAttribute ProductMapFormWrapper productMapFormW @Valid @RequestBody Product product, Model model) {
+    
+	/*
+	 * @RequestMapping(value = "/update-stock", method = RequestMethod.POST) public
+	 * String updateStock(@ModelAttribute ProductMapFormWrapper productMapFormW,
+	 * Model model) {
+	 * System.out.println("1"+productMapFormW.getProductMapFormL().get(0).
+	 * getDescription());
+	 * System.out.println("2"+productMapFormW.getProductMapFormL().get(0).getId());
+	 * System.out.println("2"+productMapFormW.getProductMapFormL().get(0).
+	 * getQuantityUsed()); // pService.updateStock(quantity, id); return
+	 * "stock-usage-list"; }
+	 */
     
 //    @RequestMapping("/part-list")
 //    public String viewPartList(Model model, @Param("keyword") String keyword) {
