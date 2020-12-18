@@ -13,7 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 import com.sun.istack.NotNull;
@@ -22,6 +22,7 @@ import com.sun.istack.NotNull;
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Min(value = 1, message = "Please select product")
 	private long id;
 	@NotNull
 	@Digits(integer = 8, fraction = 2)
@@ -42,7 +43,8 @@ public class Product {
 	@Digits(integer = 8, fraction = 2)
 	private long PriceFPartner;
 	private long subcategory;
-	@Digits(integer = 8, fraction = 0, message = "Enter integer value")
+	@Digits(integer = 8, fraction = 0)
+	@Min(value = 1, message = "Enter integer value that is greater than zero!")
 	private long unit;
 	private String partNumber;
 

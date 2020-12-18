@@ -11,6 +11,7 @@
 		Filter: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required /> &nbsp;
 			<input type="submit" value="Search" /> &nbsp; 
 			<input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
+			<input type="button" value="Add new product" id="btnAdd" onclick="Add()" />
 	</form>
 	<table>
 		<tr>
@@ -57,6 +58,9 @@
 	<script type="text/javascript">
     function clearSearch() {
         window.location = "[[@{/product/listproducts}]]";
+    }
+    function Add(){
+    	window.location = "[[@{/product/add}]]";
     }
 </script>
 </body>

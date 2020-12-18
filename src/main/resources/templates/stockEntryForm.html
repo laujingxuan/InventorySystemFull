@@ -13,11 +13,12 @@
 			<tr>
 				<td>Product:</td>
 				<td>
-					<select class="form-control" name="id" id="id">
-                    <!-- <option value="0">select product</option> -->
+					<select class="form-control" name="id" id="id" th:field="*{id}">
+                    <option value="0">select product</option>
                     <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name}"></option>
                 </select>
-                
+                <p th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></p>
+                <!-- <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p> -->
 				</td>				
 			</tr>
 			<tr>

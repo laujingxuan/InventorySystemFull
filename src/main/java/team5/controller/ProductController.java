@@ -78,12 +78,20 @@ public class ProductController {
 	}
 	
 	@GetMapping("/updateProduct")
-	public String updateStock(@ModelAttribute("product") @Valid @RequestBody Product product, BindingResult result, Model model) {
+	public String updateStock(@ModelAttribute("product") @Valid @RequestBody Product product, BindingResult result, Model model) {		
+		System.out.println(product.toString());
+		System.out.println(result);
+		if(result.hasErrors() || product.getId() == 0) {
+			String keyword = null;
+			List<Product> listProducts = pService.listAllProducts(keyword);
+			Product p = new Product();
+			model.addAttribute("products", listProducts);
+			//model.addAttribute("keyword", keyword);
+			//model.addAttribute("product", p);
+			 return "stockEntryForm"; 
+		}
 		Product p = pService.findProductById(product.getId());
 		p.setUnit(product.getUnit() + p.getUnit());
-		if(result.hasErrors()) {
-			return "stockEntryForm";
-		}
 		pService.updateProduct(p);
 		return "forward:/product/listproducts";
 	}
