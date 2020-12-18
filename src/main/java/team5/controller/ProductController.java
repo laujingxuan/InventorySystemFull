@@ -99,17 +99,10 @@ public class ProductController {
 	@GetMapping("/listproducts")
 	public String listProductForm(Model model, @Param("keyword") String keyword, HttpSession session) {
 		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
-		if (session_svc.hasNoPermission(session)) return "nopermission";
-		
-		/*
-		}else if(user.getRole()==RoleType.ADMIN){
-			model.addAttribute("role", true);
-		}else {
-			model.addAttribute("role", falses);
-		}*/
 
 		model.addAttribute("products",  product_svc.findAll());
 	    model.addAttribute("keyword", keyword);
+	    model.addAttribute("hasPermission", session_svc.hasPermission(session));
 		return "products";
 	}
 }

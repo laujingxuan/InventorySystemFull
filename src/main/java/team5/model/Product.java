@@ -44,8 +44,8 @@ public class Product {
 	private long unit;
 	private String partNumber;
 
-	@OneToMany(mappedBy = "product")
-	private List<UsageRecordDetail> usageDetailList;
+	@OneToMany(mappedBy = "stocktranx")
+	private List<StockTransaction> stockTranxList;
 
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="SUPP_ID")
@@ -222,11 +222,14 @@ public class Product {
 	public void setMinReoderLevel(long minReoderLevel) {
 		this.minReoderLevel = minReoderLevel;
 	}
-	public List<UsageRecordDetail> getUsageDetailList() {
-		return usageDetailList;
+	
+	public List<StockTransaction> getStockTranxList() {
+		return stockTranxList;
 	}
-	public void setUsageDetailList(List<UsageRecordDetail> usageDetailList) {
-		this.usageDetailList = usageDetailList;
+
+
+	public void setStockTranxList(List<StockTransaction> stockTranxList) {
+		this.stockTranxList = stockTranxList;
 	}
 
 

@@ -58,8 +58,7 @@ public class UsageRecordController {
 	}
 	
 	@RequestMapping(value = "/save")
-    public String saveSupplier(@ModelAttribute("usage") @Valid UsageRecord usagerecord,
-            BindingResult bindingResult, Model model, HttpSession session) {
+    public String saveSupplier(@ModelAttribute("usage") @Valid UsageRecord usagerecord, BindingResult bindingResult, Model model, HttpSession session) {
 		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 		if(bindingResult.hasErrors()) return "stock-usage-form";
 		
