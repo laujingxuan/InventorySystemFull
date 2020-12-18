@@ -42,7 +42,7 @@ public class UsageRecordController {
 	
 	@RequestMapping(value = "/add")
 	public String addform(Model model,HttpSession session) {
-		session_svc.redirectIfNotLoggedIn(session);
+		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 		
 		model.addAttribute("usage",new UsageRecord());
 		return "stock-usage-form";
@@ -50,7 +50,7 @@ public class UsageRecordController {
 	
 	@RequestMapping(value = "/list")
 	public String list(Model model,HttpSession session) {
-		session_svc.redirectIfNotLoggedIn(session);
+		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 		
 		model.addAttribute("usage", ur_svc.findAll());
 		model.addAttribute("product",product_svc.findAll());
@@ -59,12 +59,9 @@ public class UsageRecordController {
 	
 	@RequestMapping(value = "/save")
     public String saveSupplier(@ModelAttribute("usage") @Valid UsageRecord usagerecord,
-            BindingResult bindingResult, Model model,HttpSession session) {
-		session_svc.redirectIfNotLoggedIn(session);
-		
-		if(bindingResult.hasErrors()) {
-            return "stock-usage-form";
-        }
+            BindingResult bindingResult, Model model, HttpSession session) {
+		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
+		if(bindingResult.hasErrors()) return "stock-usage-form";
 		
 		User user = (User) session.getAttribute("user");
 		usagerecord.setUserName(user);

@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import team5.model.Product;
 import team5.service.ProductService;
+import team5.service.ProductServiceImpl;
 import team5.service.SessionService;
+import team5.service.SessionServiceImpl;
 
 @Controller
 @RequestMapping("/product")
@@ -28,11 +30,12 @@ public class ProductController {
 	private ProductService product_svc;
 	
 	@Autowired
-	private SessionService session_svcimpl;
+	private SessionService session_svc;
 	
 	@Autowired
-	public void setpService(ProductService pService) {
-		this.product_svc = pService;
+	public void SetImplimentation(ProductServiceImpl product_svcimpl, SessionServiceImpl session_svcimpl) {
+		this.product_svc = product_svcimpl;
+		this.session_svc = session_svcimpl;
 	}
 
 	@InitBinder()
@@ -42,8 +45,8 @@ public class ProductController {
 	
 	@GetMapping("/stock")
 	public String showStockEntryForm(Model model, @Param("keyword") String keyword, HttpSession session) {
-		session_svcimpl.redirectIfNotLoggedIn(session);
-		session_svcimpl.redirectIfNoPermission(session);
+		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
+		if (session_svc.hasNoPermission(session)) return "nopermission";
 		/*
 		}else if(user.getRole()==RoleType.ADMIN){
 			keyword = null;*/
@@ -64,20 +67,18 @@ public class ProductController {
 	
 	@GetMapping("/updateProduct")
 	public String updateStock(@ModelAttribute("product") @Valid @RequestBody Product product, BindingResult result, Model model) {
+		if (result.hasErrors()) return "stockEntryForm";
+		
 		Product p = product_svc.findById(product.getId());
 		p.setUnit(product.getUnit() + p.getUnit());
-		if(result.hasErrors()) {
-			return "stockEntryForm";
-		}
 		product_svc.save(p);
 		return "forward:/product/listproducts";
 	}
 	
 	@GetMapping("/save")
 	public String saveProductForm(@ModelAttribute("product") @Valid Product product,BindingResult bindingResult, Model model){
-		if(bindingResult.hasErrors()) {
-			return "productform";
-		}
+		if (bindingResult.hasErrors()) return "productform";
+		
 		product_svc.save(product);
 		return "forward:/product/listproducts";
 	}
@@ -97,8 +98,8 @@ public class ProductController {
 	
 	@GetMapping("/listproducts")
 	public String listProductForm(Model model, @Param("keyword") String keyword, HttpSession session) {
-		session_svcimpl.redirectIfNotLoggedIn(session);
-		session_svcimpl.redirectIfNoPermission(session);
+		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
+		if (session_svc.hasNoPermission(session)) return "nopermission";
 		
 		/*
 		}else if(user.getRole()==RoleType.ADMIN){

@@ -39,10 +39,25 @@ public class SessionServiceImpl implements SessionService {
 	public String redirectIfNoPermission(HttpSession session) {
 
 		User user = (User) session.getAttribute("user");
-		if (user.getRole()==RoleType.ADMIN) {
-			return null;
+		if (user.getRole() != RoleType.ADMIN) {
+			return "nopermission";
 		}
-		return "nopermission";
+		return null;
+	}
+	
+	public boolean isNotLoggedIn(HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		if (user == null)
+			return true;
+		else 
+			return false;
+	}
+	public boolean hasNoPermission(HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		if (user.getRole() != RoleType.ADMIN)
+			return true;
+		else 
+			return false;
 	}
 }
 

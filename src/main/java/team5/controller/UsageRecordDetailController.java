@@ -60,7 +60,7 @@ public class UsageRecordDetailController {
 
 	@RequestMapping(value = "/add-part")
 	public String addpart(Model model,HttpSession session) {
-		session_svc.redirectIfNotLoggedIn(session);
+		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 		
 		model.addAttribute("part",new UsageRecordDetail());
 		ArrayList<String> partnum = product_svc.FindAllPartNumber();
@@ -70,7 +70,7 @@ public class UsageRecordDetailController {
 	
     @RequestMapping(value = "/part-list/{id}")
     public String viewPartList(Model model, @Param("keyword") String keyword , @PathVariable("id") Long id,HttpSession session) {
-    	session_svc.redirectIfNotLoggedIn(session);
+		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 		
         List<Product> listProducts = product_svc.findAll();
         ArrayList<ProductMapForm> productMapFormL = new ArrayList<ProductMapForm>();
@@ -92,9 +92,9 @@ public class UsageRecordDetailController {
     @RequestMapping(value = "/update-stock", method = RequestMethod.POST)
 
     public String updateStock(@ModelAttribute ProductMapFormWrapper productMapFormW, Model model
-                             ,@RequestParam("usageRecordId")Long id,HttpSession session) {
+                             ,@RequestParam("usageRecordId") Long id, HttpSession session) {
             
-    	session_svc.redirectIfNotLoggedIn(session);
+		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 
 		System.out.println("Used Quantity");
 		for (int i = 0; i < productMapFormW.getProductMapFormL().size(); i++) {
