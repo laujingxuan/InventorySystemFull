@@ -24,7 +24,8 @@ public class UserServiceImpl implements UserService {
 		userRepo.save(user);
 	}
 	
-	public User findById(long id) {
+	@Override
+	public User findById(Long id) {
 		return userRepo.findById(id).get();
 	}
 	
@@ -61,23 +62,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void delete(User x) {
-		// TODO Auto-generated method stub
-		
-	}
-
-/*
 	public void delete(User user) {
 		User temp = userRepo.findByUserName(user);
 		userRepo.delete(temp);
 		return;
-	}*/
-
+	}
+	
 }
 
