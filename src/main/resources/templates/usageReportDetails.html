@@ -9,38 +9,38 @@
     <title>AddUser</title>
 </head>
 <body>
-<header th:insert="layout/layout.html :: header"></header>
-<div th:replace="layout/layout.html :: menu" ></div>
-<h1>Inventory Usage Report</h1>
-	<!-- Add Hyperlink -->
-	<table>
+  <div th:replace="layout/layout.html :: menu" ></div>
+  <br/>
+  <table>
+    <tr><th colspan="5" class="text-center">Inventory Usage Report</th></tr>
     <tr>
-      <td>From: </td>
+      <td class="bold">From: </td>
       <td th:text="${fromDate}">FromDate</td>
-      <td>To: </td>
+      <td class="bold">To: </td>
       <td th:text="${ToDate}">ToDate</td>
       <td colspan="2"></td>
     </tr>
     <tr>
-      <td>Product ID: </td>
+      <td class="bold">Product ID: </td>
       <td th:text="${product.id}">Product ID</td>
-      <td>Type: </td>
+      <td class="bold">Type: </td>
       <td th:text="${product.type}">Type</td>
-      <td>Sub-Category</td>
+      <td class="bold">Sub-Category</td>
       <td th:text="${product.subcategory}"> Sub-Category</td>
     </tr>
     <tr>
-      <td>Product Name: </td>
+      <td class="bold">Product Name: </td>
       <td th:text="${product.name}">Product Name</td>
-      <td>Category: </td>
+      <td class="bold">Category: </td>
       <td th:text="${product.category}">Category</td>
-      <td>Original Price: </td>
+      <td class="bold">Original Price: </td>
       <td th:text="${product.originalPrice}"></td>
     </tr>
   </table>
-
-	<table th:if="${not #lists.isEmpty(usageList)}" class="table">
-		<tr>
+	<br/><br/>
+	<table th:if="${not #lists.isEmpty(usageList)}">
+		<tr><th colspan="5" class="text-center">Usage History</th></tr>
+		<tr class="text-center">
 			<th>Date</th>
 			<th>Customer Name</th>
 			<th>Car Plate</th>
@@ -52,13 +52,13 @@
 			<td th:text=${usage.usageRecord.customerName}>Customer Name</td>
 			<td th:text=${usage.usageRecord.carPlate}>Car Plate</td>
 			<td th:text=${usage.usageRecord.userName}>Employee Name</td>
-			<td th:text=${usage.quantityUsed}>Quantity Used</td>
+			<td th:text=${usage.qtyChange}>Quantity Used</td>
 		</tr>
 	</table>
-  <br/>
+  <br/><br/>
   <h3 th:unless="${not #lists.isEmpty(usageList)}">No record found</h3>
   <br/>
-  <form action="/usage/report">
+  <form action="/stock/report">
     <input type="submit" value="Back" />
   </form>
 <div th:replace="layout/layout.html :: footer"></div>  

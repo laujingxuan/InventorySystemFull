@@ -118,12 +118,19 @@ public class StockTransactionController {
 		return "stockTranxHistory";
 	}
 	
+	@GetMapping("/report")
+	public String usageReport(Model model) {
+		List<Product> products = product_svc.findAll();
+		model.addAttribute("products", products);
+		return "usageReport";
+	}
+	
 	// filter by productId and date range 
 	// done with the custom method defined in StockTransactionRepo extended from JPARepository 
-	@PostMapping("/usageReportDetails/{id}")
+	@PostMapping("/report")
 	public String usageReport(Model model, @RequestParam("startDate") String startD, @RequestParam("endDate") String endD, @RequestParam("productSelected") long id) throws ParseException {
 		if (endD == "" || startD == "") {
-			return "redirect:/usage/report";
+			return "redirect:/stock/report";
 		}
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date startDate = formatter.parse(startD);

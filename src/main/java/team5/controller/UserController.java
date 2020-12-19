@@ -146,7 +146,7 @@ public class UserController {
 	public String deleteUser(@RequestParam(value = "deleteUser", required = false) String[] deleteUsers, HttpSession session) {
 		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 		if (session_svc.hasNoPermission(session)) return "nopermission";
-		
+		System.out.println("test");
 		user_svc.deleteUsers(deleteUsers);
 		return "redirect:/user/users";
 	}
