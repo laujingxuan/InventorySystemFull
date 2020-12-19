@@ -43,20 +43,6 @@ public class ProductController {
 		
 	}
 	
-	@GetMapping("/stock")
-	public String showStockEntryForm(Model model, @Param("keyword") String keyword, HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
-		if (session_svc.hasNoPermission(session)) return "nopermission";
-		/*
-		}else if(user.getRole()==RoleType.ADMIN){
-			keyword = null;*/
-
-		model.addAttribute("products", product_svc.findAll());
-		model.addAttribute("keyword", keyword);
-		model.addAttribute("product", new Product());			
-
-		return "stockEntryForm";
-	}
 	
 	@GetMapping("/add")
 	public String showProductForm(Model model) {
@@ -65,15 +51,6 @@ public class ProductController {
 		return "productform";
 	}
 	
-	@GetMapping("/updateProduct")
-	public String updateStock(@ModelAttribute("product") @Valid @RequestBody Product product, BindingResult result, Model model) {
-		if (result.hasErrors()) return "stockEntryForm";
-		
-		Product p = product_svc.findById(product.getId());
-		p.setUnit(product.getUnit() + p.getUnit());
-		product_svc.save(p);
-		return "forward:/product/listproducts";
-	}
 	
 	@GetMapping("/save")
 	public String saveProductForm(@ModelAttribute("product") @Valid Product product,BindingResult bindingResult, Model model){
@@ -89,6 +66,17 @@ public class ProductController {
 		return "productform";
 	}
 	
+	
+	@GetMapping("/list")
+	public String listProductForm(Model model, @Param("keyword") String keyword, HttpSession session) {
+		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
+
+		model.addAttribute("products",  product_svc.searchByKeyword(keyword));
+	    model.addAttribute("keyword", keyword);
+	    model.addAttribute("hasPermission", session_svc.hasPermission(session));
+		return "products";
+	}
+	
 	@GetMapping("/delete/{id}")
 	public String deleteMethod(Model model, @PathVariable("id") Long id) {
 		Product product = product_svc.findById(id);
@@ -96,13 +84,5 @@ public class ProductController {
 		return "forward:/product/listproducts";
 	}
 	
-	@GetMapping("/listproducts")
-	public String listProductForm(Model model, @Param("keyword") String keyword, HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 
-		model.addAttribute("products",  product_svc.findAll());
-	    model.addAttribute("keyword", keyword);
-	    model.addAttribute("hasPermission", session_svc.hasPermission(session));
-		return "products";
-	}
 }

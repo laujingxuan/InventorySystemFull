@@ -26,14 +26,12 @@ public class StockTransactionServiceImpl implements StockTransactionService {
 
 	@Override
 	public StockTransaction findById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return strepo.findById(id).get();
 	}
 
 	@Override
 	public List<StockTransaction> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return strepo.findAll(); 
 	}
 	
 

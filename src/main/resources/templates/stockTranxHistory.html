@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+<link rel = "stylesheet" type="text/css" media="all" th:href="@{/css/style.css}"/>
+<title>Stock Transaction History</title>
+</head>
+<body>
+	<h1>Stock Transaction History</h1>
+	<form th:action="@{/product/listproducts}" class="search">
+		Filter: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required /> &nbsp;
+			<input type="submit" value="Search" /> &nbsp; 
+			<input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
+	</form>
+	<table>
+		<tr>
+			<th>ID</th>
+			<th>Product ID</th>
+			<th>Quantity Change</th>
+			<th>Type</th>	
+		</tr>
+		<tr th:each="stranx:${stranxs}">
+			<td th:text="${stranx.id}">ID</td>
+			<td th:text="${stranx.product.id}">ID</td>
+			<td th:text="${stranx.qtyChange}">ID</td>
+			<td th:text="${stranx.type}">ID</td>
+		</tr>
+	</table>
+	<script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/product/listproducts}]]";
+    }
+</script>
+</body>
+</html>

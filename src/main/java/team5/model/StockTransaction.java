@@ -1,10 +1,12 @@
 package team5.model;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+@Entity
 public class StockTransaction {
 
 	@Id
@@ -68,13 +70,7 @@ public class StockTransaction {
 	public void setId(long id) {
 		this.id = id;
 	}
-
-	public long getQuantityUsed() {
-		return qtyChange;
-	}
-	public void setQuantityUsed(long quantityUsed) {
-		this.qtyChange = quantityUsed;
-	}
+	
 	public Product getProduct() {
 		return product;
 	}
@@ -86,6 +82,22 @@ public class StockTransaction {
 	}
 	public void setUsageRecord(UsageRecord usageRecord) {
 		this.usageRecord = usageRecord;
+	}
+
+	public long getQtyChange() {
+		return qtyChange;
+	}
+
+	public void setQtyChange(long qtyChange) {
+		this.qtyChange = qtyChange;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 }

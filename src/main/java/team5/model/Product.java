@@ -44,7 +44,7 @@ public class Product {
 	private long unit;
 	private String partNumber;
 
-	@OneToMany(mappedBy = "stocktranx")
+	@OneToMany(mappedBy = "product")
 	private List<StockTransaction> stockTranxList;
 
     @OneToOne(cascade = {CascadeType.ALL})
@@ -231,6 +231,8 @@ public class Product {
 	public void setStockTranxList(List<StockTransaction> stockTranxList) {
 		this.stockTranxList = stockTranxList;
 	}
+
+
 
 
 

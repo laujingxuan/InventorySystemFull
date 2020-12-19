@@ -11,11 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import team5.model.Product;
+import team5.model.StockTransaction;
 import team5.model.UsageRecord;
-import team5.model.UsageRecordDetail;
 import team5.model.User;
 import team5.repo.ProductRepo;
-import team5.repo.UsageRecordDetailRepo;
+import team5.repo.StockTransactionRepo;
 import team5.repo.UsageRecordRepo;
 import team5.repo.UserRepo;
 
@@ -29,7 +29,7 @@ public class ProductTest {
 	@Autowired
 	public UsageRecordRepo usageRepo;
 	@Autowired
-	public UsageRecordDetailRepo usageDetailRepo;
+	public StockTransactionRepo strepo;
 	
 	@Test
 	public void saveProduct() {
@@ -62,22 +62,22 @@ public class ProductTest {
 	
 	@Test
 	public void saveUsageRecord() throws ParseException {
-		Product first = productRepo.findById((long)1).get();
+		Product first = productRepo.findById((long)4).get();
 		Product second = productRepo.findById((long)2).get();
 		Product third = productRepo.findById((long)3).get();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 		Date fDate = formatter.parse("01-12-2020");
 		Date sDate = formatter.parse("03-12-2020");
 		Date tDate = formatter.parse("05-12-2020");
-		User admin1 = urepo.findById((long)1).get();
+		User admin1 = urepo.findById((long)5).get();
 		UsageRecord oneR = usageRepo.save(new UsageRecord("john","SAA1235", fDate, admin1));
 		UsageRecord secondR = usageRepo.save(new UsageRecord("Mary","SAB2345", sDate, admin1));
 		usageRepo.save(new UsageRecord("Peter","SAC3456", tDate, admin1));
-		usageDetailRepo.save(new UsageRecordDetail(first,oneR,3));
-		usageDetailRepo.save(new UsageRecordDetail(second,oneR,3));
-		usageDetailRepo.save(new UsageRecordDetail(third,secondR,3));
-		usageDetailRepo.save(new UsageRecordDetail(first,secondR,3));
-		usageDetailRepo.save(new UsageRecordDetail(third,oneR,3));
+		strepo.save(new StockTransaction(first,oneR,3));
+		strepo.save(new StockTransaction(second,oneR,3));
+		strepo.save(new StockTransaction(third,secondR,3));
+		strepo.save(new StockTransaction(first,secondR,3));
+		strepo.save(new StockTransaction(third,oneR,3));
 	}	
 
 }

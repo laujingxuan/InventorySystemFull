@@ -26,7 +26,7 @@ public class UsageRecord {
 	private String userName;
 	private String customerName;
 	@OneToMany(mappedBy = "usageRecord")
-	private List<StockTransaction> stocktranx;
+	private List<StockTransaction> stockTranxList;
 
 	public UsageRecord() {
 		super();
@@ -67,11 +67,11 @@ public class UsageRecord {
 
 
 	public List<StockTransaction> getStocktranx() {
-		return stocktranx;
+		return stockTranxList;
 	}
 
 	public void setStocktranx(List<StockTransaction> stocktranx) {
-		this.stocktranx = stocktranx;
+		this.stockTranxList = stocktranx;
 	}
 
 	public String getComments() {
@@ -106,7 +106,7 @@ public class UsageRecord {
 	public String toString() {
 		return "UsageRecord [id=" + id + ", carPlate=" + carPlate + ", date=" + date + ", comments=" + comments
 				+ ", userName=" + userName + ", customerName=" + customerName + ", usageRecordDetail="
-				+ stocktranx + "]";
+				+ stockTranxList + "]";
 	}
 }
 

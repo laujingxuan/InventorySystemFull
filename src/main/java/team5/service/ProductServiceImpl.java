@@ -35,20 +35,25 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Transactional
-	public ArrayList<Product> findAll(){
+	public List<Product> findAll(){
 		return prepo.findAll(); 
 	}
 	
-
+    public List<Product> searchByKeyword(String keyword) {
+        if (keyword != null) {
+            return prepo.search(keyword);
+        }
+        return prepo.findAll();
+    }
 	
-	
+	/*
 	public List<Product> listAllProducts(String keyword) {		
 		System.out.println(keyword);
 			if(keyword != null) {
 				return prepo.search(keyword);
 			}
 			return prepo.findAll();		
-	}
+	}*/
 	
 	@Transactional
 	public ArrayList<String> FindAllPartNumber(){
@@ -61,14 +66,6 @@ public class ProductServiceImpl implements ProductService {
 		}
 		return partnum;
 	}
-	
-	
-	    public List<Product> listAll(String keyword) {
-	        if (keyword != null) {
-	            return prepo.search(keyword);
-	        }
-	        return prepo.findAll();
-	    }
 	     
 	
 	/*

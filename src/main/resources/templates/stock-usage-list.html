@@ -27,8 +27,8 @@
             <td th:text="${usagerecord.customerName}">UsageRecord CustomerName</td>
             <td th:text=${usagerecord.carPlate}>UsageRecord CarPlate</td>
             <td th:text=${usagerecord.date}>UsageRecord Date</td>
-            <td><a href="part-list.html"
-                th:href="@{/detail/part-list/}+${usagerecord.id}">add</a></td>
+            <td><a href="usageRecordDetails.html"
+                th:href="@{/stock/usageRecordDetails/}+${usagerecord.id}">add</a></td>
             <!-- 
             <td><ul>
   				<li th:each="usagerecorddetail:${usagerecord.usageRecordDetail}">
