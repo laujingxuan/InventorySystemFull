@@ -31,7 +31,7 @@
 				<td th:if="${path.equals('/user/update')}">
 					<input type="text" th:field="*{role}" th:value="*{role}" readonly>
 				</td>
-				<td th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></td>
+				<td><div th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></div></td>
 			</tr>
 			<tr>
 				<td>Username:</td>
@@ -39,15 +39,17 @@
 				<td th:if="${path.equals('/user/update')}">
 					<input type="text" th:field="*{userName}" th:value="*{userName}" readonly>
 				</td>
+				<td></td>
 			</tr>
 			<tr>
 				<td>Password:</td>
 				<td><input type="password" th:field="*{password}" placeholder="Password"></td>
-				<td th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></td>
+				<td><div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div></td>
 			</tr>
 			<tr>
 				<td>Confirm Password:</td>
 				<td><input type="password" th:field="*{confPassword}" placeholder="Password"></td>
+				<td></td>
 			</tr>
 			<tr>
 				<td><input type="submit" value="Save" /></td>

@@ -122,11 +122,9 @@ public class StockTransactionController {
 	// done with the custom method defined in StockTransactionRepo extended from JPARepository 
 	@PostMapping("/usageReportDetails/{id}")
 	public String usageReport(Model model, @RequestParam("startDate") String startD, @RequestParam("endDate") String endD, @RequestParam("productSelected") long id) throws ParseException {
-		
 		if (endD == "" || startD == "") {
 			return "redirect:/usage/report";
 		}
-		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date startDate = formatter.parse(startD);
 		Date endDate = formatter.parse(endD);

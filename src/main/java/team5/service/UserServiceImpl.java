@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 		return userRepo.findById(id).get();
 	}
 	
-	/*
+	
 	@Override
 	public boolean updateUser(User user) {
 		User userCheck = userRepo.findById(user.getId()).get();
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 			userRepo.save(userCheck);
 			return true;
 		}
-	}*/
+	}
 
 	@Override
 	public ArrayList<User> findByJobRole(RoleType roleType) {
@@ -63,8 +63,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void delete(User user) {
-		User temp = userRepo.findByUserName(user);
-		userRepo.delete(temp);
+		userRepo.delete(user);
+		return;
+	}
+	
+	@Override
+	public void deleteUsers(String[] users) {
+		for(String user: users) {
+			User temp = userRepo.findByUserName(user);
+			userRepo.delete(temp);
+		}
 		return;
 	}
 	
