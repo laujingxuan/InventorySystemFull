@@ -25,7 +25,7 @@
         <tr th:each="usagerecord:${usage}" >
 
             <td th:text="${usagerecord.Product.name}">product name</td>
-            <td th:text=${usagerecord.quantityUsed}>UsageRecord Date</td>
+            <td th:text=${usagerecord.qtyChange}>UsageRecord Date</td>
         </tr>
     </table>
     <br>

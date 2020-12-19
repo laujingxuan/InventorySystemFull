@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import team5.model.Product;
+import team5.model.ProductMapForm;
+import team5.model.ProductMapFormWrapper;
 import team5.model.StockTransaction;
 import team5.service.EmailService;
 import team5.service.ProductService;
@@ -90,23 +92,6 @@ public class StockTransactionController {
 		return "forward:/product/listproducts";
 	}
 	
-	// create stock transaction entry to decrease quantity
-	// for both admins and mechanics when adding product to a defined UsageRecord
-	// saves StockTransaction record to db, but does not map to a page. 
-	public String addStockTransationToUsageRecord(Model model, @Param("keyword") String keyword, HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
-		if (session_svc.hasNoPermission(session)) return "nopermission";
-		/*
-		}else if(user.getRole()==RoleType.ADMIN){
-			keyword = null;*/
-
-		model.addAttribute("products", product_svc.findAll());
-		model.addAttribute("keyword", keyword);
-		model.addAttribute("product", new Product());			
-
-		return null;
-	}
-	
 	/*--------------------------------Read/Retrieve------------------------------------*/
 	
 	// find all StockTransaction records, both restock(+) and withdrawals(-)
@@ -152,7 +137,7 @@ public class StockTransactionController {
 	// the page shows the details of the UsageRecord and a list of StockTransaction records 
 	// quantity change is implied to be negative (withdraw from inventory)
 	// can change 
-    /*@RequestMapping(value = "/part-list/{id}")
+    @RequestMapping(value = "/part-list/{id}")
     public String viewPartList(Model model, @Param("keyword") String keyword , @PathVariable("id") Long id,HttpSession session) {
 		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 		
@@ -169,12 +154,11 @@ public class StockTransactionController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("usagerecordid",id);
         
-        return "usageRecordForm";
-    }*/
+        return "part-list";
+    }
     
-    /*
+    
     @RequestMapping(value = "/update-stock", method = RequestMethod.POST)
-
     public String updateStock(@ModelAttribute ProductMapFormWrapper productMapFormW, Model model
                              ,@RequestParam("usageRecordId") Long id, HttpSession session) {
             
@@ -193,18 +177,18 @@ public class StockTransactionController {
 				}
 			}
 		}
-		ArrayList<UsageRecordDetail> urdList = new ArrayList<UsageRecordDetail>();
-		UsageRecordDetail urd;
+		ArrayList<StockTransaction> urdList = new ArrayList<StockTransaction>();
+		StockTransaction urd;
 		for (int x = 0; x < productMapFormW.getProductMapFormL().size(); x++) {
 			//pService.updateStock(productMapFormW.getProductMapFormL().get(x).getQuantityUsed(),
 					//productMapFormW.getProductMapFormL().get(x).getId());
 
 			if ((productMapFormW.getProductMapFormL().get(x).getQuantityUsed()) != 0) {
-				urd = new UsageRecordDetail(
+				urd = new StockTransaction(
 						product_svc.findById(productMapFormW.getProductMapFormL().get(x).getId()),
 						ur_svc.findById(id), productMapFormW.getProductMapFormL().get(x).getQuantityUsed());
 				urdList.add(urd);
-				urd_svc.save(urd);
+				st_svc.save(urd);
 			}
 
 		}
@@ -213,7 +197,7 @@ public class StockTransactionController {
 		model.addAttribute("usagerecordid", id);
 
 		return "updatestock";
-	}*/
+	}
 	
 	
 	/*------------------------------------Update------------------------------------*/
@@ -221,9 +205,9 @@ public class StockTransactionController {
     // won't be used in this project. listed and defined for clarity for developers 
     // for 1 StockTransaction record 
 	/*@GetMapping("/updateProduct")
-	public String updateStock(@ModelAttribute("product") @Valid @RequestBody Product product, BindingResult result, Model model) {
+	public String updateStock0(@ModelAttribute("product") @Valid @RequestBody Product product, BindingResult result, Model model) {
 		if (result.hasErrors()) return "stockEntryForm";
-		
+		f
 		Product p = product_svc.findById(product.getId());
 		p.setUnit(product.getUnit() + p.getUnit());
 		product_svc.save(p);
@@ -232,7 +216,7 @@ public class StockTransactionController {
 	
 	// for admin and mechanic when changing quantity of product used in 1 UsageRecord
     // for multiple StockTransaction record 
-	/*@GetMapping("/updateProduct")
+	@GetMapping("/updateProduct")
 	public String updateStock(@ModelAttribute("product") @Valid @RequestBody Product product, BindingResult result, Model model) {
 		if (result.hasErrors()) return "stockEntryForm";
 		
@@ -240,7 +224,7 @@ public class StockTransactionController {
 		p.setUnit(product.getUnit() + p.getUnit());
 		product_svc.save(p);
 		return "forward:/product/listproducts";
-	}*/
+	}
 	
 	/*
 	@RequestMapping(value = "/add-part")
