@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+<link rel = "stylesheet" type="text/css" media="all" th:href="@{/css/style.css}"/>
+<title>Reorder Report</title>
+</head>
+<body>
+	<h1>Inventory Reorder Report from Supplier <span th:text="${supplier}"></span></h1>
+	<table>
+		<tr>
+			<th>Part No.</th>
+			<th>Unit.Price</th>
+			<th>Qty</th>
+			<th>Reorder Qty.</th>
+			<th>Min.Ord.Qty</th>
+			<th>Ord.Qty</th>
+			<th>Price</th>
+		</tr>
+		<tr th:each="product:${products}">
+			<td th:text="${product.partNumber}">ID</td>
+			<td th:text="${product.priceFWholesale}">ID</td>
+			<td th:text="${product.unit}">ID</td>
+			<td th:text="${product.reorderLevel}">ID</td>
+			<td th:text="${product.minReoderLevel}">ID</td>
+			<td th:text="${product.reorderLevel-product.unit>0}? ${product.reorderLevel-product.unit}:'0'">ID</td>
+			<td th:text="${product.reorderLevel-product.unit>0}? ${(product.reorderLevel-product.unit)*product.priceFWholesale}:'0'">ID</td>
+		</tr>
+		
+		<tr style="border-top:2px solid #6678b1">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>TOTAL</td>
+			<td></td>
+		</tr>
+		
+	</table>
+	
+</body>
+</html>

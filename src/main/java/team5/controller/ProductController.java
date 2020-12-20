@@ -1,9 +1,12 @@
 package team5.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import team5.model.Product;
 import team5.service.ProductService;
@@ -68,14 +72,25 @@ public class ProductController {
 	
 	
 	@GetMapping("/list")
-	public String listProductForm(Model model, @Param("keyword") String keyword, HttpSession session) {
+	public String listProductForm(Model model, @RequestParam(value = "page", defaultValue = "0") Integer page,@Param("keyword") String keyword,
+			@RequestParam(value ="size", defaultValue = "3") Integer size, HttpSession session) {
 		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 
-		model.addAttribute("products",  product_svc.searchByKeyword(keyword));
-	    model.addAttribute("keyword", keyword);
-	    model.addAttribute("hasPermission", session_svc.hasPermission(session));
+		/*
+		 * model.addAttribute("products", product_svc.searchByKeyword(keyword));
+		 * model.addAttribute("keyword", keyword); model.addAttribute("hasPermission",
+		 * session_svc.hasPermission(session));
+		 */
+		
+		Page<Product> listProducts = product_svc.listProducts(keyword,page, size);
+		model.addAttribute("products", listProducts);
+        model.addAttribute("pageCount",listProducts.getTotalPages()-1);
+	    model.addAttribute("keyword", keyword); 
+	    model.addAttribute("hasPermission",session_svc.hasPermission(session));
 		return "products";
 	}
+	
+
 	
 	@GetMapping("/delete/{id}")
 	public String deleteMethod(Model model, @PathVariable("id") Long id) {
@@ -84,5 +99,14 @@ public class ProductController {
 		return "forward:/product/listproducts";
 	}
 	
+	@RequestMapping("/reorderreport")
+	public String showReorderReport(Model model) {
+		
+		List<Product> listProducts = product_svc.findAll();
+		model.addAttribute("products", listProducts);
+		model.addAttribute("supplier", "S1");
+		return "reorderReport";
+		
+	}
 
 }
