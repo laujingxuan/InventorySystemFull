@@ -45,6 +45,58 @@
 			<td th:if="${hasPermission}"><a href="DeleteProduct.html" th:href="@{/product/delete/}+${product.id}" th:utext="#{products.page.delete}">Delete</a></td>
 		</tr>
 	</table>
+	
+	 <nav aria-label="Page navigation">
+
+        <ul  class="pagination">
+            <li>
+                <a th:if="${products.getNumber() ne 0 and keyword eq null}" th:href="@{'/product/listproducts?page='+${products.getNumber()-1}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+				<a th:if="${products.getNumber() ne 0 and keyword ne null}" th:href="@{'/product/listproducts?page='+${products.getNumber()-1}+'&keyword='+${keyword}}" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+                <a th:if="${products.getNumber() eq 0 and keyword eq null}" th:href="@{'/product/listproducts?page='+0}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+				<a th:if="${products.getNumber() eq 0 and keyword ne null}" th:href="@{'/product/listproducts?page='+0+'&keyword='+${keyword}}" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+            </li>
+
+
+
+
+                 <li th:unless="${keyword eq null}" class="pagination" th:each="i:${#numbers.sequence(0,pageCount)}">
+                     <a th:href="@{'/product/listproducts?page='+${i}+'&keyword='+${keyword}}" th:text="${i+1}"></a>
+                 </li>
+				<li th:if="${keyword eq null}" class="pagination" th:each="i:${#numbers.sequence(0,pageCount)}">
+					<a th:href="@{'/product/listproducts?page='+${i}}" th:text="${i+1}"></a>
+				</li>
+
+
+
+
+            <li>
+                <a th:if="${products.getNumber() ne pageCount and keyword eq null}" th:href="@{'/product/listproducts?page='+${products.getNumber()+1}}"  aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+				<a th:if="${products.getNumber() ne pageCount and keyword ne null}" th:href="@{'/product/listproducts?page='+${products.getNumber()+1}+'&keyword='+${keyword}}"  aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+				</a>
+
+
+                 <a th:if="${products.getNumber() eq pageCount and keyword eq null }" th:href="@{'/product/listproducts?page='+${pageCount}}"  aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+				<a th:if="${products.getNumber() eq pageCount and keyword ne null }" th:href="@{'/product/listproducts?page='+${pageCount}+'&keyword='+${keyword}}"  aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+				</a>
+            </li>
+        </ul>
+
+    </nav>
+	
 	<script type="text/javascript">
     function clearSearch() {
         window.location = "[[@{/product/listproducts}]]";
