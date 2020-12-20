@@ -73,6 +73,11 @@ public class Fixset {
 	public void addFixsetDetails(FixsetDetails fixsetDetails) {
 		fixsetList.add(fixsetDetails);
 	}
+	
+	public void removeFixsetDetails(FixsetDetails fixsetDetails) {
+		fixsetList.remove(fixsetDetails);
+	}
+
 
 	@Override
 	public String toString() {
