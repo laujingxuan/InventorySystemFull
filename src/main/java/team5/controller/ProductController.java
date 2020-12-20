@@ -25,6 +25,7 @@ import team5.service.ProductService;
 import team5.service.ProductServiceImpl;
 import team5.service.SessionService;
 import team5.service.SessionServiceImpl;
+import team5.service.SupplierService;
 
 @Controller
 @RequestMapping("/product")
@@ -32,6 +33,9 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService product_svc;
+	
+	@Autowired
+	private SupplierService supplier_svc;
 	
 	@Autowired
 	private SessionService session_svc;
@@ -50,22 +54,27 @@ public class ProductController {
 	
 	@GetMapping("/add")
 	public String showProductForm(Model model) {
-		
+		model.addAttribute("supplier", supplier_svc.findAll());
 		model.addAttribute("product", new Product());
 		return "productform";
 	}
 	
 	
 	@GetMapping("/save")
-	public String saveProductForm(@ModelAttribute("product") @Valid Product product,BindingResult bindingResult, Model model){
-		if (bindingResult.hasErrors()) return "productform";
-		
+	public String saveProductForm(@ModelAttribute("product") @Valid Product product, BindingResult bindingResult,
+			Model model) {
+		System.out.println(product.toString());
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("supplier", supplier_svc.findAll());
+			return "productform";
+		}
 		product_svc.save(product);
 		return "forward:/product/listproducts";
 	}
 	
 	@GetMapping("/edit/{id}")
 	public String showEditForm(Model model, @PathVariable("id") Long id) {
+		model.addAttribute("supplier", supplier_svc.findAll());
 		model.addAttribute("product", product_svc.findById(id));
 		return "productform";
 	}
@@ -76,14 +85,10 @@ public class ProductController {
 			@RequestParam(value ="size", defaultValue = "3") Integer size, HttpSession session) {
 		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 
-		/*
-		 * model.addAttribute("products", product_svc.searchByKeyword(keyword));
-		 * model.addAttribute("keyword", keyword); model.addAttribute("hasPermission",
-		 * session_svc.hasPermission(session));
-		 */
-		
+		System.out.println("Stock add");
 		Page<Product> listProducts = product_svc.listProducts(keyword,page, size);
 		model.addAttribute("products", listProducts);
+		model.addAttribute("supplier", supplier_svc.findAll());
         model.addAttribute("pageCount",listProducts.getTotalPages()-1);
 	    model.addAttribute("keyword", keyword); 
 	    model.addAttribute("hasPermission",session_svc.hasPermission(session));

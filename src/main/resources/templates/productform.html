@@ -17,71 +17,98 @@
 
 
 	<form action="" th:object="${product}" th:action="@{/product/save}"
-		method="get">		
-
-		<fieldset>
-			<input type="hidden" th:field="*{id}">
-		</fieldset>
-		<fieldset>
-			Bar code: <input type="text" th:field="*{barcode}">
-			<p th:if="${#fields.hasErrors('barcode')}" th:errors="*{barcode}"></p>
-		</fieldset>
-		<fieldset>
-			Name: <input type="text" th:field="*{name}">
-			<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
-		</fieldset>
-		<fieldset>
-			Description: <input type="text" th:field="*{description}">
-		</fieldset>
-		<fieldset>
-			Type: <input type="text" th:field="*{type}">
-		</fieldset>
-		<fieldset>
-			Color: <input type="text" th:field="*{color}">
-		</fieldset>
-		<fieldset>
-			Original Price: <input type="text" th:field="*{originalPrice}">
-			<p th:if="${#fields.hasErrors('originalPrice')}" th:errors="*{originalPrice}"></p>
-		</fieldset>
-		<fieldset>
-			Category: <input type="text" th:field="*{category}">
-		</fieldset>
-		<fieldset>
-			Whole Sale Price: <input type="text" th:field="*{priceFWholesale}">
-			<p th:if="${#fields.hasErrors('priceFWholesale')}" th:errors="*{priceFWholesale}"></p>
-		</fieldset>
-		<fieldset>
-			Retail Price: <input type="text" th:field="*{priceFRetail}">
-			<p th:if="${#fields.hasErrors('priceFRetail')}" th:errors="*{priceFRetail}"></p>
-		</fieldset>
-		<fieldset>
-			Price For Partner: <input type="text" th:field="*{PriceFPartner}">
-			<p th:if="${#fields.hasErrors('PriceFPartner')}" th:errors="*{PriceFPartner}"></p>
-		</fieldset>
-		<fieldset>
-			Sub Category: <input type="text" th:field="*{subcategory}">
-		</fieldset>
-		<fieldset>
-			Unit: <input type="text" th:field="*{unit}">
-			<p th:if="${#fields.hasErrors('unit')}" th:errors="*{unit}"></p>
-		</fieldset>
-		<fieldset>
-			Part Number: <input type="text" th:field="*{partNumber}">
-			<p th:if="${#fields.hasErrors('partNumber')}" th:errors="*{partNumber}"></p>
-		</fieldset>
-		<fieldset>
-			Record Level: <input type="text" th:field="*{reorderLevel}">
-			<p th:if="${#fields.hasErrors('reorderLevel')}" th:errors="reorderLevel"></p>
-		</fieldset>
-		<fieldset>
-			Minimum Reorder Level: <input type="text"
+		method="get">	
+		<table class="table">
+			<tr>
+				<td>
+					<input type="hidden" th:field="*{id}">
+				</td>				
+			</tr>
+			
+			<tr>
+				<td>Bar Code:</td>
+				<td><input type="text" th:field="*{barcode}">
+				<p th:if="${#fields.hasErrors('barcode')}" th:errors="*{barcode}"></p></td>
+			</tr>
+			<tr>
+				<td>Name:</td>
+				<td><input type="text" th:field="*{name}">
+				<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p></td>
+			</tr>
+			<tr>
+				<td>Supplier:</td>
+				<td>
+					<select name="id" id="id" th:field="*{supplier}">
+                    	<option th:each="sup : ${supplier}" th:value="${sup.id}" th:text="${sup.supplierName}"></option>
+                    </select>
+				</td>
+			</tr>
+			<tr>
+				<td>Description:</td>
+				<td><input type="text" th:field="*{description}"></td>
+			</tr>
+			<tr>
+				<td>Type:</td>
+				<td><input type="text" th:field="*{type}"></td>
+			</tr>
+			<tr>
+				<td>Color:</td>
+				<td><input type="text" th:field="*{color}"></td>
+			</tr>
+			<tr>
+				<td>Original Price:</td>
+				<td><input type="text" th:field="*{originalPrice}">
+			<p th:if="${#fields.hasErrors('originalPrice')}" th:errors="*{originalPrice}"></p></td>
+			</tr>
+			<tr>
+				<td>Category:</td>
+				<td><input type="text" th:field="*{category}"></td>
+			</tr>
+			<tr>
+				<td>Whole Sale Price:</td>
+				<td><input type="text" th:field="*{priceFWholesale}">
+			<p th:if="${#fields.hasErrors('priceFWholesale')}" th:errors="*{priceFWholesale}"></p></td>
+			</tr>
+			<tr>
+				<td>Retail Price:</td>
+				<td><input type="text" th:field="*{priceFRetail}">
+			<p th:if="${#fields.hasErrors('priceFRetail')}" th:errors="*{priceFRetail}"></p></td>
+			</tr>
+			<tr>
+				<td>Price For Partner:</td>
+				<td><input type="text" th:field="*{PriceFPartner}">
+			<p th:if="${#fields.hasErrors('PriceFPartner')}" th:errors="*{PriceFPartner}"></p></td>
+			</tr>
+			<tr>
+				<td>Sub Category:</td>
+				<td><input type="text" th:field="*{subcategory}"></td>
+			</tr>
+			<tr>
+				<td>Unit:</td>
+				<td><input type="text" th:field="*{unit}">
+			<p th:if="${#fields.hasErrors('unit')}" th:errors="*{unit}"></td>
+			</tr>
+			<tr>
+				<td>Part Number:</td>
+				<td><input type="text" th:field="*{partNumber}">
+			<p th:if="${#fields.hasErrors('partNumber')}" th:errors="*{partNumber}"></p></td>
+			</tr>
+			<tr>
+				<td>Record Level:</td>
+				<td><input type="text" th:field="*{reorderLevel}">
+			<p th:if="${#fields.hasErrors('reorderLevel')}" th:errors="reorderLevel"></p></td>
+			</tr>
+			<tr>
+				<td>Minimum Reorder Level:</td>
+				<td> <input type="text"
 				th:field="*{minReoderLevel}">
-				<p th:if="${#fields.hasErrors('minReoderLevel')}" th:errors="*{minReoderLevel}"></p>
-		</fieldset>
-
-		<fieldset>
-			<button type="submit">Save</button>
-		</fieldset>
+				<p th:if="${#fields.hasErrors('minReoderLevel')}" th:errors="*{minReoderLevel}"></p></td>
+			</tr>
+			<tr>
+				<td  colspan="3"><button type="submit">Save</button></td>
+			</tr>
+			
+		</table>
 
 	</form>
 	<div th:replace="layout/layout.html :: footer"></div>
