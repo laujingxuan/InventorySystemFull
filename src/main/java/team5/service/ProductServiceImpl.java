@@ -3,6 +3,7 @@ package team5.service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -19,26 +20,27 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	ProductRepo prepo;
 	
-	@Transactional
+	@Override
 	public void save(Product product) {
 		prepo.save(product);
 	}
 	
-	@Transactional
+	@Override
 	public Product findById(Long id) {
 		return prepo.findById(id).get();
 	}
 	
-	@Transactional
+	@Override
 	public Product findByName(String name) {
 		return prepo.findByName(name).get(0);
 	}
 	
-	@Transactional
+	@Override
 	public List<Product> findAll(){
 		return prepo.findAll(); 
 	}
 	
+	@Override
     public List<Product> searchByKeyword(String keyword) {
         if (keyword != null) {
             return prepo.search(keyword);
@@ -55,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
 			return prepo.findAll();		
 	}*/
 	
-	@Transactional
+	@Override
 	public ArrayList<String> FindAllPartNumber(){
 		List<Product> product = prepo.findAll();
 		ArrayList<String> partnum = new ArrayList<String>();
@@ -67,17 +69,19 @@ public class ProductServiceImpl implements ProductService {
 		return partnum;
 	}
 	     
-	
-	/*
 	@Override
 	public void updateStock(Long quantity, Long id) {		
-		productRepo.reduceStock(quantity, id);	
-	}*/
+		prepo.reduceStock(quantity, id);	
+	}
 	
 	@Override
 	public void delete(Product product) {
 		prepo.delete(product);
 		
 	}
-
+	
+	@Override
+	public Optional<Product> OptionalFindById(Long id) {
+		return prepo.findById(id);
+	}
 }

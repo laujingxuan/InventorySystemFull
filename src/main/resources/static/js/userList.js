@@ -9,7 +9,14 @@ window.onload=function(){
   var menuItems = document.querySelectorAll('.nav-link');
   for (let i = 0; i< menuItems.length; i++){
     if (menuItems[i].getAttribute("href").indexOf(current) !== -1){
-      menuItems[i].className += " " + "active";
+      if (menuItems[i].getAttribute("href") =="/user/logout"){
+      	break;
+      }
+      if (current == "user"){
+      	menuItems[i].parentElement.className += " " + "active";
+      }else{
+        menuItems[i].className += " " + "active";
+      }
     }
   }
   
@@ -28,6 +35,7 @@ function loadUsers(e){
       let users = JSON.parse(this.responseText);
       let output = `
       	<tr>
+      		<th></th>
       		<th>Username</th>
       		<th>Role</th>
       		<th>Edit User</th>
@@ -38,13 +46,15 @@ function loadUsers(e){
 		  <tr>
 		  	<td>
 			  <input type="checkbox" id="`+users[i].userName+`" name="deleteUser" value="`+users[i].userName+`">
+			</td>
+			<td>
 			  <label for="`+users[i].userName+`"> `+users[i].userName+`</label>
 			</td>  
 			<td>`+users[i].role+`</td>
 			<td><a href="/user/edit/`+users[i].id+`">Edit</a></td>
 		  </tr>`
       }
-	  output += `<button type="button" class="btn btn-warning">Delete</button>`;
+	  output += `<input type="submit" class="btn btn-warning" value="Delete">`;
       document.getElementById('result').innerHTML = output;
     }
   }

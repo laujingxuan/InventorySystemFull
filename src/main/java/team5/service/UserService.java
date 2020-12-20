@@ -10,4 +10,6 @@ public interface UserService extends IService<User>{
 
 	public ArrayList<User> findByJobRole(RoleType roleType);
 	public User findByUsername(String userName);
+	public void deleteUsers(String[] users);
+	boolean updateUser(User user);
 }

@@ -9,7 +9,14 @@ window.onload=function(){
   var menuItems = document.querySelectorAll('.nav-link');
   for (let i = 0; i< menuItems.length; i++){
     if (menuItems[i].getAttribute("href").indexOf(current) !== -1){
-      menuItems[i].className += " " + "active";
+      if (menuItems[i].getAttribute("href") =="/user/logout"){
+      	break;
+      }
+      if (current == "user"){
+      	menuItems[i].parentElement.className += " " + "active";
+      }else{
+        menuItems[i].className += " " + "active";
+      }
     }
   }
 }

@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import team5.model.RoleType;
 import team5.model.User;
 import team5.nonEntityModel.UserForm;
 import team5.service.SessionService;
@@ -53,19 +56,20 @@ public class UserController {
 		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 		if (session_svc.hasNoPermission(session)) return "nopermission";
 		
+		model.addAttribute("roleType", RoleType.values());
+		model.addAttribute("path", "/user/validate");
 		model.addAttribute("userForm", new UserForm());
 		return "editUser";
 	}
 	
 	@PostMapping("/validate")
-	public String addUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult, HttpSession session) {
-		
+	public String addUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult, HttpSession session, Model model) {
+		model.addAttribute("roleType", RoleType.values());
+		model.addAttribute("path", "/user/validate");
 		if (bindingResult.hasErrors()) {
-			return "editUser"; // "forward:/user/validate";
+			return "editUser";
 		}
-		
 		User user = new User(userForm);
-		//if (userRepo.findByUserName(user.getUserName())== null) {}
 		user_svc.save(user);
 		return "redirect:/";
 	}
@@ -75,8 +79,7 @@ public class UserController {
 	public String viewUser(Model model, HttpSession session) {
 		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 		if (session_svc.hasNoPermission(session)) return "nopermission";
-		
-		model.addAttribute("users", user_svc.findAll());
+
 		return "UserList";
 	}
 		
@@ -88,52 +91,63 @@ public class UserController {
 		if (session_svc.hasNoPermission(session)) return "nopermission";
 		
 		User toChange = user_svc.findById(id);
-		// mv.addObject("roleType", RoleType.values());
+		model.addAttribute("roleType", RoleType.values());
 		UserForm userForm = new UserForm(toChange);
 		model.addAttribute("userForm", userForm);
+		model.addAttribute("path", "/user/save");
 		return "editUser";
 	}
 	
 	@PostMapping("/save")
-	public String editUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult, HttpSession session) {
+	public String editUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult, HttpSession session, Model model) {
 		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 		if (session_svc.hasNoPermission(session)) return "nopermission";
+		
+		model.addAttribute("roleType", RoleType.values());
+		model.addAttribute("path", "/user/save");
 		if (bindingResult.hasErrors()) return "editUser";
 		
 		User user = new User(userForm);
-		user_svc.save(user);
-		return "redirect:/user/users";
+		long id = user.getId();
+		boolean success = user_svc.updateUser(user);
+		if (success == true) {
+			return "redirect:/user/users";
+		} else {
+			return "error";
+		}
 	}
 	
 	//everyone can change password
 	@GetMapping("/update")
 	public String updateUser(Model model, HttpSession session) {
 		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
-		if (session_svc.hasNoPermission(session)) return "nopermission";
-		
-		model.addAttribute("userForm", new UserForm());
+		User user = (User) session.getAttribute("user"); 
+		model.addAttribute("roleType", RoleType.values());
+		model.addAttribute("path", "/user/update");
+		model.addAttribute("userForm", new UserForm(user));
 		return "editUser";
 	}
 
 	@PostMapping("/update")
-	public String updateUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult, HttpSession session) {
+	public String updateUser(@ModelAttribute("userForm") @Valid UserForm userForm, BindingResult bindingResult, HttpSession session, Model model) {
 		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
-		if (session_svc.hasNoPermission(session)) return "nopermission";
+		model.addAttribute("roleType", RoleType.values());
+		model.addAttribute("path", "/user/update");
 		if (bindingResult.hasErrors()) return "editUser";
 		
 		User user = new User(userForm);
-		user_svc.save(user);
+		user_svc.updateUser(user);
 		session.setAttribute("user", user);
 		return "redirect:/";
 	}
 	
 	//only admin can delete
-	@RequestMapping(value = "/delete/{id}")
-	public String deleteUser(@PathVariable("id") Long id,HttpSession session) {
+	@PostMapping("/delete")
+	public String deleteUser(@RequestParam(value = "deleteUser", required = false) String[] deleteUsers, HttpSession session) {
 		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 		if (session_svc.hasNoPermission(session)) return "nopermission";
-		
-		user_svc.delete(user_svc.findById(id));
-		return "forward:/supplier/list";
+		System.out.println("test");
+		user_svc.deleteUsers(deleteUsers);
+		return "redirect:/user/users";
 	}
 }
