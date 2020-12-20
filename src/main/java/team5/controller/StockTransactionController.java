@@ -65,7 +65,7 @@ public class StockTransactionController {
 	
 	/*------------------------------------Create------------------------------------*/
 	
-	// create stock transaction entry to increase quantity
+	// create stock transaction entry to increase quantity		// checked 
 	// for admin when stock arrives 
 	@GetMapping("/add")
 	public String addStock(Model model, @Param("keyword") String keyword, HttpSession session) {
@@ -82,7 +82,7 @@ public class StockTransactionController {
 		return "stockEntryForm";
 	}
 	
-	@GetMapping("/save")
+	@GetMapping("/save")		// checked 
 	public String saveStockEntry(@ModelAttribute("product") @Valid @RequestBody Product product, BindingResult result, Model model) {
 		if (result.hasErrors()) return "stockEntryForm";
 		
@@ -94,15 +94,7 @@ public class StockTransactionController {
 	
 	/*--------------------------------Read/Retrieve------------------------------------*/
 	
-	// find all StockTransaction records, both restock(+) and withdrawals(-)
-	// done with the findAll() method built into JPARepository 
-	@GetMapping("/list")
-	public String showAllTransactions(Model model) {
 
-		model.addAttribute("stranxs", st_svc.findAll());
-		return "stockTranxHistory";
-	}
-	
 	@GetMapping("/report")
 	public String usageReport(Model model) {
 		List<Product> products = product_svc.findAll();
@@ -111,7 +103,7 @@ public class StockTransactionController {
 	}
 	
 	// filter by productId and date range 
-	// done with the custom method defined in StockTransactionRepo extended from JPARepository 
+	// done with the custom method defined in StockTransactionRepo extended from JPARepository 	// checked 
 	@PostMapping("/report")
 	public String usageReport(Model model, @RequestParam("startDate") String startD, @RequestParam("endDate") String endD, @RequestParam("productSelected") long id) throws ParseException {
 		if (endD == "" || startD == "") {
@@ -142,7 +134,7 @@ public class StockTransactionController {
 	// the page shows the details of the UsageRecord and a list of StockTransaction records 
 	// quantity change is implied to be negative (withdraw from inventory)
 	// can change 
-    @RequestMapping(value = "/part-list/{id}")
+    @RequestMapping(value = "/part-list/{id}")		// checked 
     public String viewPartList(Model model, @Param("keyword") String keyword , @PathVariable("id") Long id,HttpSession session) {
 		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 		
@@ -161,6 +153,8 @@ public class StockTransactionController {
         
         return "part-list";
     }
+    
+	/*------------------------------------Update------------------------------------*/
     
     
     @RequestMapping(value = "/update-stock", method = RequestMethod.POST)
@@ -205,116 +199,4 @@ public class StockTransactionController {
 	}
 	
 	
-	/*------------------------------------Update------------------------------------*/
-	
-    // won't be used in this project. listed and defined for clarity for developers 
-    // for 1 StockTransaction record 
-	/*@GetMapping("/updateProduct")
-	public String updateStock0(@ModelAttribute("product") @Valid @RequestBody Product product, BindingResult result, Model model) {
-		if (result.hasErrors()) return "stockEntryForm";
-		f
-		Product p = product_svc.findById(product.getId());
-		p.setUnit(product.getUnit() + p.getUnit());
-		product_svc.save(p);
-		return "forward:/product/listproducts";
-	}*/
-	
-	// for admin and mechanic when changing quantity of product used in 1 UsageRecord
-    // for multiple StockTransaction record 
-	@GetMapping("/updateProduct")
-	public String updateStock(@ModelAttribute("product") @Valid @RequestBody Product product, BindingResult result, Model model) {
-		if (result.hasErrors()) return "stockEntryForm";
-		
-		Product p = product_svc.findById(product.getId());
-		p.setUnit(product.getUnit() + p.getUnit());
-		product_svc.save(p);
-		return "forward:/product/listproducts";
-	}
-	
-	/*
-	@RequestMapping(value = "/add-part")
-	public String addpart(Model model,HttpSession session) {
-		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
-		
-		model.addAttribute("part",new UsageRecordDetail());
-		ArrayList<String> partnum = product_svc.FindAllPartNumber();
-		model.addAttribute("partnum", partnum);
-		return "stock-usage-detail-form";
-	}*/	
 }
-
-//public String updateStock(@ModelAttribute ProductMapFormWrapper productMapFormW @Valid @RequestBody Product product, Model model) {
-
-/*
- * @RequestMapping(value = "/update-stock", method = RequestMethod.POST) public
- * String updateStock(@ModelAttribute ProductMapFormWrapper productMapFormW,
- * Model model) {
- * System.out.println("1"+productMapFormW.getProductMapFormL().get(0).
- * getDescription());
- * System.out.println("2"+productMapFormW.getProductMapFormL().get(0).getId());
- * System.out.println("2"+productMapFormW.getProductMapFormL().get(0).
- * getQuantityUsed()); // pService.updateStock(quantity, id); return
- * "stock-usage-list"; }
- */
-
-//@RequestMapping("/part-list")
-//public String viewPartList(Model model, @Param("keyword") String keyword) {
-//    List<Product> listProducts = pService.listAllProducts(keyword);
-//    model.addAttribute("products", listProducts);
-//    model.addAttribute("keyword", keyword);
-//    
-//    Map<Long,Integer> map=new HashMap<Long,Integer>();
-//    for(Product x:listProducts) {
-//    	map.put(x.getId(),0);
-//    }
-//    model.addAttribute("map",map);
-//    
-//    MapForm mapForm = new MapForm();
-//    Map<Long,Integer> properties =new HashMap<Long,Integer>();
-//    mapForm.setProperties(properties);
-//    model.addAttribute("mapForm", mapForm);
-//    
-//    return "part-list";
-//   
-//}
-
-//@RequestMapping("/update-stock")
-//public String updateStock(Model model, @Param("id") Long id, @Param("quantity") Long quantity) {
-//	pService.updateStock(quantity, id);
-//	return "stock-usage-list";
-//}
-
-//@GetMapping("/part")
-//public String processFindForm(Product product, BindingResult result, Map<String, Object> model) {
-//
-//
-//    // find owners by last name
-//    Collection<Product> results = this.prepo.findByPartNumber(product.getPartNumber());
-//    if (results.isEmpty()) {
-//        // no owners found
-//        result.rejectValue("part number", "notFound", "not found");
-//        return "forward:/detail/stock-usage-detail-form";
-//    }
-//    else if (results.size() == 1) {
-//        // 1 owner found
-//        product = results.iterator().next();
-//        return "redirect:/owners/" + product.getId();
-//    }
-//    else {
-//        // multiple owners found
-//        model.put("selections", results);
-//        return "owners/ownersList";
-//    }
-//}
-//
-//@GetMapping("/owners/find")
-//public String initFindForm(Map<String, Object> model) {
-//    model.put("owner", new Owner());
-//    return "owners/findOwners";
-//}
-
-
-
-
-
-

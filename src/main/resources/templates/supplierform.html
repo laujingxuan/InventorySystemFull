@@ -13,40 +13,84 @@
 <div th:replace="layout/layout.html :: menu" ></div>
 <br/>
 	<h3>Supplier Form</h3>
+
+
 	<form action="#" th:object="${suppliers}" th:action="@{/supplier/save}"
 		method="post">
+		<table class="table">
+		<tr>
+		<td>
 		<fieldset>
 			<input type="hidden" th:field="*{id}">
 		</fieldset>
+		</td>
+		</tr>
+		
+		<tr>
+		<td>Supplier Name</td> 
+		<td>
 		<fieldset>
-			Supplier Name <input type="text" th:field="*{supplierName}">
+			
+			<textarea  th:field="*{supplierName}" cols="30" rows="1" ></textarea>
 			<p th:if="${#fields.hasErrors('supplierName')}" th:errors="*{supplierName}"></p>
 		</fieldset>
+		<td>
+		<tr>
+		
+		
+		<tr>
+		<td>Supplier Address</td> 
+		<td>
 		<fieldset>
-			Supplier Address
-			<textarea th:field="*{supplierAddress}" cols="30" rows="10"></textarea>
+			
+			<textarea th:field="*{supplierAddress}" cols="30" rows="1"></textarea>
 			<p th:if="${#fields.hasErrors('supplierAddress')}"
 				th:errors="*{supplierAddress}"></p>
 		</fieldset>
+		<td>
+		<tr>
+		
+		
+		<tr>
+		<td>Supplier Phone</td> 
+		<td>
 		<fieldset>
-			Supplier Phone
-			<textarea th:field="*{phone}" cols="30" rows="10"></textarea>
+			
+			<textarea th:field="*{phone}" cols="30" rows="1"></textarea>
 			<p th:if="${#fields.hasErrors('phone')}"
 				th:errors="*{phone}"></p>
 		</fieldset>
+		<td>
+		<tr>
+		
+		<tr>
+		<td>Supplier Email</td> 
+		<td>
 		<fieldset>
-			Supplier Email
-			<textarea th:field="*{email}" cols="30" rows="10"></textarea>
+			
+			<textarea th:field="*{email}" cols="30" rows="1"></textarea>
 			<p th:if="${#fields.hasErrors('email')}"
 				th:errors="*{email}"></p>
 		</fieldset>
+		<td>
+		<tr>
+		
+		<tr>
+		<td>
 
+		</td>
+		<td>
 		<fieldset>
 			<input type="submit" value="Save"/>
-			&nbsp; &nbsp; 	
+
 			<input type="reset" value="Reset"/>
 		</fieldset>
+		</td>
+		<tr>
+					
+		</table>
 	</form>
+		
 <div th:replace="layout/layout.html :: footer"></div>	
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>

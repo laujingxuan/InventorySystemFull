@@ -71,7 +71,7 @@ public class ProductController {
 	}
 	
 	
-	@GetMapping("/list")
+	@GetMapping("/listproducts")
 	public String listProductForm(Model model, @RequestParam(value = "page", defaultValue = "0") Integer page,@Param("keyword") String keyword,
 			@RequestParam(value ="size", defaultValue = "3") Integer size, HttpSession session) {
 		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";

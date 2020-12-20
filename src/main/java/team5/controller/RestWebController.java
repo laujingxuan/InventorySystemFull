@@ -146,32 +146,32 @@ public class RestWebController {
 		return ResponseEntity.ok(m.invoke(product).toString());
 	}
 	
-//	//create the product and return the product id
-//	@PostMapping("/api/products")
-//	public ResponseEntity<?> newProduct(@RequestBody Product newProduct) {
-//		prod_svc.save(newProduct);
-//		return ResponseEntity.ok(prod_svc.findByName(newProduct.getName()).getId());
-//	}
+	//create the product and return the product id
+	@PostMapping("/api/products")
+	public ResponseEntity<?> newProduct(@RequestBody Product newProduct) {
+		prod_svc.save(newProduct);
+		return ResponseEntity.ok(prod_svc.findByName(newProduct.getName()).getId());
+	}
 	
-//	//update the quantity based on the product id and return the new quantity
-//	@PutMapping("api/products/{id}/{quantity}")
-//	public ResponseEntity<?> updateProductQuantity(@PathVariable(value = "id") Long id, @PathVariable(value="quantity") Long quantity) {
-//		Product product = prod_svc.findById(id);
-//		if (product.getUnit()<quantity) {
-//			return ResponseEntity.badRequest()
-//		            .body("Not enough stock");
-//		}else {
-//			prod_svc.updateStock(quantity, id);
-//			Map<Long, Long> stock = new HashMap<Long, Long>();
-//			stock.put(product.getId(), product.getUnit()- quantity);
-//			return ResponseEntity.ok(stock);
-//		}
-//	}
+	//update the quantity based on the product id and return the new quantity
+	@PutMapping("api/products/{id}/{quantity}")
+	public ResponseEntity<?> updateProductQuantity(@PathVariable(value = "id") Long id, @PathVariable(value="quantity") Long quantity) {
+		Product product = prod_svc.findById(id);
+		if (product.getUnit()<quantity) {
+			return ResponseEntity.badRequest()
+		            .body("Not enough stock");
+		}else {
+			prod_svc.updateStock(quantity, id);
+			Map<Long, Long> stock = new HashMap<Long, Long>();
+			stock.put(product.getId(), product.getUnit()- quantity);
+			return ResponseEntity.ok(stock);
+		}
+	}
 	
-//	//delete the product
-//	@DeleteMapping("/api/products/{id}")
-//	public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
-//		prod_svc.delete(prod_svc.findById(id));
-//	    return ResponseEntity.ok("Deletion success");
-//	}
+	//delete the product
+	@DeleteMapping("/api/products/{id}")
+	public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
+		prod_svc.delete(prod_svc.findById(id));
+	    return ResponseEntity.ok("Deletion success");
+	}
 }

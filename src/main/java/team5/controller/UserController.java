@@ -80,6 +80,7 @@ public class UserController {
 		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 		if (session_svc.hasNoPermission(session)) return "nopermission";
 
+		
 		return "UserList";
 	}
 		
