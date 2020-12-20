@@ -60,7 +60,8 @@ public class RestWebController {
 		}
 		return ResponseEntity.ok(users);
 	}
-	
+//	-------------------------------------------------------------------------------------------------------------------------fixset api
+//------------------------------------------------------------------------------------------------------------retrieve/read	
 	//get all fixsets
 	@GetMapping("/api/fixsets")
 	public ResponseEntity<?> AllFixsets(){
@@ -73,7 +74,8 @@ public class RestWebController {
 	public ResponseEntity<?> findFixset(@PathVariable("id") Long id) {
 		return ResponseEntity.ok(fixset_svc.findById(id));
 	}
-	
+
+//	---------------------------------------------------------------------------------------------------------------------post/create
 	//create the fixset and return the fixset
 	@PostMapping("/api/fixsets")
 	public ResponseEntity<?> newFixset(@RequestBody Fixset newFixset) {
@@ -82,21 +84,18 @@ public class RestWebController {
 	}
 	
 	//create the fixsetdetails and return the fixset
-	@PostMapping("/api/fixsets/{id}")
-	public ResponseEntity<?> addFixsetDetail(@RequestBody FixsetDetails newFixsetD, @PathVariable("id") Long id) {
+	@PostMapping("/api/fixsets/{id}/{productId}/{quantity}")
+	public ResponseEntity<?> addFixsetDetail(@PathVariable("id") Long id, @PathVariable("productId") Long productId, @PathVariable("quantity") int quantity) {
 		Fixset fixset = fixset_svc.findById(id);
-		fixset.addFixsetDetails(newFixsetD);
-		fixsetD_svc.save(newFixsetD);
+		Product product = prod_svc.findById(productId);
+		FixsetDetails x = new FixsetDetails(product, quantity);
+		fixset.addFixsetDetails(x);
+		fixsetD_svc.save(x);
 		fixset_svc.save(fixset);
 		return ResponseEntity.ok(fixset);
 	}
 	
-	//delete the fixset
-	@DeleteMapping("/api/fixsets/{id}")
-	public ResponseEntity<?> deleteFixset(@PathVariable("id") Long id) {
-		fixset_svc.deletebyId(id);
-	    return ResponseEntity.ok("Deletion success");
-	}	
+//	--------------------------------------------------------------------------------------------update on fixset and fixset details
 	
 	//update the fixset
 	@PutMapping("api/fixsets/{id}")
@@ -126,6 +125,28 @@ public class RestWebController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+
+//	----------------------------------------------------------------------------------------------------------------delete
+	
+	//delete the fixset with all the attached fixset details as well
+	@DeleteMapping("/api/fixsets/{id}")
+	public ResponseEntity<?> deleteFixset(@PathVariable("id") Long id) {
+		fixset_svc.deletebyId(id);
+	    return ResponseEntity.ok("Deletion success");
+	}	
+	
+	//delete the fixsetDetails only
+	@DeleteMapping("/api/fixsets/{id}/{DetailsId}")
+	public ResponseEntity<?> deleteFixsetDetails(@PathVariable("id") Long id, @PathVariable("DetailsId") Long DetailsId) {
+		Fixset fixset = fixset_svc.findById(id);
+		FixsetDetails fixsetD = fixsetD_svc.findById(DetailsId);
+		fixset.removeFixsetDetails(fixsetD);
+		fixset_svc.save(fixset);
+		fixsetD_svc.delete(fixsetD);
+		return ResponseEntity.ok("Deletion success");
+	}	
+	
+//	-------------------------------------------------------------------------------------------------------------------some products api
 	
 	//get all the products name with its id
 	@GetMapping("/api/products")
@@ -146,32 +167,32 @@ public class RestWebController {
 		return ResponseEntity.ok(m.invoke(product).toString());
 	}
 	
-	//create the product and return the product id
-	@PostMapping("/api/products")
-	public ResponseEntity<?> newProduct(@RequestBody Product newProduct) {
-		prod_svc.save(newProduct);
-		return ResponseEntity.ok(prod_svc.findByName(newProduct.getName()).getId());
-	}
+//	//create the product and return the product id
+//	@PostMapping("/api/products")
+//	public ResponseEntity<?> newProduct(@RequestBody Product newProduct) {
+//		prod_svc.save(newProduct);
+//		return ResponseEntity.ok(prod_svc.findByName(newProduct.getName()).getId());
+//	}
 	
-	//update the quantity based on the product id and return the new quantity
-	@PutMapping("api/products/{id}/{quantity}")
-	public ResponseEntity<?> updateProductQuantity(@PathVariable(value = "id") Long id, @PathVariable(value="quantity") Long quantity) {
-		Product product = prod_svc.findById(id);
-		if (product.getUnit()<quantity) {
-			return ResponseEntity.badRequest()
-		            .body("Not enough stock");
-		}else {
-			prod_svc.updateStock(quantity, id);
-			Map<Long, Long> stock = new HashMap<Long, Long>();
-			stock.put(product.getId(), product.getUnit()- quantity);
-			return ResponseEntity.ok(stock);
-		}
-	}
+//	//update the quantity based on the product id and return the new quantity
+//	@PutMapping("api/products/{id}/{quantity}")
+//	public ResponseEntity<?> updateProductQuantity(@PathVariable(value = "id") Long id, @PathVariable(value="quantity") Long quantity) {
+//		Product product = prod_svc.findById(id);
+//		if (product.getUnit()<quantity) {
+//			return ResponseEntity.badRequest()
+//		            .body("Not enough stock");
+//		}else {
+//			prod_svc.updateStock(quantity, id);
+//			Map<Long, Long> stock = new HashMap<Long, Long>();
+//			stock.put(product.getId(), product.getUnit()- quantity);
+//			return ResponseEntity.ok(stock);
+//		}
+//	}
 	
-	//delete the product
-	@DeleteMapping("/api/products/{id}")
-	public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
-		prod_svc.delete(prod_svc.findById(id));
-	    return ResponseEntity.ok("Deletion success");
-	}
+//	//delete the product
+//	@DeleteMapping("/api/products/{id}")
+//	public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
+//		prod_svc.delete(prod_svc.findById(id));
+//	    return ResponseEntity.ok("Deletion success");
+//	}
 }
