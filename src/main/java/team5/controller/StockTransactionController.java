@@ -112,6 +112,7 @@ public class StockTransactionController {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date startDate = formatter.parse(startD);
 		Date endDate = formatter.parse(endD);
+		
 		Product product = product_svc.findById(id);
 		List<StockTransaction> fullUsageList = product.getStockTranxList();
 		List<StockTransaction> usageList = new ArrayList<StockTransaction>();
