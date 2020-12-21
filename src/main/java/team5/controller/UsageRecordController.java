@@ -43,6 +43,7 @@ public class UsageRecordController {
 	@RequestMapping(value = "/add")
 	public String addform(Model model,HttpSession session) {
 		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
+	
 		
 		model.addAttribute("usage",new UsageRecord());
 		return "stock-usage-form";
@@ -65,7 +66,7 @@ public class UsageRecordController {
 		User user = (User) session.getAttribute("user");
 		usagerecord.setUserName(user);
 		ur_svc.save(usagerecord);
-        return "stock-usage-list";
+        return "forward:/usage/list";
     }
 	
 

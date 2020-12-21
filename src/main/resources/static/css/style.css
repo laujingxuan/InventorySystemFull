@@ -217,11 +217,13 @@ th
 	color: #039;
 	padding: 10px 8px;
 	border-bottom: 2px solid #6678b1;
+	text-align: centre;
 }
 td
 {
 	color: #669;
 	padding: 9px 8px 0px 8px;
+	text-align: centre;
 	
 }
 tbody tr:hover td

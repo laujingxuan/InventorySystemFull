@@ -1,10 +1,13 @@
 package team5.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Cascade;
 
 @Entity
 public class StockTransaction {
@@ -12,6 +15,7 @@ public class StockTransaction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;	// StockTransationId
+	
 	
 	@ManyToOne
 	private Product product;

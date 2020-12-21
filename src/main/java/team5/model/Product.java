@@ -9,11 +9,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Cascade;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 @Entity
@@ -43,8 +47,15 @@ public class Product {
 	@Digits(integer = 8, fraction = 0, message = "Enter integer value")
 	private long unit;
 	private String partNumber;
+	
+	
+	@OneToMany(mappedBy = "product",cascade = {CascadeType.REMOVE})
+	@JsonIgnore
+	private List<FixsetDetails> fixsetDetailList;
 
-	@OneToMany(mappedBy = "product")
+
+	@OneToMany(mappedBy = "product",cascade = {CascadeType.REMOVE})
+	@JsonIgnore
 	private List<StockTransaction> stockTranxList;
 
     @OneToOne(cascade = {CascadeType.ALL})
@@ -223,13 +234,24 @@ public class Product {
 		this.minReoderLevel = minReoderLevel;
 	}
 	
+	@JsonIgnore
 	public List<StockTransaction> getStockTranxList() {
 		return stockTranxList;
 	}
 
-
+	@JsonIgnore
 	public void setStockTranxList(List<StockTransaction> stockTranxList) {
 		this.stockTranxList = stockTranxList;
+	}
+
+	@JsonIgnore
+	public List<FixsetDetails> getFixsetDetailList() {
+		return fixsetDetailList;
+	}
+
+	@JsonIgnore
+	public void setFixsetDetailList(List<FixsetDetails> fixsetDetailList) {
+		this.fixsetDetailList = fixsetDetailList;
 	}
 
 

@@ -22,6 +22,12 @@ public interface ProductRepo extends JpaRepository<Product, Long>,JpaSpecificati
     @Query("SELECT DISTINCT p FROM Product p  WHERE p.partNumber LIKE :Partnum%")
     @Transactional(readOnly = true)
     Collection<String> findByPartNumber(@Param("Partnum") String partNumber);
+   
+
+    @Query("SELECT p FROM Product p WHERE p.partNumber LIKE %?1%"
+            + " OR p.description LIKE %?1%"
+            + " OR p.color LIKE %?1%")
+    public List<Product> searchpart(String keyword);
 	
 	@Query("Select p from Product as p where p.name LIKE %?1%" + " OR p.description LIKE %?1%" + " OR p.barcode LIKE %?1%"
 			+ " OR p.type LIKE %?1%" + " OR p.color LIKE %?1%" + " OR p.originalPrice LIKE %?1%" + " OR p.category LIKE %?1%"

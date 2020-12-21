@@ -10,11 +10,13 @@ import team5.model.Product;
 
 public interface ProductService extends IService<Product> {
 	
-	public ArrayList<String> FindAllPartNumber();
+	public ArrayList<String> FindAllPartNumber();	// this one 
 	 public List<Product> searchByKeyword(String keyword);
 	Product findByName(String name);
 	void updateStock(Long quantity, Long id);
 	Optional<Product> OptionalFindById(Long id);
 	 
 	public Page<Product> listProducts(String keywords, int page,int size);
+	public List<Product> listAllProducts(String keyword);
+
 }

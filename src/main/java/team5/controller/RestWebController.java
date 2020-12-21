@@ -60,7 +60,7 @@ public class RestWebController {
 		}
 		return ResponseEntity.ok(users);
 	}
-//	-------------------------------------------------------------------------------------------------------------------------fixset api
+//	-----------------------------------------------------------------------------------------------------------fixset api
 //------------------------------------------------------------------------------------------------------------retrieve/read	
 	//get all fixsets
 	@GetMapping("/api/fixsets")
@@ -97,7 +97,7 @@ public class RestWebController {
 	
 //	--------------------------------------------------------------------------------------------update on fixset and fixset details
 	
-	//update the fixset
+	//update the fixset and return the updated fixset
 	@PutMapping("api/fixsets/{id}")
 	public ResponseEntity<?> updateFixset(@RequestBody Fixset newFixset, @PathVariable(value = "id") Long id) {
 		Optional<Fixset> sData = fixset_svc.optionalFindById(id);
@@ -112,7 +112,7 @@ public class RestWebController {
 		}
 	}
 	
-	//update the fixsetDetails quantity (Only can change quantity)
+	//update the fixsetDetail quantity (Only can change quantity) and return the updated fixsetDetail
 	@PutMapping("api/fixsets/{id}/{quantity}")
 	public ResponseEntity<?> updateFixsetDetails(@PathVariable(value = "id") Long id, @PathVariable(value = "quantity") int quantity) {
 		Optional<FixsetDetails> sData = fixsetD_svc.optionalFindById(id);
@@ -146,7 +146,7 @@ public class RestWebController {
 		return ResponseEntity.ok("Deletion success");
 	}	
 	
-//	-------------------------------------------------------------------------------------------------------------------some products api
+//	-------------------------------------------------------------------------------------------------------------------products api
 	
 	//get all the products name with its id
 	@GetMapping("/api/products")

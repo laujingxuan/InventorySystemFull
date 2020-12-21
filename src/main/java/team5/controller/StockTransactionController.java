@@ -89,7 +89,7 @@ public class StockTransactionController {
 		Product p = product_svc.findById(product.getId());
 		p.setUnit(product.getUnit() + p.getUnit());
 		product_svc.save(p);
-		return "forward:/product/listproducts";
+		return "redirect:/product/listproducts";
 	}
 	
 	/*--------------------------------Read/Retrieve------------------------------------*/
@@ -139,12 +139,14 @@ public class StockTransactionController {
     public String viewPartList(Model model, @Param("keyword") String keyword , @PathVariable("id") Long id,HttpSession session) {
 		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 		
-        List<Product> listProducts = product_svc.findAll();
+		// List<Product> listProducts = pService.listAllProducts(keyword);	// checked 
+		List<Product> listProducts = product_svc.listAllProducts(keyword);
         ArrayList<ProductMapForm> productMapFormL = new ArrayList<ProductMapForm>();
         for (Product x: listProducts) {
         	ProductMapForm temp = new ProductMapForm(x);
         	productMapFormL.add(temp);
         }
+        
         ProductMapFormWrapper wrapper = new ProductMapFormWrapper();        
         wrapper.setProductMapFormL(productMapFormL);
         model.addAttribute("productMapFormWrapper", wrapper);
