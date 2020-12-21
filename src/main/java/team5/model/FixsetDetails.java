@@ -17,27 +17,15 @@ public class FixsetDetails {
 	private Product product;
 	
 	private int quantity;
-	
-	@ManyToOne
-	private Fixset fixset;
 
 	public FixsetDetails() {
 		super();
 	}
-
 	
 	public FixsetDetails(Product product, int quantity) {
 	super();
 	this.product = product;
 	this.quantity = quantity;
-	}
-
-
-	public FixsetDetails(Product product, int quantity, Fixset fixset) {
-		super();
-		this.product = product;
-		this.quantity = quantity;
-		this.fixset = fixset;
 	}
 
 	public long getId() {
@@ -62,14 +50,6 @@ public class FixsetDetails {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
-	}
-
-	public Fixset getFixset() {
-		return fixset;
-	}
-
-	public void setFixset(Fixset fixset) {
-		this.fixset = fixset;
 	}
 
 	@Override

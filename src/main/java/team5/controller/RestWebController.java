@@ -146,7 +146,7 @@ public class RestWebController {
 		return ResponseEntity.ok("Deletion success");
 	}	
 	
-//	-------------------------------------------------------------------------------------------------------------------some products api
+//	-------------------------------------------------------------------------------------------------------------------products api
 	
 	//get all the products name with its id
 	@GetMapping("/api/products")
