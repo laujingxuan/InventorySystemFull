@@ -63,7 +63,6 @@ public class ProductController {
 	@GetMapping("/save")
 	public String saveProductForm(@ModelAttribute("product") @Valid Product product, BindingResult bindingResult,
 			Model model) {
-		System.out.println(product.toString());
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("supplier", supplier_svc.findAll());
 			return "productform";

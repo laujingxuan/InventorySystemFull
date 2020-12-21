@@ -28,23 +28,29 @@
 	          <a class="dropdown-item" href="#" th:href="@{/user/add}">Add User</a>
 	        </div>
         </li>
+        <li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="@{/product/listproducts}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Product
+	        </a>
+	        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <a class="dropdown-item" href="#" th:href="@{/product/listproducts}">Products Listing</a>
+	          <a class="dropdown-item" href="#" th:href="@{/product/reorderreport}">Reorder Report</a>
+	        </div>
+        </li>
+        <li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="@{/stock/report}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Stock
+	        </a>
+	        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <a class="dropdown-item" href="#" th:href="@{/stock/add}">Stock Entry</a>
+	          <a class="dropdown-item" href="#" th:href="@{/stock/report}">Stock Usage History</a>
+	        </div>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="#" th:href="@{/supplier/list}">Suppliers</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" th:href="@{/product/listproducts}">Product</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="#" th:href="@{/usage/list}">Usage Report</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" th:href="@{/stock/report}">Transaction History</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" th:href="@{/product/reorderreport}">Reorder Report</a>
-        </li>
-       <li class="nav-item">
-          <a class="nav-link" href="#" th:href="@{/stock/add}">Stock Entry</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#" th:href="@{/api/fixsets}">Fixset REST Example</a>
