@@ -30,20 +30,20 @@ h3 {
 	color: #7D775C;
 	text-align: center;
 	}
-a:link { 
-	font-weight: bold; 
-	text-decoration: none; 
-	color: #B7A5DF;
-	}
-a:visited { 
-	font-weight: bold; 
-	text-decoration: none; 
-	color: #D4CDDC;
-	}
-a:hover, a:focus, a:active { 
-	text-decoration: underline; 
-	color: #9685BA;
-	}
+/* a:link {  */
+/* 	font-weight: bold;  */
+/* 	text-decoration: none;  */
+/* 	color: #B7A5DF; */
+/* 	} */
+/* a:visited {  */
+/* 	font-weight: bold;  */
+/* 	text-decoration: none;  */
+/* 	color: #D4CDDC; */
+/* 	} */
+/* a:hover, a:focus, a:active {  */
+/* 	text-decoration: underline;  */
+/* 	color: #9685BA; */
+/* 	} */
 abbr {
 	border-bottom: none;
 	}
