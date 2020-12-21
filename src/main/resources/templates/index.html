@@ -15,8 +15,8 @@
 <div th:replace="layout/layout.html :: menu" ></div>
 <br/>
 <h3>Welcome</h3>
+<br/>
 <h3 th:unless="${session.user==null}" th:utext="'Hello '+ ${session.user.userName}">Hello</h3>
-
 	<div align="center">
 		<img alt="" th:src="@{/image/inventory_management_logo.png}" />
 	</div>

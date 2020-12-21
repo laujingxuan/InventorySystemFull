@@ -29,64 +29,12 @@
 
         </tr>
         <tr th:each="usagerecord:${usage}" >
-            <td th:text=${usagerecord.id}>Id</td>
+            <td th:text="${usagerecord.id}">Id</td>
             <td th:text="${usagerecord.customerName}">UsageRecord CustomerName</td>
-            <td th:text=${usagerecord.carPlate}>UsageRecord CarPlate</td>
-            <td th:text=${usagerecord.date}>UsageRecord Date</td>
+            <td th:text="${usagerecord.carPlate}">UsageRecord CarPlate</td>
+            <td th:text="${#dates.format(usagerecord.date,'dd-MM-yyyy')}">UsageRecord Date</td>
             <td><a href="usageRecordDetails.html"
                 th:href="@{/stock/part-list/}+${usagerecord.id}">add</a></td>
-            <!-- 
-            <td><ul>
-  				<li th:each="usagerecorddetail:${usagerecord.usageRecordDetail}">
-    				<ul>
-     					<li th:each="product:${usagerecorddetail.product}">
-     					<a th:text=${product.partNumber}>Add Part</a></li>
-    				</ul>
-  				</li>
-			</ul></td>
-			<td><ul>
-  				<li th:each="usagerecorddetail:${usagerecord.usageRecordDetail}">
-    				<ul>
-     					<li th:each="product:${usagerecorddetail.product}">
-     					<a th:text=${product.unit}>Add Part</a></li>
-    				</ul>
-  				</li>
-			</ul></td>
-			-->
-			
-			<!--  
-			<td>
-            <div th:each="usagerecorddetail:${usagerecord.usageRecordDetail}">
-            	<a th:text=${usagerecorddetail.product.partNumber}>Add Part</span>
-            	</a>
-            </div>
-            </td>
-            <td>
-            <div th:each="usagerecorddetail:${usagerecord.usageRecordDetail}">
-            	<a th:text=${usagerecorddetail.product.unit}>Quantity</a>
-            </div>
-            </td> 
-            -->
-            <!-- 
-            <td>
-            <div th:each="usagerecorddetail:${usagerecord.usageRecordDetail}">
-            	<a th:each="product:${usagerecorddetail.product}">
-            		<span th:text=${product.partNumber}>Add Part</span>
-            	</a>
-            </div>
-            </td>
-            <td>
-            <div th:each="usagerecorddetail:${usagerecord.usageRecordDetail}">
-            	<a th:each="product:${usagerecorddetail.product}">
-            		<span th:text=${product.unit}>Quantity</span>
-            	</a>
-            </div>
-            </td> 
-             -->
-            <!--<td th:text=${usagerecord.UsageRecordDetail.product.partNumber}>Part list</td>  -->
-            <!--<td th:text=${usagerecord.usageRecordDetail.product.unit}>Quantity</td>  --> 
-           
-
         </tr>
     </table>
 <div th:replace="layout/layout.html :: footer"></div>    

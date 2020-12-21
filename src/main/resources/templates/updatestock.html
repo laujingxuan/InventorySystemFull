@@ -13,19 +13,15 @@
 <body>
 <header th:insert="layout/layout.html :: header"></header>
 <div th:replace="layout/layout.html :: menu" ></div>
-<br/>
+	<br/>
     <h3>Chosen parts</h3>
-    <!-- Add Hyperlink -->
-    <a href="AddUsageRecord.html" th:href="@{/usage/add}">parts</a>
-
+	<br/>
     <h2 th:if="${not #lists.isEmpty(usage)}">Chosen parts</h2>
     <table th:if="${not #lists.isEmpty(usage)}" >
         <tr >
 
             <th>Product Name</th>
             <th>Quantity Used</th>
-
->
 
         </tr>
         <tr th:each="usagerecord:${usage}" >
@@ -35,7 +31,7 @@
         </tr>
     </table>
     <br>
-    <input type="button" value="return to usage list"
+    <input type="button" value="Return To Usage List"
 					onclick="window.location.href='/usage/list'; return false"
 					class="button" />
 <div th:replace="layout/layout.html :: footer"></div>    
