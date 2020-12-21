@@ -66,7 +66,10 @@ public class SupplierController {
 			BindingResult bindingResult, Model model, HttpSession session) {
 		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 		if (session_svc.hasNoPermission(session)) return "nopermission";
-		if (bindingResult.hasErrors()) return "supplierform";
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("suppliers", new Supplier());
+			return "supplierform";
+		}
 		
 		supplier_svc.save(supplier);
 		return "forward:/supplier/list";

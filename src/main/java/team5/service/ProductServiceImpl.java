@@ -52,15 +52,6 @@ public class ProductServiceImpl implements ProductService {
         return prepo.findAll();
     }
 	
-	/*
-	public List<Product> listAllProducts(String keyword) {		
-		System.out.println(keyword);
-			if(keyword != null) {
-				return prepo.search(keyword);
-			}
-			return prepo.findAll();		
-	}*/
-	
 	@Override
 	public ArrayList<String> FindAllPartNumber(){
 		List<Product> product = prepo.findAll();
@@ -97,34 +88,14 @@ public class ProductServiceImpl implements ProductService {
 		}
 		return prepo.findAll(pageable);
 	}
-	/*
+
 	public List<Product> listAllProducts(String keyword) {		
 		System.out.println(keyword);
 			if(keyword != null) {
 				return prepo.search(keyword);
 			}
 			return prepo.findAll();		
-	}*/
-
-	@Override
-	public List<Product> listAllProducts(String keyword) {
-		// TODO Auto-generated method stub
-		return null;
 	}
-	
-	/*
-	@Transactional
-	public ArrayList<String> FindAllPartNumber(){
-		List<Product> product = prepo.findAll();
-		ArrayList<String> partnum = new ArrayList<String>();
-		for (Iterator<Product> iterator = product.iterator(); iterator.hasNext();) {
-			Product product2 = (Product) iterator.next();
-			partnum.add(product2.getPartNumber());
-			
-		}
-		return partnum;
-	}*/
-	
-	
+
 
 }

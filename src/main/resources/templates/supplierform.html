@@ -33,7 +33,7 @@
 		<td>
 		<fieldset>
 			
-			<textarea  th:field="*{supplierName}" cols="30" rows="1" ></textarea>
+			<input type="text"  th:field="*{supplierName}" >
 			<p th:if="${#fields.hasErrors('supplierName')}" th:errors="*{supplierName}"></p>
 		</fieldset>
 		<td>
@@ -44,10 +44,8 @@
 		<td>Supplier Address</td> 
 		<td>
 		<fieldset>
-			
-			<textarea th:field="*{supplierAddress}" cols="30" rows="1"></textarea>
-			<p th:if="${#fields.hasErrors('supplierAddress')}"
-				th:errors="*{supplierAddress}"></p>
+			<input type="text"  th:field="*{supplierAddress}" >
+			<p th:if="${#fields.hasErrors('supplierAddress')}" th:errors="*{supplierAddress}"></p>
 		</fieldset>
 		<td>
 		<tr>
@@ -57,10 +55,8 @@
 		<td>Supplier Phone</td> 
 		<td>
 		<fieldset>
-			
-			<textarea th:field="*{phone}" cols="30" rows="1"></textarea>
-			<p th:if="${#fields.hasErrors('phone')}"
-				th:errors="*{phone}"></p>
+			<input type="text"  th:field="*{phone}" >
+			<p th:if="${#fields.hasErrors('phone')}"th:errors="*{phone}"></p>
 		</fieldset>
 		<td>
 		<tr>
@@ -69,10 +65,8 @@
 		<td>Supplier Email</td> 
 		<td>
 		<fieldset>
-			
-			<textarea th:field="*{email}" cols="30" rows="1"></textarea>
-			<p th:if="${#fields.hasErrors('email')}"
-				th:errors="*{email}"></p>
+			<input type="text"  th:field="*{email}" >
+			<p th:if="${#fields.hasErrors('email')}"th:errors="*{email}"></p>
 		</fieldset>
 		<td>
 		<tr>

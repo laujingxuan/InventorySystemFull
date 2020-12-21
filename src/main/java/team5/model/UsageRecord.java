@@ -8,22 +8,27 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+
 
 @Entity
 public class UsageRecord {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	@NotNull
 	private String carPlate;
-
-
+	@NotNull
 	@DateTimeFormat (pattern="dd-MM-yyyy")
 	private Date date;
 
 	private String comments;
+	
 	private String userName;
+	@NotNull
 	private String customerName;
 	@OneToMany(mappedBy = "usageRecord")
 	private List<StockTransaction> stockTranxList;
