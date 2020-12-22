@@ -96,7 +96,8 @@ public class StockTransactionController {
 	
 
 	@GetMapping("/report")
-	public String usageReport(Model model) {
+	public String usageReport(Model model, HttpSession session) {
+		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
 		List<Product> products = product_svc.findAll();
 		model.addAttribute("products", products);
 		return "usageReport";

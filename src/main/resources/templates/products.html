@@ -46,7 +46,7 @@ nav {
 			<input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
 	</form>
 	   <!-- Add Hyperlink -->
-    <a href="productform.html" th:href="@{/product/add}">New Product</a>
+    <div th:if="${hasPermission}"><a href="productform.html" th:href="@{/product/add}">New Product</a></div>
 	<table>
 		<tr>
 			<th>ID</th>
