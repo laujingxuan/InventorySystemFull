@@ -31,7 +31,7 @@ public class Supplier {
 	@Size(min = 2, max=100)
 	private String email;
 	
-	@OneToMany(mappedBy = "supplier")
+	@OneToOne(mappedBy = "supplier")
 	private Product  product;
 	
 	

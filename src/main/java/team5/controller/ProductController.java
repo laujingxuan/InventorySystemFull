@@ -107,8 +107,9 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/reorderreport")
-	public String showReorderReport(Model model) {
-		
+	public String showReorderReport(Model model,HttpSession session) {
+		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
+		if (session_svc.hasNoPermission(session)) return "nopermission";
 		
 		List<Product> listProducts = product_svc.findAll();
 	      long total = listProducts.stream()

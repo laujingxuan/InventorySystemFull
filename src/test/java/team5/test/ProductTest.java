@@ -44,13 +44,15 @@ public class ProductTest {
 	@Autowired
 	public FixsetDetailsRepo fixsetDetailsRepo;
 	
+	/*
 	@Test
 	public void saveSupplier() {
 		srepo.save(new Supplier("Company A", "add1", "1245678", "a@companyA.com"));
 		srepo.save(new Supplier("Company B", "add2", "1245679", "b@companyB.com"));
 		srepo.save(new Supplier("Company C", "add3", "1245680", "c@companyC.com"));
-	}
+	}*/
 	
+	/*
 	@Test
 	public void saveProduct() {
 		productRepo.save(new Product(2345,"Collision Cart","The original high quality, low friction dynamics carts made from durable machined aluminum.",
@@ -82,7 +84,8 @@ public class ProductTest {
 			Product product =  iterator.next();
 			System.out.println(product.toString());
 		}
-	}
+	}*/
+	
 	/*
 	 * @Test public void saveUsageRecord() throws ParseException { Product first =
 	 * productRepo.findById((long)4); Product second =
