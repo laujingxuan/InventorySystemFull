@@ -115,12 +115,10 @@ public class ProductController {
 	    		    .map(i -> {long val = i.getReorderLevel() - i.getUnit(); if (val > 0) { if (val > i.getMinReoderLevel()) {return val * i.getPriceFWholesale();} else {return i.getMinReoderLevel() * i.getPriceFWholesale();} } else {return (long)0;} })
 		            .reduce((n1, n2) -> n1 + n2)
 		            .get();
-
-	      List<Supplier> suppliers = supplier_svc.findAll();
 	      
 		model.addAttribute("products", listProducts);
 		model.addAttribute("total", total);
-		model.addAttribute("suppliers", suppliers);
+		model.addAttribute("supplier", "S1");
 		return "reorderReport";
 		
 	}
