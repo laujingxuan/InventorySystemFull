@@ -27,17 +27,21 @@
 			<th>Price</th>
 		</tr>
 		<tr th:each="product:${products}">
-			<td th:text="${product.id}">0</td>
-			<td th:text="${product.partNumber}">0</td>
-			<td th:text="${product.priceFWholesale}">0</td>
-			<td th:text="${product.unit}">0</td>
-			<td th:text="${product.reorderLevel}">0</td>
-			<td th:text="${product.minReorderLevel}">0</td>
-			<td th:text="${product.reorderLevel>product.unit}? 
-				(${product.reorderLevel-product.unit}>${product.minReorderLevel}? 
-				${product.reorderLevel-product.unit}:${product.minReorderLevel})
-				:'0'">0</td>
-			<td th:text="${product.reorderLevel>product.unit}? ${(product.reorderLevel-product.unit)*product.priceFWholesale}:'0'">0</td>
+			<td th:text="${product.id}">ID</td>
+			<td th:text="${product.partNumber}">ID</td>
+			<td th:text="${product.priceFWholesale}">ID</td>
+			<td th:text="${product.unit}">ID</td>
+			<td th:text="${product.reorderLevel}">ID</td>
+			<td th:text="${product.minReoderLevel}">ID</td>
+			<td th:text="${product.reorderLevel-product.unit>0}? 
+				(${product.reorderLevel-product.unit>product.minReoderLevel}? 
+				${product.reorderLevel-product.unit}:${product.minReoderLevel})
+				:'0'">ID</td>
+			<td th:text="${product.reorderLevel-product.unit>0}? 
+				(${product.reorderLevel-product.unit>product.minReoderLevel}?
+				${(product.reorderLevel-product.unit)*product.priceFWholesale}
+				:${product.minReoderLevel*product.priceFWholesale})
+				:'0'">ID</td>
 		</tr>
 		
 		<tr style="border-top:2px solid #6678b1">
@@ -48,7 +52,7 @@
 			<td></td>
 			<td></td>
 			<td>TOTAL</td>
-			<td></td>
+			<td th:text="${total}"></td>
 		</tr>
 		
 	</table>

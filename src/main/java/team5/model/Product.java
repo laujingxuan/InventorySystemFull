@@ -58,7 +58,7 @@ public class Product {
 	@JsonIgnore
 	private List<StockTransaction> stockTranxList;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name="SUPP_ID")
 	private Supplier supplier;
 
