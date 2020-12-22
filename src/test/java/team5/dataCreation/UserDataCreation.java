@@ -1,4 +1,4 @@
-package team5.test;
+package team5.dataCreation;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,7 +12,7 @@ import team5.model.User;
 import team5.repo.UserRepo;
 
 @SpringBootTest
-public class test1 {
+public class UserDataCreation {
 	
 	@Autowired
 	UserRepo urepo;
