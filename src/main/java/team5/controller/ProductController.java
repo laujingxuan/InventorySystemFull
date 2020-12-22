@@ -104,10 +104,18 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/reorderreport")
-	public String showReorderReport(Model model) {
+	public String showReorderReport(Model model,HttpSession session) {
+		if (session_svc.isNotLoggedIn(session)) return "redirect:/user/login";
+		if (session_svc.hasNoPermission(session)) return "nopermission";
 		
 		List<Product> listProducts = product_svc.findAll();
+	      long total = listProducts.stream()
+	    		    .map(i -> {long val = i.getReorderLevel() - i.getUnit(); if (val > 0) { if (val > i.getMinReoderLevel()) {return val * i.getPriceFWholesale();} else {return i.getMinReoderLevel() * i.getPriceFWholesale();} } else {return (long)0;} })
+		            .reduce((n1, n2) -> n1 + n2)
+		            .get();
+	      
 		model.addAttribute("products", listProducts);
+		model.addAttribute("total", total);
 		model.addAttribute("supplier", "S1");
 		return "reorderReport";
 		
