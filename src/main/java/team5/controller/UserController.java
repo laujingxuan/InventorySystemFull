@@ -67,6 +67,7 @@ public class UserController {
 		model.addAttribute("roleType", RoleType.values());
 		model.addAttribute("path", "/user/validate");
 		if (bindingResult.hasErrors()) {
+			System.out.println("testing");
 			return "editUser";
 		}
 		User user = new User(userForm);

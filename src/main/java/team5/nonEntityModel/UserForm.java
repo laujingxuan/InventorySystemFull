@@ -1,5 +1,7 @@
 package team5.nonEntityModel;
 
+import javax.persistence.Column;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -9,7 +11,9 @@ import team5.model.User;
 public class UserForm {
 
     private long id;
-	@NotNull
+	
+    @Column(unique=true)
+    @Size(min=2,max=30)
     private String userName;
 	@NotNull
 	@Size(min=2,max=30)
