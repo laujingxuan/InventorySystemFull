@@ -40,7 +40,7 @@
 				<td th:if="${path.equals('/user/update')}">
 					<input type="text" th:field="*{userName}" th:value="*{userName}" readonly>
 				</td>
-				<td></td>
+				<td><div th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></div></td>
 			</tr>
 			<tr>
 				<td>Password:</td>
