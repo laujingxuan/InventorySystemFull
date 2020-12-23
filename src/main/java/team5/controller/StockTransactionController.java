@@ -175,7 +175,7 @@ public class StockTransactionController {
 				p.setUnit(p.getUnit() - productMapFormW.getProductMapFormL().get(i).getQuantityUsed());
 				product_svc.save(p);
 				if (p.getUnit() < p.getMinReoderLevel()) {
-					emailService.sendMail("eaintchitthae94@gmail.com", "Remainder for product",
+					emailService.sendMail("tanfeng95@hotmail.com", "Remainder for product",
 							"Product (" + p.getName() + ") is lower than the minimun stock level");
 				}
 			}
